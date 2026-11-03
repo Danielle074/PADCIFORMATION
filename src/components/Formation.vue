@@ -1,21 +1,20 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
 
-    <!-- HEADER -->
-   <section class="relative w-full h-64 bg-white overflow-hidden flex items-center justify-center shadow-sm">
+    <!-- HEADER / BANNIÈRE ENTIÈREMENT VISIBLE -->
+    <section class="relative w-full bg-white overflow-hidden shadow-sm">
       <img
         :src="bannerImage"
-        alt="Dashboard Header"
-        class="w-full h-full object-cover object-top"
+        alt="Bannière PADCI Formation"
+        class="w-full h-auto object-contain"
       />
     </section>
 
     <!-- SERVICES -->
-    <section class="px-6 py-16 max-w-6xl mx-auto w-full">
+    <section class="px-6 py-16 max-w-6xl mx-auto w-full flex-1">
 
       <!-- TITRE + RETOUR -->
       <div class="mb-10 relative">
-
         <RouterLink
           to="/nouvelle-demande"
           class="text-primary text-2xl font-bold hover:scale-110 transition absolute left-0 bottom-3"
@@ -32,18 +31,17 @@
             Formation
           </h2>
         </div>
-
       </div>
 
-      <!-- GRID - 9 CARTES -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- GRID - CARTES CENTRÉES (avec flex au lieu de grid pour gérer l'impair) -->
+      <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
 
         <!-- CARD = LIEN -->
         <RouterLink
           v-for="(service, index) in services"
           :key="index"
           :to="service.route"
-          class="bg-secondary rounded-xl p-8 flex flex-col items-center text-center shadow-md hover:scale-105 transition cursor-pointer"
+          class="bg-secondary rounded-xl p-8 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm"
         >
           <i :class="service.icon" class="text-primary text-4xl mb-4"></i>
 
@@ -88,6 +86,5 @@ const services = [
     icon: 'bx bx-brain',
     route: '/cours'
   },
-
 ]
 </script>

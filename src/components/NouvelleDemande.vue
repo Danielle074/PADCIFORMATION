@@ -1,17 +1,17 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
 
-    <!-- HEADER -->
-     <section class="relative w-full h-64 bg-white overflow-hidden flex items-center justify-center shadow-sm">
+    <!-- HEADER / BANNIÈRE ENTIÈREMENT VISIBLE -->
+    <section class="relative w-full bg-white overflow-hidden shadow-sm">
       <img
         :src="bannerImage"
-        alt="Dashboard Header"
-        class="w-full h-full object-cover object-top"
+        alt="Bannière PADCI Formation"
+        class="w-full h-auto object-contain"
       />
     </section>
 
     <!-- SERVICES -->
-    <section class="px-6 py-16 max-w-6xl mx-auto w-full">
+    <section class="px-6 py-16 max-w-6xl mx-auto w-full flex-1">
 
       <!-- TITRE + RETOUR -->
       <div class="mb-10 relative">
@@ -33,12 +33,12 @@
         </div>
       </div>
 
-      <!-- 2 CARDS SEULEMENT - ENRÔLEMENT ET FORMATION -->
-      <div class="flex flex-wrap justify-center gap-8 max-w-3xl mx-auto">
+      <!-- 2 CARDS PARFAITEMENT CENTRÉES -->
+      <div class="flex flex-wrap justify-center items-stretch gap-8 max-w-3xl mx-auto">
         <!-- CARD ENRÔLEMENT -->
         <RouterLink
           to="/inscription"
-          class="bg-secondary rounded-xl p-12 flex flex-col items-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
+          class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
           <i class="bx bx-user-plus text-primary text-6xl mb-4"></i>
           <p class="text-primary font-semibold text-2xl">
@@ -49,7 +49,7 @@
         <!-- CARD FORMATION -->
         <RouterLink
           to="/Formation"
-          class="bg-secondary rounded-xl p-12 flex flex-col items-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
+          class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
           <i class="bx bx-book-open text-primary text-6xl mb-4"></i>
           <p class="text-primary font-semibold text-2xl">

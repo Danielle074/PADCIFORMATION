@@ -91,10 +91,14 @@
           <span>Évaluations</span>
         </router-link>
 
-        <!-- Certificats -->
-        <router-link to="/formations/certificats" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/certificats') }">
-          <i class='bx bxs-certification text-xl group-hover:scale-110 transition-transform'></i>
-          <span>Mes certificats</span>
+        <!-- Admin Dashboard -->
+        <router-link to="/admin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/admin/dashboard') }">
+          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <span>Admin Dashboard</span>
+        </router-link>
+         <router-link to="/superadmin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/admin/dashboard') }">
+          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <span>SuperAdmin Dashboard</span>
         </router-link>
 
         <!-- Séparateur -->

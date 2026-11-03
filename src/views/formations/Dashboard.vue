@@ -1,25 +1,21 @@
 <template>
   <div class="min-h-screen bg-gray-50">
 
-    <!-- En-tête de bienvenue -->
-    <div class="bg-gradient-to-r from-[#198341] to-[#22a854] text-white">
-      <div class="container mx-auto px-4 py-8">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <!-- En-tête épuré -->
+    <div class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <p class="text-white/80 text-sm">Bonjour,</p>
-            <h1 class="text-2xl md:text-3xl font-bold mt-1">Kouassi Jean </h1>
-            <p class="text-white/80 text-sm mt-1">
-              Formation : <span class="font-semibold">Cyber Security</span> · Promotion 2024
-            </p>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Bienvenue, Jean Kouassi</h1>
+            <p class="text-gray-500 text-sm mt-1">Voici un résumé de votre progression</p>
           </div>
-          <div class="bg-white/10 backdrop-blur-sm rounded-xl px-5 py-3 border border-white/20">
-            <p class="text-xs text-white/80">Progression globale</p>
-            <div class="flex items-center gap-3 mt-1">
-              <div class="w-32 bg-white/20 rounded-full h-2.5">
-                <div class="bg-white h-2.5 rounded-full" style="width: 68%"></div>
-              </div>
-              <span class="font-bold text-lg">68%</span>
+          <div class="bg-gray-50 rounded-xl px-5 py-2 border border-gray-200 flex items-center gap-3 w-fit">
+            <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Progression globale</span>
+            <div class="w-32 bg-gray-200 rounded-full h-2.5">
+              <!-- Barre de progression en Orange -->
+              <div class="bg-[#F97316] h-2.5 rounded-full" style="width: 68%"></div>
             </div>
+            <span class="font-bold text-lg text-gray-800">68%</span>
           </div>
         </div>
       </div>
@@ -29,15 +25,16 @@
 
       <!-- Cartes de statistiques -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#198341] hover:shadow-lg transition">
+        <!-- Carte 1 (Bleu) -->
+        <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
           <div class="flex justify-between items-start">
             <div>
               <p class="text-gray-500 text-sm">Modules suivis</p>
-              <p class="text-3xl font-bold text-[#198341]">6</p>
-              <p class="text-green-600 text-sm mt-2">2 en cours</p>
+              <p class="text-3xl font-bold text-[#2563EB]">6</p>
+              <p class="text-blue-600 text-sm mt-2 font-medium">2 en cours</p>
             </div>
-            <div class="bg-[#198341]/10 p-3 rounded-lg">
-              <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-blue-50 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
@@ -45,15 +42,16 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500 hover:shadow-lg transition">
+        <!-- Carte 2 (Orange) -->
+        <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
           <div class="flex justify-between items-start">
             <div>
               <p class="text-gray-500 text-sm">Heures d'étude</p>
-              <p class="text-3xl font-bold text-yellow-500">124h</p>
-              <p class="text-green-600 text-sm mt-2">+8h cette semaine</p>
+              <p class="text-3xl font-bold text-[#F97316]">124h</p>
+              <p class="text-orange-600 text-sm mt-2 font-medium">+8h cette semaine</p>
             </div>
-            <div class="bg-yellow-500/10 p-3 rounded-lg">
-              <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-orange-50 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-[#F97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -61,15 +59,16 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition">
+        <!-- Carte 3 (Bleu) -->
+        <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
           <div class="flex justify-between items-start">
             <div>
               <p class="text-gray-500 text-sm">Certificats obtenus</p>
-              <p class="text-3xl font-bold text-blue-500">4</p>
-              <p class="text-green-600 text-sm mt-2">2 en attente</p>
+              <p class="text-3xl font-bold text-[#2563EB]">4</p>
+              <p class="text-blue-600 text-sm mt-2 font-medium">2 en attente</p>
             </div>
-            <div class="bg-blue-500/10 p-3 rounded-lg">
-              <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-blue-50 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
               </svg>
@@ -77,15 +76,16 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition">
+        <!-- Carte 4 (Orange) -->
+        <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
           <div class="flex justify-between items-start">
             <div>
               <p class="text-gray-500 text-sm">Moyenne générale</p>
-              <p class="text-3xl font-bold text-purple-500">15.8/20</p>
-              <p class="text-green-600 text-sm mt-2">+0.5 vs trimestre</p>
+              <p class="text-3xl font-bold text-[#F97316]">15.8/20</p>
+              <p class="text-orange-600 text-sm mt-2 font-medium">+0.5 vs trimestre</p>
             </div>
-            <div class="bg-purple-500/10 p-3 rounded-lg">
-              <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-orange-50 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-[#F97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
               </svg>
@@ -96,27 +96,30 @@
 
       <!-- Prochains cours / Deadline -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Prochain cours -->
-        <div class="lg:col-span-2 bg-gradient-to-br from-[#198341] to-[#22a854] rounded-xl shadow-lg p-6 text-white">
-          <div class="flex items-center gap-2 text-white/90 text-sm mb-3">
+        <!-- Prochain cours (Dégradé Bleu vers Orange) -->
+        <div class="lg:col-span-2 bg-gradient-to-br from-[#1E3A8A] to-[#2563EB] rounded-xl shadow-lg p-6 text-white relative overflow-hidden">
+          <!-- Petite touche d'orange en fond -->
+          <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#F97316] opacity-20 rounded-full blur-2xl"></div>
+
+          <div class="flex items-center gap-2 text-white/90 text-sm mb-3 relative z-10">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Prochain cours
           </div>
-          <h3 class="text-xl md:text-2xl font-bold mb-1">Introduction au Pentesting</h3>
-          <p class="text-white/80 text-sm mb-4">Module 4 · Sécurité offensive</p>
-          <div class="flex flex-wrap items-center gap-4 text-sm">
+          <h3 class="text-xl md:text-2xl font-bold mb-1 relative z-10">Introduction au Pentesting</h3>
+          <p class="text-white/80 text-sm mb-4 relative z-10">Module 4 · Sécurité offensive</p>
+          <div class="flex flex-wrap items-center gap-4 text-sm relative z-10">
             <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-[#F97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               Demain · 09h00
             </div>
             <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-[#F97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -124,14 +127,14 @@
               Salle B12 · Campus
             </div>
             <div class="flex items-center gap-1.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-[#F97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               M. Traoré
             </div>
           </div>
-          <button class="mt-5 bg-white text-[#198341] font-semibold px-5 py-2.5 rounded-lg hover:bg-white/90 transition inline-flex items-center gap-2">
+          <button class="mt-5 bg-[#F97316] text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-[#EA580C] transition inline-flex items-center gap-2 shadow-md relative z-10">
             Rejoindre le cours
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -141,7 +144,7 @@
 
         <!-- Deadline -->
         <div class="bg-white rounded-xl shadow-md p-6">
-          <h3 class="text-lg font-bold text-[#198341] mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] mb-4 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -152,7 +155,7 @@
             <li v-for="(d, i) in deadlines" :key="i"
                 class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition border border-gray-100">
               <div class="w-2 h-2 rounded-full mt-1.5 flex-shrink-0"
-                   :class="d.urgent ? 'bg-red-500' : 'bg-[#198341]'"></div>
+                   :class="d.urgent ? 'bg-red-500' : 'bg-[#F97316]'"></div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-800 truncate">{{ d.titre }}</p>
                 <p class="text-xs text-gray-500 mt-0.5">{{ d.date }}</p>
@@ -166,7 +169,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Progression par module -->
         <div class="bg-white rounded-xl shadow-md p-6">
-          <h3 class="text-lg font-bold text-[#198341] mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] mb-4 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -180,7 +183,7 @@
 
         <!-- Répartition du temps d'étude -->
         <div class="bg-white rounded-xl shadow-md p-6">
-          <h3 class="text-lg font-bold text-[#198341] mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] mb-4 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
@@ -199,7 +202,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Évolution hebdomadaire -->
         <div class="bg-white rounded-xl shadow-md p-6">
-          <h3 class="text-lg font-bold text-[#198341] mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] mb-4 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -213,7 +216,7 @@
 
         <!-- Notes par matière -->
         <div class="bg-white rounded-xl shadow-md p-6">
-          <h3 class="text-lg font-bold text-[#198341] mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] mb-4 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -229,14 +232,14 @@
       <!-- Tableau des dernières activités -->
       <div class="bg-white rounded-xl shadow-md p-6">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-bold text-[#198341] flex items-center gap-2">
+          <h3 class="text-lg font-bold text-[#2563EB] flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Mes dernières activités
           </h3>
-          <a href="#" class="text-sm text-[#198341] font-medium hover:underline">Tout voir</a>
+          <a href="#" class="text-sm text-[#F97316] font-medium hover:underline">Tout voir</a>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -257,7 +260,8 @@
                 <td class="py-3 px-4">
                   <div class="flex items-center gap-2">
                     <div class="w-24 bg-gray-200 rounded-full h-2">
-                      <div class="bg-[#198341] h-2 rounded-full transition-all"
+                      <!-- Barre de progression en Orange ou Bleu -->
+                      <div class="bg-[#F97316] h-2 rounded-full transition-all"
                            :style="{ width: activity.progression + '%' }"></div>
                     </div>
                     <span class="text-sm text-gray-700 font-medium">{{ activity.progression }}%</span>
@@ -267,9 +271,9 @@
                 <td class="py-3 px-4">
                   <span class="px-2.5 py-1 rounded-full text-xs font-semibold"
                     :class="{
-                      'bg-green-100 text-green-800': activity.statut === 'Terminé',
-                      'bg-yellow-100 text-yellow-800': activity.statut === 'En cours',
-                      'bg-blue-100 text-blue-800': activity.statut === 'À venir'
+                      'bg-blue-50 text-blue-700': activity.statut === 'Terminé',
+                      'bg-orange-50 text-orange-700': activity.statut === 'En cours',
+                      'bg-gray-100 text-gray-500': activity.statut === 'À venir'
                     }">
                     {{ activity.statut }}
                   </span>
@@ -293,71 +297,73 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, Filler)
 
-// Progression par module
+// Bleu : #2563EB | Orange : #F97316
+
+// Progression par module (Dégradé Bleu vers Orange)
 const moduleProgressData = {
   labels: ['Cybersécurité', 'Réseaux', 'Data Analysis', 'Pentesting', 'IA', 'Cloud'],
   datasets: [{
     label: 'Progression (%)',
     data: [100, 85, 72, 45, 30, 20],
     backgroundColor: [
-      'rgba(25, 131, 65, 0.8)',
-      'rgba(34, 168, 84, 0.8)',
-      'rgba(59, 130, 246, 0.8)',
-      'rgba(168, 85, 247, 0.8)',
-      'rgba(236, 72, 153, 0.8)',
-      'rgba(251, 191, 36, 0.8)'
+      '#1E3A8A', // Bleu foncé
+      '#2563EB', // Bleu
+      '#3B82F6', // Bleu clair
+      '#F97316', // Orange
+      '#FB923C', // Orange clair
+      '#FDBA74'  // Orange très clair
     ],
-    borderColor: ['#198341', '#22a854', '#3B82F6', '#A855F7', '#EC4899', '#FBBF24'],
-    borderWidth: 1,
+    borderColor: '#ffffff',
+    borderWidth: 2,
     borderRadius: 6
   }]
 }
 
-// Temps d'étude par catégorie
+// Temps d'étude par catégorie (Bleu et Orange)
 const studyTimeData = {
   labels: ['Cours en ligne', 'TP pratiques', 'Révisions', 'Projets'],
   datasets: [{
     data: [45, 30, 15, 10],
     backgroundColor: [
-      'rgba(25, 131, 65, 0.85)',
-      'rgba(59, 130, 246, 0.85)',
-      'rgba(251, 191, 36, 0.85)',
-      'rgba(168, 85, 247, 0.85)'
+      '#2563EB', // Bleu
+      '#F97316', // Orange
+      '#60A5FA', // Bleu clair
+      '#FDBA74'  // Orange clair
     ],
-    borderColor: ['#198341', '#3B82F6', '#FBBF24', '#A855F7'],
+    borderColor: '#ffffff',
     borderWidth: 2
   }]
 }
 
-// Évolution hebdomadaire
+// Évolution hebdomadaire (Ligne Bleue)
 const weeklyData = {
   labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
   datasets: [{
     label: 'Heures étudiées',
     data: [3, 4.5, 2.5, 5, 3.5, 2, 1],
-    borderColor: '#198341',
-    backgroundColor: 'rgba(25, 131, 65, 0.15)',
+    borderColor: '#2563EB', // Bleu
+    backgroundColor: 'rgba(37, 99, 235, 0.1)', // Fond bleu transparent
     tension: 0.4,
     fill: true,
-    pointBackgroundColor: '#198341',
+    pointBackgroundColor: '#F97316', // Points oranges
     pointBorderColor: '#fff',
     pointBorderWidth: 2,
     pointRadius: 5
   }]
 }
 
-// Résultats par matière
+// Résultats par matière (Bleu et Orange)
 const gradesData = {
   labels: ['Cybersécurité', 'Réseaux', 'Data', 'IA'],
   datasets: [{
     data: [18, 15, 14, 16],
     backgroundColor: [
-      'rgba(25, 131, 65, 0.85)',
-      'rgba(59, 130, 246, 0.85)',
-      'rgba(251, 191, 36, 0.85)',
-      'rgba(168, 85, 247, 0.85)'
+      '#2563EB',
+      '#F97316',
+      '#60A5FA',
+      '#FDBA74'
     ],
-    borderColor: ['#198341', '#3B82F6', '#FBBF24', '#A855F7'],
+    borderColor: '#ffffff',
     borderWidth: 2
   }]
 }

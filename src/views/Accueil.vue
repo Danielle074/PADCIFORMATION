@@ -1,16 +1,17 @@
 <template>
-  <div class="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
-    <!-- HEADER AVEC L'IMAGE ROGNÉE EN BAS -->
-    <section class="relative w-full h-64 bg-white overflow-hidden flex items-center justify-center shadow-sm">
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pb-10">
+
+    <!-- HEADER / BANNIÈRE ENTIÈREMENT VISIBLE -->
+    <section class="relative w-full bg-white overflow-hidden shadow-sm">
       <img
         :src="bannerImage"
-        alt="Dashboard Header"
-        class="w-full h-full object-cover object-top"
+        alt="Bannière PADCI Formation"
+        class="w-full h-auto object-contain"
       />
     </section>
 
     <!-- TROIS BOUTONS ALIGNÉS SOUS LA BANNIÈRE -->
-    <div class="flex flex-wrap justify-between items-center gap-4 mt-2 mb-6 px-4">
+    <div class="flex flex-wrap justify-between items-center gap-4 mt-6 mb-6 px-4">
       <!-- Bouton Ville avec icône et chevron -->
       <div class="relative flex-1 min-w-[200px]">
         <select
