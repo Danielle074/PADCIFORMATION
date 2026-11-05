@@ -179,35 +179,35 @@ export default {
           subservice: 'Formation avancée',
           date: '2024-01-21',
           status: '2/50',
-          route: '/Formations/dashboard'
+          route: '/formations/network/dashboard'
         },
         {
           service: 'Data Analytics',
           subservice: 'Analyse de données',
           date: '2024-01-15',
           status: '2/60',
-          route: '/cni'
+          route: '/formations/network/dashboard'
         },
         {
           service: 'IT Support',
           subservice: 'Assistance technique',
           date: '2024-01-16',
           status: '3/60',
-          route: '/passeport'
+          route: '/formations/network/dashboard'
         },
         {
           service: 'Network Specialist',
           subservice: 'Administration réseau',
           date: '2024-01-17',
           status: '5/60',
-          route: '/extrait-naissance'
+          route: '/formations/network/dashboard'
         },
         {
           service: 'Artificial Intelligence',
           subservice: 'Apprentissage automatique',
           date: '2024-01-18',
           status: '30/60',
-          route: '/carte-consulaire'
+          route: '/formations/network/dashboard'
         }
       ]
     }

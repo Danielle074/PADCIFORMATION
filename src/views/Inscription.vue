@@ -83,6 +83,26 @@
               </div>
             </div>
 
+            <!-- AJOUT DU GENRE ICI -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Genre *</label>
+              <div class="flex gap-3">
+                <label
+                  class="flex-1 flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                  :class="form.genre === 'Masculin' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-gray-200'">
+                  <input type="radio" v-model="form.genre" value="Masculin" class="sr-only">
+                  <span class="text-sm font-medium" :class="form.genre === 'Masculin' ? 'text-primary' : 'text-gray-700'">Masculin</span>
+                </label>
+                <label
+                  class="flex-1 flex items-center justify-center p-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                  :class="form.genre === 'Féminin' ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-gray-200'">
+                  <input type="radio" v-model="form.genre" value="Féminin" class="sr-only">
+                  <span class="text-sm font-medium" :class="form.genre === 'Féminin' ? 'text-primary' : 'text-gray-700'">Féminin</span>
+                </label>
+              </div>
+            </div>
+            <!-- FIN AJOUT GENRE -->
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="relative group">
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
@@ -343,6 +363,8 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-xs bg-white p-3 rounded-lg border border-gray-100">
                 <p><span class="text-gray-500">Nom :</span> <span class="font-medium">{{ form.nom }}</span></p>
                 <p><span class="text-gray-500">Prénom :</span> <span class="font-medium">{{ form.prenom }}</span></p>
+                <!-- AJOUT DU GENRE DANS LE RECAP -->
+                <p><span class="text-gray-500">Genre :</span> <span class="font-medium">{{ form.genre }}</span></p>
                 <p><span class="text-gray-500">Nationalité :</span> <span class="font-medium">{{ form.nationalite }}</span></p>
                 <p><span class="text-gray-500">NNI :</span> <span class="font-medium">{{ form.nni || 'Non renseigné' }}</span></p>
                 <p class="md:col-span-2"><span class="text-gray-500">Email :</span> <span class="font-medium">{{ form.email }}</span></p>
@@ -571,6 +593,7 @@ const stockages = ['256 Go', '512 Go', '1 To', '2 To']
 const form = reactive({
   nom: '',
   prenom: '',
+  genre: '', // <-- AJOUTÉ ICI
   nationalite: 'Ivoirien',
   nni: '',
   email: '',
@@ -606,6 +629,11 @@ const nextStep = () => {
   if (currentStep.value === 1) {
     if (!form.nom || !form.prenom || !form.email || !form.telephone || !form.dateNaissance || !form.adresse) {
       alert('Veuillez remplir tous les champs obligatoires de l’étape 1.')
+      return
+    }
+    // <-- AJOUTÉ ICI
+    if (!form.genre) {
+      alert('Veuillez sélectionner votre genre.')
       return
     }
     if (!form.diplome) {

@@ -80,15 +80,6 @@
                 </router-link>
 
                 <router-link
-                  to="/profil/modifier"
-                  class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200"
-                  @click="closeProfileMenu"
-                >
-                  <i class='bx bxs-edit text-lg'></i>
-                  <span>Modifier mon profil</span>
-                </router-link>
-
-                <router-link
                   to="/parametres"
                   class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                   @click="closeProfileMenu"

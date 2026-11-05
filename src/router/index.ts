@@ -20,6 +20,9 @@ import Exercices from '@/components/Exercices.vue'
 import Evaluations from '@/components/Evaluations.vue'
 import Inscription from '@/views/Inscription.vue'
 
+// ==================== NOUVEAUX IMPORTS AUTHENTIFICATION ====================
+import ForgotPassword from '@/views/ForgotPassword.vue'
+import ResetPassword from '@/views/ResetPassword.vue'
 
 // ==================== NOUVEAUX IMPORTS ADMIN ====================
 import DefaultLayoutAdmin from '@/layouts/admin/DefaultLayoutAdmin.vue'
@@ -38,6 +41,24 @@ import SuperAdminCohortes from '@/views/superadmin/SuperAdminCohortes.vue'
 import SuperAdminRapports from '@/views/superadmin/SuperAdminRapports.vue'
 import SuperAdminUtilisateurs from '@/views/superadmin/SuperAdminUtilisateurs.vue'
 
+// ==================== NOUVEAUX IMPORTS NETWORK SPECIALIST ====================
+import DefaultLayoutNetworkSpecialist from '@/layouts/networkspecialist/DefaultLayoutNetworkSpecialist.vue'
+import Introduction from '@/views/formations/network/Introduction.vue'
+import NetworkDashboard from '@/views/formations/network/NetworkDashboard.vue'
+import NetworkChapitre1 from '@/views/formations/network/NetworkChapitre1.vue'
+import NetworkChapitre2 from '@/views/formations/network/NetworkChapitre2.vue'
+import NetworkChapitre3 from '@/views/formations/network/NetworkChapitre3.vue'
+import NetworkChapitre4 from '@/views/formations/network/NetworkChapitre4.vue'
+import NetworkChapitre5 from '@/views/formations/network/NetworkChapitre5.vue'
+import NetworkChapitre6 from '@/views/formations/network/NetworkChapitre6.vue'
+import NetworkTp from '@/views/formations/network/NetworkTp.vue'
+import NetworkExamen from '@/views/formations/network/NetworkExamen.vue'
+import NetworkAnnexes from '@/views/formations/network/Annexes.vue'
+
+// ==================== NOUVEAUX IMPORTS APPRENANT ====================
+import ProfilApprenant from '@/views/ProfilApprenants.vue'
+import ParametresApprenant from '@/views/ParametresApprenant.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,6 +70,16 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/mot-de-passe-oublie',
+      name: 'forgot-password',
+      component: ForgotPassword
+    },
+    {
+      path: '/reinitialiser-mot-de-passe',
+      name: 'reset-password',
+      component: ResetPassword
     },
     {
       path: '/accueil',
@@ -96,6 +127,74 @@ const router = createRouter({
         { path: 'chapitre7', name: 'chapitre7', component: Chapitre7 },
         { path: 'exercices', name: 'exercices', component: Exercices },
         { path: 'evaluations', name: 'evaluations', component: Evaluations },
+
+        // ✅ AJOUT ICI DES PAGES PROFIL ET PARAMETRES
+        { path: '/profil', name: 'profil-apprenant', component: ProfilApprenant },
+        { path: '/parametres', name: 'parametres-apprenant', component: ParametresApprenant },
+      ]
+    },
+
+    // ==================== PAGES NETWORK SPECIALIST (SIDEBAR NETWORK) ====================
+    {
+      path: '/formations/network',
+      component: DefaultLayoutNetworkSpecialist,
+      redirect: '/formations/network/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'network-dashboard',
+          component: NetworkDashboard
+        },
+        {
+          path: 'introduction',
+          name: 'network-introduction',
+          component: Introduction
+        },
+        {
+          path: 'chapitre1',
+          name: 'network-chapitre1',
+          component: NetworkChapitre1
+        },
+        {
+          path: 'chapitre2',
+          name: 'network-chapitre2',
+          component: NetworkChapitre2
+        },
+        {
+          path: 'chapitre3',
+          name: 'network-chapitre3',
+          component: NetworkChapitre3
+        },
+        {
+          path: 'chapitre4',
+          name: 'network-chapitre4',
+          component: NetworkChapitre4
+        },
+        {
+          path: 'chapitre5',
+          name: 'network-chapitre5',
+          component: NetworkChapitre5
+        },
+        {
+          path: 'chapitre6',
+          name: 'network-chapitre6',
+          component: NetworkChapitre6
+        },
+        {
+          path: 'tp',
+          name: 'network-tp',
+          component: NetworkTp
+        },
+        {
+          path: 'examen',
+          name: 'network-examen',
+          component: NetworkExamen
+        },
+        {
+          path: 'annexes',
+          name: 'network-annexes',
+          component: NetworkAnnexes
+        }
       ]
     },
 

@@ -75,9 +75,12 @@
               />
               <span>Rester connecté</span>
             </label>
-            <a href="#" class="text-[#198341] font-medium hover:underline transition-colors">
+
+            <!-- ✅ LIEN CORRIGÉ VERS LA PAGE MOT DE PASSE OUBLIÉ -->
+            <router-link to="/mot-de-passe-oublie" class="text-[#198341] font-medium hover:underline transition-colors">
               Mot de passe oublié ?
-            </a>
+            </router-link>
+
           </div>
 
           <!-- Bouton -->
