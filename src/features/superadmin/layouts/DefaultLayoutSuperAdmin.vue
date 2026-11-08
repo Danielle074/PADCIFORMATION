@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import SidebarSuperAdmin from '@/components/superadmin/SidebarSuperAdmin.vue'
+import SidebarSuperAdmin from '@/features/superadmin/components/SidebarSuperAdmin.vue'
 
 const isSidebarOpen = ref(false)
 </script>
