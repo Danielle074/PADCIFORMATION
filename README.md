@@ -1,6 +1,20 @@
-# polibylaposte
+# PADCI-WEB
 
-This template should help get you started developing with Vue 3 in Vite.
+Frontend SPA (Vue 3 + Vite + TypeScript + Tailwind) de PADCI LMS. Consomme
+l'API `PADCI-API` (`VITE_API_BASE_URL`, voir `.env.example`) — aucune
+connexion directe à PostgreSQL/Redis/au stockage.
+
+## Docker (recommandé — rien à installer sur l'hôte)
+
+```sh
+# Dev avec rechargement à chaud (http://localhost:5173)
+docker compose -f docker-compose.local.yml up
+
+# Preview du build de prod servi par Nginx (http://localhost:8060)
+docker compose up --build
+```
+
+Ce template devait à l'origine aider à démarrer un projet Vue 3 + Vite.
 
 ## Recommended IDE Setup
 

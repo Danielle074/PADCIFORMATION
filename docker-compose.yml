@@ -1,0 +1,21 @@
+# =============================================================================
+# docker-compose.yml — PADCI-WEB : build de prod servi par Nginx (preview)
+#
+#   docker compose up --build
+#
+# Sert exactement l'image qui serait déployée : build Vite figé dans l'image,
+# aucune variable VITE_* n'est lue au runtime (voir Dockerfile). Pour changer
+# VITE_API_BASE_URL il faut rebuilder, pas juste relancer le conteneur.
+# =============================================================================
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8070/api/v1}
+    container_name: padci_web_preview
+    ports:
+      - "${WEB_PORT:-8060}:8080"
+    restart: unless-stopped

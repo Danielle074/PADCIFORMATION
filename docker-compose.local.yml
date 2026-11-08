@@ -1,0 +1,35 @@
+# =============================================================================
+# docker-compose.local.yml — PADCI-WEB : dev avec rechargement à chaud
+#
+#   docker compose -f docker-compose.local.yml up
+#
+# Rien ne tourne sur l'hôte : ni Node, ni npm. Le code source est monté en
+# volume → rechargement immédiat. node_modules est un volume nommé distinct
+# (jamais écrasé par le montage du code), donc pas d'écriture croisée
+# host/conteneur sur ce dossier.
+#
+# Port choisi pour ne pas entrer en conflit avec le port de dev de Vite
+# (5173, déjà whitelisté côté CORS par PADCI-API) ni avec d'autres projets
+# Docker de la machine.
+# =============================================================================
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+      args:
+        USER_ID: ${UID:-1000}
+        GROUP_ID: ${GID:-1000}
+    container_name: padci_web
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8070/api/v1}
+    ports:
+      - "${WEB_PORT:-5173}:5173"
+    volumes:
+      - .:/app
+      - web_node_modules:/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  web_node_modules:
