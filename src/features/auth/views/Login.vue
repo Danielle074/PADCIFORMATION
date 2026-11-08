@@ -17,7 +17,16 @@
           <p class="text-gray-500 text-sm mt-1">Connectez-vous à votre espace</p>
         </div>
 
-        <form class="space-y-5" @submit.prevent>
+        <p
+          v-if="formError"
+          role="alert"
+          class="mb-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3"
+        >
+          {{ formError }}
+        </p>
+
+        <!-- ================= ÉTAPE MOT DE PASSE ================= -->
+        <form v-if="challengeToken === null" class="space-y-5" @submit.prevent="submitLogin">
 
           <!-- Email -->
           <div class="relative group">
@@ -27,8 +36,13 @@
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </span>
+            <label for="login-email" class="sr-only">Email professionnel</label>
             <input
+              id="login-email"
+              v-model="email"
               type="email"
+              autocomplete="email"
+              required
               placeholder="Email professionnel"
               class="w-full pl-12 pr-5 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400
                      focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
@@ -43,8 +57,13 @@
                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </span>
+            <label for="login-password" class="sr-only">Mot de passe</label>
             <input
+              id="login-password"
+              v-model="password"
               :type="showPassword ? 'text' : 'password'"
+              autocomplete="current-password"
+              required
               placeholder="Mot de passe"
               class="w-full pl-12 pr-12 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400
                      focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
@@ -52,6 +71,7 @@
             <button
               type="button"
               @click="togglePassword"
+              :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
               class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#198341] transition-colors p-1 rounded-lg hover:bg-[#198341]/10"
             >
               <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,36 +88,60 @@
 
           <!-- Options -->
           <div class="flex items-center justify-between text-sm text-gray-600">
-            <label class="flex items-center space-x-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                class="w-4 h-4 rounded border-gray-300 accent-[#198341] focus:ring-[#198341]/30 cursor-pointer"
-              />
-              <span>Rester connecté</span>
-            </label>
-
-            <!-- ✅ LIEN CORRIGÉ VERS LA PAGE MOT DE PASSE OUBLIÉ -->
             <router-link to="/mot-de-passe-oublie" class="text-[#198341] font-medium hover:underline transition-colors">
               Mot de passe oublié ?
             </router-link>
-
           </div>
 
           <!-- Bouton -->
-          <router-link
-            to="/accueil"
+          <button
+            type="submit"
+            :disabled="isPending"
             class="group w-full inline-flex items-center justify-center gap-2
                    bg-gradient-to-r from-[#198341] to-[#22a854]
                    hover:from-[#146b34] hover:to-[#198341]
                    text-white py-3.5 rounded-xl font-semibold text-base
                    shadow-lg shadow-[#198341]/30 hover:shadow-xl hover:shadow-[#198341]/40
-                   transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+                   transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
+                   disabled:opacity-60 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
           >
-            Se connecter
-            <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {{ isPending ? 'Connexion…' : 'Se connecter' }}
+            <svg v-if="!isPending" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </router-link>
+          </button>
+        </form>
+
+        <!-- ================= ÉTAPE MFA ================= -->
+        <form v-else class="space-y-5" @submit.prevent="submitMfaCode">
+          <p class="text-sm text-gray-600">
+            Saisissez le code à 6 chiffres de votre application d'authentification,
+            ou un de vos codes de récupération.
+          </p>
+          <div>
+            <label for="mfa-code" class="sr-only">Code de vérification</label>
+            <input
+              id="mfa-code"
+              v-model="mfaCode"
+              type="text"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              required
+              placeholder="123456"
+              class="w-full px-5 py-3.5 text-center text-lg tracking-widest border border-gray-200 rounded-xl bg-gray-50 text-gray-800
+                     focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
+            />
+          </div>
+          <button
+            type="submit"
+            :disabled="isPending"
+            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#198341] to-[#22a854]
+                   hover:from-[#146b34] hover:to-[#198341] text-white py-3.5 rounded-xl font-semibold text-base
+                   shadow-lg shadow-[#198341]/30 transition-all duration-300
+                   disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {{ isPending ? 'Vérification…' : 'Valider' }}
+          </button>
         </form>
 
         <!-- Lien inscription -->
@@ -160,14 +204,67 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import formLogo from "@/assets/images/logoemsp.png"
 import loginImage from "@/assets/images/photodecybersecurite.jpg"
+import { ApiError } from '@/api/http'
+import { useLogin } from '../composables/useLogin'
+import { useMfaChallenge } from '../composables/useMfaChallenge'
 
 const showPassword = ref(false)
-
 const togglePassword = () => {
   showPassword.value = !showPassword.value
+}
+
+const route = useRoute()
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const formError = ref<string | null>(null)
+
+const login = useLogin()
+const mfaChallenge = useMfaChallenge()
+
+// Set once a 428 AUTH_MFA_REQUIRED comes back from useLogin — switches the
+// form to the "enter your 6-digit code" step instead of a second meaning
+// for the same fields.
+const challengeToken = ref<string | null>(null)
+const mfaCode = ref('')
+
+const isPending = computed(() => login.isPending.value || mfaChallenge.isPending.value)
+
+async function afterAuthenticated(): Promise<void> {
+  const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/formations/dashboard'
+  await router.push(redirect)
+}
+
+async function submitLogin(): Promise<void> {
+  formError.value = null
+
+  try {
+    await login.mutateAsync({ email: email.value, password: password.value })
+    await afterAuthenticated()
+  } catch (error) {
+    if (error instanceof ApiError && error.code === 'AUTH_MFA_REQUIRED') {
+      challengeToken.value = error.details?.challenge_token as string
+      return
+    }
+    formError.value = error instanceof ApiError ? error.message : 'Une erreur est survenue.'
+  }
+}
+
+async function submitMfaCode(): Promise<void> {
+  if (challengeToken.value === null) return
+  formError.value = null
+
+  try {
+    await mfaChallenge.mutateAsync({ challenge_token: challengeToken.value, code: mfaCode.value })
+    await afterAuthenticated()
+  } catch (error) {
+    formError.value = error instanceof ApiError ? error.message : 'Une erreur est survenue.'
+  }
 }
 </script>
 

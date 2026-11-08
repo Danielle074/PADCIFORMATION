@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth'
+import router from '@/router'
 import type { ApiFailure } from './types'
 
 /**
@@ -68,6 +69,14 @@ http.interceptors.response.use(
 
     if (error.response?.data?.success === false) {
       const { message, error: failure } = error.response.data
+
+      // FR-006/ADR-006: super_admin/admin without TOTP confirmed yet. Catch
+      // it here, once, instead of every feature that eventually calls a
+      // protected endpoint having to handle this itself.
+      if (failure.code === 'AUTH_MFA_SETUP_REQUIRED' && router.currentRoute.value.name !== 'mfa-setup') {
+        router.push('/mfa/configuration')
+      }
+
       return Promise.reject(
         new ApiError(message, failure.code, error.response.status, failure.details, requestId),
       )

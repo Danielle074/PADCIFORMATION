@@ -134,8 +134,8 @@
           SA
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-bold text-gray-800 truncate">Super Admin</p>
-          <p class="text-xs text-gray-500 truncate">ucp@padci.ci</p>
+          <p class="text-sm font-bold text-gray-800 truncate">{{ auth.user?.name }}</p>
+          <p class="text-xs text-gray-500 truncate">{{ auth.user?.email }}</p>
         </div>
         <!-- Icône déconnexion -->
         <button @click="handleLogout" title="Se déconnecter" class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">
@@ -149,8 +149,10 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import logoImage from '@/assets/images/logoemsp.png'
+import { useAuthStore } from '@/stores/auth'
+import { useLogout } from '@/features/auth/composables/useLogout'
 
 // Props pour gérer l'ouverture/fermeture depuis le layout parent
 defineProps({
@@ -164,17 +166,16 @@ defineProps({
 const emit = defineEmits(['close'])
 
 const route = useRoute()
-const router = useRouter()
+const auth = useAuthStore()
+const logout = useLogout()
 
 // Fonction pour vérifier si un lien est actif
 const isActive = (path) => {
   return route.path.startsWith(path)
 }
 
-// Fonction de déconnexion
-const handleLogout = () => {
-  alert('Déconnexion du Super Administrateur...')
-  // router.push('/login')
+const handleLogout = async () => {
+  await logout()
 }
 </script>
 

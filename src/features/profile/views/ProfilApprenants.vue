@@ -21,7 +21,7 @@
 
           <!-- Nom et Rôle -->
           <div class="flex-1 text-center sm:text-left mb-2">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Jean Kouassi</h1>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">{{ auth.user?.name }}</h1>
             <p class="text-sm text-gray-500 font-medium mt-1">Apprenant · Formation Network Specialist</p>
             <div class="flex items-center justify-center sm:justify-start gap-2 mt-2">
               <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-green-100 text-green-700">
@@ -67,7 +67,7 @@
               </div>
               <div>
                 <p class="text-gray-500 text-xs font-medium">Email</p>
-                <p class="text-gray-800 font-medium break-all">jean.kouassi@example.com</p>
+                <p class="text-gray-800 font-medium break-all">{{ auth.user?.email }}</p>
               </div>
             </div>
 
@@ -117,7 +117,10 @@
           </div>
 
           <div class="mt-6 pt-4 border-t border-gray-100">
-            <button class="w-full flex items-center justify-center gap-2 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 py-2.5 rounded-lg transition-colors">
+            <button
+              class="w-full flex items-center justify-center gap-2 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 py-2.5 rounded-lg transition-colors"
+              @click="logout"
+            >
               <i class='bx bx-log-out text-lg'></i> Se déconnecter
             </button>
           </div>
@@ -222,7 +225,11 @@
 </template>
 
 <script setup lang="ts">
-// Logique TypeScript (si tu veux dynamiser les données plus tard)
+import { useAuthStore } from '@/stores/auth'
+import { useLogout } from '@/features/auth/composables/useLogout'
+
+const auth = useAuthStore()
+const logout = useLogout()
 </script>
 
 <style scoped>

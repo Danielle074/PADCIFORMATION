@@ -132,10 +132,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import Sidebar from '@/features/learning/components/Sidebar.vue' // Ou le nom de ton composant SidebarApprenant
+import { useAuthStore } from '@/stores/auth'
+import { useLogout } from '@/features/auth/composables/useLogout'
 
-const router = useRouter()
+const auth = useAuthStore()
+const logout = useLogout()
 const profileMenu = ref<HTMLElement | null>(null)
 const isProfileMenuOpen = ref(false)
 
@@ -143,8 +145,8 @@ const isProfileMenuOpen = ref(false)
 const isSidebarOpen = ref(false)
 
 // ==================== DONNÉES UTILISATEUR ====================
-const userName = ref('Kouassi Jean-Baptiste')
-const userEmail = ref('jeanbaptiste.k@example.com')
+const userName = computed(() => auth.user?.name ?? '')
+const userEmail = computed(() => auth.user?.email ?? '')
 const userRole = ref('Apprenant')
 
 // Initiales de l'utilisateur
@@ -165,10 +167,9 @@ const closeProfileMenu = () => {
   isProfileMenuOpen.value = false
 }
 
-const handleLogout = () => {
-  console.log('Déconnexion...')
+const handleLogout = async () => {
   closeProfileMenu()
-  router.push('/') // Redirection vers la page de login
+  await logout()
 }
 
 // Gestion du clic en dehors du menu

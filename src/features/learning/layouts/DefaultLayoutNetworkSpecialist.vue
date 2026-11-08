@@ -132,20 +132,22 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 // Importation de ta nouvelle sidebar spécialisée
 import SidebarNetworkSpecialist from '@/features/learning/components/SidebarNetworkSpecialist.vue'
+import { useAuthStore } from '@/stores/auth'
+import { useLogout } from '@/features/auth/composables/useLogout'
 
-const router = useRouter()
+const logout = useLogout()
 const profileMenu = ref<HTMLElement | null>(null)
 const isProfileMenuOpen = ref(false)
 
 // État pour la sidebar mobile
 const isSidebarOpen = ref(false)
 
-// Données de l'utilisateur (à dynamiser plus tard)
-const userName = ref('Kouassi Jean-Baptiste')
-const userEmail = ref('jeanbaptiste.k@example.com')
+// Données de l'utilisateur
+const auth = useAuthStore()
+const userName = computed(() => auth.user?.name ?? '')
+const userEmail = computed(() => auth.user?.email ?? '')
 
 // Initiales calculées
 const userInitials = computed(() => {
@@ -165,10 +167,9 @@ const closeProfileMenu = () => {
   isProfileMenuOpen.value = false
 }
 
-const handleLogout = () => {
-  console.log('Déconnexion...')
+const handleLogout = async () => {
   closeProfileMenu()
-  router.push('/') // Redirection vers le login
+  await logout()
 }
 
 // Fermer le menu si on clique à l'extérieur

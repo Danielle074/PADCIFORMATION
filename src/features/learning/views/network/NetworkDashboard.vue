@@ -14,7 +14,7 @@
           </span>
           <!-- REMPLACEMENT DE L'EMOJI PAR UNE ICÔNE -->
           <h1 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2">
-            Bonjour, Jean Kouassi
+            Bonjour, {{ auth.user?.name }}
             <i class='bx bx-happy-beaming text-yellow-400 text-3xl'></i>
           </h1>
           <p class="text-blue-100 text-sm max-w-lg">
@@ -267,7 +267,9 @@
 </template>
 
 <script setup lang="ts">
-// Aucune logique JS complexe n'est requise pour ce dashboard visuel
+import { useAuthStore } from '@/stores/auth'
+
+const auth = useAuthStore()
 </script>
 
 <style scoped>

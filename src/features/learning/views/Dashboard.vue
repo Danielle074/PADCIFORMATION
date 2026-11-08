@@ -6,7 +6,7 @@
       <div class="container mx-auto px-4 py-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Bienvenue, Jean Kouassi</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Bienvenue, {{ auth.user?.name }}</h1>
             <p class="text-gray-500 text-sm mt-1">Voici un résumé de votre progression</p>
           </div>
           <div class="bg-gray-50 rounded-xl px-5 py-2 border border-gray-200 flex items-center gap-3 w-fit">
@@ -289,6 +289,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import { Bar, Doughnut, Line, Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale,
@@ -296,6 +297,8 @@ import {
 } from 'chart.js'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement, ArcElement, Filler)
+
+const auth = useAuthStore()
 
 // Bleu : #2563EB | Orange : #F97316
 

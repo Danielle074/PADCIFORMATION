@@ -113,11 +113,11 @@
       <div class="p-4 border-t border-gray-100 bg-gray-50/50 shrink-0">
         <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white transition cursor-pointer border border-transparent hover:border-gray-200 group">
           <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#198341] to-[#22a854] flex items-center justify-center text-white font-bold shadow-md shrink-0">
-            AD
+            {{ (auth.user?.name ?? '').split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2) }}
           </div>
           <div class="flex-1 min-w-0">
-            <p class="text-sm font-bold text-gray-800 truncate">Admin UCP</p>
-            <p class="text-xs text-gray-500 truncate">admin@padci.ci</p>
+            <p class="text-sm font-bold text-gray-800 truncate">{{ auth.user?.name }}</p>
+            <p class="text-xs text-gray-500 truncate">{{ auth.user?.email }}</p>
           </div>
           <!-- Icône déconnexion -->
           <button @click="handleLogout" title="Se déconnecter" class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">
@@ -172,7 +172,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { useLogout } from '@/features/auth/composables/useLogout'
 
 // IMPORT DE TON LOGO ICI (vérifie bien le chemin et le nom du fichier)
 import logoImage from '@/assets/images/logoemsp.png'
@@ -182,18 +184,16 @@ const isSidebarOpen = ref(false)
 
 // Route actuelle pour surligner le menu
 const route = useRoute()
-const router = useRouter()
+const auth = useAuthStore()
+const logout = useLogout()
 
 // Fonction pour vérifier si un lien est actif
 const isActive = (path) => {
   return route.path.startsWith(path)
 }
 
-// Fonction de déconnexion (à adapter selon votre logique d'auth)
-const handleLogout = () => {
-  // Exemple : localStorage.removeItem('token')
-  // router.push('/login')
-  alert('Déconnexion en cours...')
+const handleLogout = async () => {
+  await logout()
 }
 </script>
 
