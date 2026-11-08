@@ -43,6 +43,11 @@ const router = createRouter({
       name: 'Accueil',
       component: () => import('@/features/public/views/Accueil.vue'),
     },
+    {
+      path: '/connectivite',
+      name: 'connectivity-check',
+      component: () => import('@/features/public/views/ConnectivityCheck.vue'),
+    },
 
     // TODO(learning): /formation, /education-routiere, /cours are
     // standalone pages with no sidebar layout today — same status as
