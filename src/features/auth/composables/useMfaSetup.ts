@@ -35,3 +35,12 @@ export function useMfaConfirm() {
     },
   })
 }
+
+/** POST /auth/mfa/disable — always acts on the caller themself, no body. */
+export function useMfaDisable() {
+  return useMutation({
+    mutationFn: async () => {
+      await http.post('/auth/mfa/disable')
+    },
+  })
+}

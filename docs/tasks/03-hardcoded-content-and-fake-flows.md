@@ -119,18 +119,42 @@ middleware `can:admissions.view` / `can:admissions.manage`) :
   0 erreur console sur les deux pages, données affichées correspondent
   exactement aux données seedées/créées en HTTP réel (captures prises).
 
-### C. Profil / paramètres apprenant
+### C. Profil / paramètres apprenant — FAIT (2026-11-09)
 
 Contrat existant (module Identity) :
 
 - `GET /v1/profile`, `PATCH /v1/profile`,
   `PUT /v1/profile/password` (`ProfileController::changePassword`,
   request `ChangePasswordRequest.php`).
-- [ ] `ProfilApprenants.vue` : lecture sur `GET /v1/profile`.
-- [ ] `ParametresApprenant.vue` : changement de mot de passe branché
-  (`password`, `current_password` — vérifier les champs exacts dans
-  `ChangePasswordRequest.php`, ne pas deviner) + MFA, via les endpoints
-  déjà branchés côté composables (`useMfaSetup`).
+- [x] `ProfilApprenants.vue` branché sur `GET /v1/profile`
+  (`src/features/profile/composables/useProfile.ts`) : statut compte/email
+  vérifié/MFA réels, plus téléphone/genre/date de naissance/adresse
+  fictifs (aucun champ backend, retirés comme pour la candidature — 05).
+  "Cours suivis"/"TP réalisés"/"Temps d'étude"/"Ma progression"/"Activités
+  récentes" retirés aussi : aucun endpoint d'agrégat n'existe pour ça
+  (progression par cours = tableau de bord apprenant, 05) ; gardé
+  uniquement "Formations suivies" et "Certificats", comptages réels via
+  `GET /enrollments` et `GET /learning/certificates`
+  (`meta.pagination.total`, mêmes léger que pour le 03.B). Bug trouvé au
+  passage : le lien "Modifier le profil" pointait vers `/profil/modifier`,
+  une route qui n'existe pas — corrigé vers `/parametres` (la vraie route).
+- [x] `ParametresApprenant.vue` refondu : formulaire profil réel
+  (`PATCH /profile`, erreurs par champ), changement de mot de passe réel
+  (`PUT /profile/password`, champs exacts `current_password`/`password`/
+  `password_confirmation` lus dans `ChangePasswordRequest.php`), MFA
+  réel (lien vers `/mfa/configuration` si désactivée, bouton "Désactiver"
+  → `POST /auth/mfa/disable`, nouveau composable `useMfaDisable`).
+  Retiré entièrement : langue/mode sombre/notifications (aucun contrat
+  backend, 02 a déjà tranché "dark mode off") et "Supprimer mon compte"
+  (aucun endpoint de suppression de compte n'existe — le bouton ne
+  faisait qu'un `alert()`, c'était trompeur, pas juste un détail
+  cosmétique à garder "pour plus tard").
+- Vérifié en navigateur réel (Playwright, `user@example.com`) :
+  compte/profil réels affichés (6 formations, 3 certificats), formulaire
+  de mot de passe testé avec un mauvais mot de passe actuel → erreur
+  réelle du backend affichée sous le bon champ ("The password is
+  incorrect" — message Laravel natif non traduit en `lang/fr/`, mineur,
+  hors scope frontend).
 
 ### D. Dashboard apprenant / learning
 
