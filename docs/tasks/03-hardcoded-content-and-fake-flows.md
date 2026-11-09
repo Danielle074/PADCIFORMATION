@@ -51,7 +51,7 @@ vérifiés en conditions réelles (audit 2026-11-08).
 
 ## Ordre recommandé (par contrat disponible)
 
-### A. AdminCandidatures — contrat déjà en place, première cible
+### A. AdminCandidatures — FAIT (2026-11-09)
 
 Endpoint backend exact (`PADCI-API/app/Modules/Admissions/Routes/api.php`,
 middleware `can:admissions.view` / `can:admissions.manage`) :
@@ -61,14 +61,33 @@ middleware `can:admissions.view` / `can:admissions.manage`) :
 - `POST /v1/admin/applications/{application}/start-review`
 - `POST /v1/admin/applications/{application}/decide`
 
-- [ ] Lire `ApplicationResource.php` (champs exposés) et
-  `DecideApplicationRequest.php` (payload decide) avant de coder.
-- [ ] Composable `src/features/admin/composables/useApplications.ts`
-  (query index + mutations review/decide).
-- [ ] Brancher la liste (l.274 remplacée), pages/états de chargement /
-  erreur / vide via vue-query.
-- [ ] Vérifier manuellement avec un compte admin réel : actions
-  start-review + decide visibles dans `padci_app` (log SQL / réponse).
+- [x] `ApplicationResource.php` / `DecideApplicationRequest.php` lus
+  avant de coder.
+- [x] `src/features/admin/composables/useApplications.ts` — query liste
+  (filtres serveur `status`/`pathway_key`/`q`/`page`) + query détail +
+  mutations `start-review`/`decide`.
+- [x] Liste branchée (`candidats` factices retirés), états chargement /
+  erreur / vide via vue-query, pagination réelle (`meta.pagination`,
+  plomberie ajoutée dans `src/api/http.ts`/`types.ts` — `meta` n'était pas
+  accessible aux composables avant, uniquement `data`).
+- [x] Vérifié en HTTP réel (candidature créée via l'API, revue +
+  décision testées avec le compte `admin@example.com`) et en navigateur
+  réel (Playwright, 0 erreur console, modale de détail avec motivation,
+  payload, session et décision).
+- **Bug backend trouvé et corrigé en chemin** : `Admin\ApplicationController`
+  ne chargeait jamais la relation `cohort` (ADR-012 l'avait ajoutée au
+  contrat candidat mais pas à ce contrôleur admin) — un admin ne pouvait
+  jamais voir la session choisie par le candidat. Corrigé sur
+  `PADCI-API` (commit `79db5ca`), testé (266 tests passent).
+- Champs identité civile/diplôme de l'ancienne modale (nationalité,
+  date de naissance, adresse, diplôme fictifs) retirés : aucun contrat
+  backend ne les expose, c'était de l'affichage inventé. Le "payload"
+  réel (équipement, etc.) s'affiche en clé/valeur générique.
+- Bouton "Exporter la liste (CSV)" retiré : aucun endpoint ne le
+  supporte, il ne faisait rien.
+- Note trouvée en vérifiant visuellement, hors scope de cette tâche :
+  le badge "12" à côté de "Candidatures" dans `SidebarAdmin.vue` est
+  statique (pas branché) — à traiter si quelqu'un retouche ce composant.
 
 ### B. AdminCohortes + AdminDashboard
 

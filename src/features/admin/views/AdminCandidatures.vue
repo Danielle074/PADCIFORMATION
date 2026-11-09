@@ -6,17 +6,9 @@
       <div>
         <h1 class="text-2xl font-bold text-gray-800">Gestion des Candidatures</h1>
         <p class="text-sm text-gray-500 mt-1">
-          Sélection et validation des 200 formateurs pour le pool du DTC.
+          File d'admission : revue et décision sur les candidatures soumises par les apprenants.
         </p>
       </div>
-
-      <!-- Bouton d'export -->
-      <button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-shade text-white px-4 py-2 rounded-xl font-medium transition-colors shadow-sm text-sm">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        Exporter la liste (CSV)
-      </button>
     </div>
 
     <!-- ================= BARRE D'OUTILS (Filtres) ================= -->
@@ -31,27 +23,21 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Rechercher un nom, email..."
+            placeholder="Rechercher un nom, un email..."
             class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
           >
         </div>
 
-        <!-- Filtre Filière -->
-        <select v-model="filterFiliere" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]">
+        <!-- Filtre Filière (filières réelles du catalogue) -->
+        <select v-model="filterPathwayKey" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]">
           <option value="">Toutes les filières</option>
-          <option value="Cybersécurité">Cybersécurité</option>
-          <option value="Data Analysis">Data Analysis</option>
-          <option value="IT Support">IT Support</option>
-          <option value="Network Specialist">Network Specialist</option>
-          <option value="Intelligence Artificielle">Intelligence Artificielle</option>
+          <option v-for="pathway in pathways" :key="pathway.key" :value="pathway.key">{{ pathway.name }}</option>
         </select>
 
         <!-- Filtre Statut -->
-        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[150px]">
+        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[170px]">
           <option value="">Tous les statuts</option>
-          <option value="Validé">Validé</option>
-          <option value="En attente">En attente</option>
-          <option value="Rejeté">Rejeté</option>
+          <option v-for="status in statusOptions" :key="status.value" :value="status.value">{{ status.label }}</option>
         </select>
       </div>
     </div>
@@ -64,56 +50,59 @@
             <tr class="bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
               <th class="py-4 px-6">Candidat</th>
               <th class="py-4 px-6">Filière</th>
+              <th class="py-4 px-6">Session</th>
               <th class="py-4 px-6">Date de dépôt</th>
-              <th class="py-4 px-6">Ordinateur</th>
               <th class="py-4 px-6">Statut</th>
               <th class="py-4 px-6 text-center">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100 text-sm">
+            <tr v-if="isPending">
+              <td colspan="6" class="py-10 text-center text-gray-500">Chargement des candidatures…</td>
+            </tr>
 
-            <!-- Ligne Candidat -->
-            <tr v-for="candidat in filteredCandidats" :key="candidat.id" class="hover:bg-gray-50 transition">
+            <tr v-else-if="isError">
+              <td colspan="6" class="py-10 text-center text-red-600">
+                {{ (error as ApiError)?.message ?? 'Impossible de charger les candidatures.' }}
+              </td>
+            </tr>
+
+            <tr v-else-if="applications.length === 0">
+              <td colspan="6" class="py-10 text-center text-gray-500">
+                Aucune candidature ne correspond à vos critères.
+              </td>
+            </tr>
+
+            <tr v-for="application in applications" :key="application.key" class="hover:bg-gray-50 transition">
               <td class="py-4 px-6">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-                    {{ candidat.initials }}
+                    {{ initialsOf(application.user?.name) }}
                   </div>
                   <div>
-                    <p class="font-bold text-gray-800">{{ candidat.nom }}</p>
-                    <p class="text-xs text-gray-500">{{ candidat.email }}</p>
+                    <p class="font-bold text-gray-800">{{ application.user?.name ?? '—' }}</p>
+                    <p class="text-xs text-gray-500">{{ application.user?.email ?? '—' }}</p>
                   </div>
                 </div>
               </td>
               <td class="py-4 px-6 text-gray-700 font-medium">
-                {{ candidat.filiere }}
+                {{ application.pathway?.name ?? '—' }}
               </td>
               <td class="py-4 px-6 text-gray-500">
-                {{ candidat.date }}
+                {{ application.cohort?.code ?? '—' }}
               </td>
-              <td class="py-4 px-6">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
-                  {{ candidat.processeur }}
-                </span>
+              <td class="py-4 px-6 text-gray-500">
+                {{ formatDate(application.submitted_at) }}
               </td>
               <td class="py-4 px-6">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                  :class="{
-                    'bg-primary/10 text-primary': candidat.statut === 'Validé',
-                    'bg-amber-100 text-amber-700': candidat.statut === 'En attente',
-                    'bg-red-100 text-red-700': candidat.statut === 'Rejeté'
-                  }">
-                  <span class="w-1.5 h-1.5 rounded-full"
-                    :class="{
-                      'bg-primary': candidat.statut === 'Validé',
-                      'bg-amber-500': candidat.statut === 'En attente',
-                      'bg-red-500': candidat.statut === 'Rejeté'
-                    }"></span>
-                  {{ candidat.statut }}
+                  :class="statusBadgeClass(application.status)">
+                  <span class="w-1.5 h-1.5 rounded-full" :class="statusDotClass(application.status)"></span>
+                  {{ statusLabel(application.status) }}
                 </span>
               </td>
               <td class="py-4 px-6 text-center">
-                <button @click="openModal(candidat)" class="text-primary hover:bg-primary/10 p-2 rounded-lg transition" title="Voir le dossier">
+                <button @click="openModal(application.key)" class="text-primary hover:bg-primary/10 p-2 rounded-lg transition" title="Voir le dossier">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -121,32 +110,25 @@
                 </button>
               </td>
             </tr>
-
-            <!-- Si aucune candidature trouvée -->
-            <tr v-if="filteredCandidats.length === 0">
-              <td colspan="6" class="py-10 text-center text-gray-500">
-                Aucune candidature ne correspond à vos critères.
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- PAGINATION -->
-      <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- PAGINATION (réelle, meta.pagination du backend) -->
+      <div v-if="pagination" class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
         <span class="text-sm text-gray-600">
-          Affichage de <span class="font-semibold text-gray-800">{{ (currentPage - 1) * itemsPerPage + 1 }}</span> à
-          <span class="font-semibold text-gray-800">{{ Math.min(currentPage * itemsPerPage, filteredCandidats.length) }}</span> sur
-          <span class="font-semibold text-gray-800">{{ filteredCandidats.length }}</span> candidatures
+          Affichage de <span class="font-semibold text-gray-800">{{ pagination.from ?? 0 }}</span> à
+          <span class="font-semibold text-gray-800">{{ pagination.to ?? 0 }}</span> sur
+          <span class="font-semibold text-gray-800">{{ pagination.total ?? 0 }}</span> candidatures
         </span>
         <nav class="inline-flex rounded-md shadow-sm -space-x-px">
-          <button @click="prevPage" :disabled="currentPage === 1" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+          <button @click="page > 1 && page--" :disabled="page === 1" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
           </button>
           <span class="px-4 py-2 border-t border-b border-gray-300 bg-white text-sm font-medium text-gray-700">
-            {{ currentPage }} / {{ totalPages }}
+            {{ pagination.current_page }} / {{ pagination.last_page ?? 1 }}
           </span>
-          <button @click="nextPage" :disabled="currentPage === totalPages" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+          <button @click="page < (pagination.last_page ?? 1) && page++" :disabled="page === (pagination.last_page ?? 1)" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
           </button>
         </nav>
@@ -154,96 +136,127 @@
     </div>
 
     <!-- ================= MODALE DE DÉTAIL CANDIDAT ================= -->
-    <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+    <div v-if="selectedKey" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-modal">
 
         <!-- En-tête Modale -->
         <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md">
-              {{ selectedCandidat?.initials }}
+              {{ initialsOf(detail?.user?.name) }}
             </div>
             <div>
-              <h3 class="text-lg font-bold text-gray-800">{{ selectedCandidat?.nom }}</h3>
-              <p class="text-sm text-gray-500">{{ selectedCandidat?.email }}</p>
+              <h3 class="text-lg font-bold text-gray-800">{{ detail?.user?.name ?? '—' }}</h3>
+              <p class="text-sm text-gray-500">{{ detail?.user?.email ?? '—' }}</p>
             </div>
           </div>
-          <button @click="isModalOpen = false" class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">
+          <button @click="closeModal" class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         <!-- Contenu Modale -->
         <div class="p-6 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
-
-          <!-- 1. Informations Personnelles -->
-          <div>
-            <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-              Identité & Contact
-            </h4>
-            <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
-              <div><span class="text-gray-500">Nationalité :</span> <span class="font-medium text-gray-800">Ivoirienne</span></div>
-              <div><span class="text-gray-500">Téléphone :</span> <span class="font-medium text-gray-800">{{ selectedCandidat?.telephone }}</span></div>
-              <div><span class="text-gray-500">Date de naissance :</span> <span class="font-medium text-gray-800">12/05/1995</span></div>
-              <div><span class="text-gray-500">Adresse :</span> <span class="font-medium text-gray-800">Cocody, Abidjan</span></div>
-            </div>
+          <div v-if="isDetailPending" class="text-sm text-gray-500 text-center py-6">Chargement du dossier…</div>
+          <div v-else-if="isDetailError" class="text-sm text-red-600 text-center py-6">
+            {{ (detailError as ApiError)?.message ?? 'Impossible de charger ce dossier.' }}
           </div>
 
-          <!-- 2. Prérequis Académiques -->
-          <div>
-            <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
-              Diplôme & Documents
-            </h4>
-            <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
-              <div><span class="text-gray-500">Niveau :</span> <span class="font-medium text-gray-800">Licence</span></div>
-              <div><span class="text-gray-500">Spécialité :</span> <span class="font-medium text-gray-800">Réseaux & Télécoms</span></div>
-              <div class="col-span-2 flex items-center gap-2 mt-2">
-                <span class="text-gray-500">Fichier diplôme :</span>
-                <a href="#" class="text-primary hover:underline flex items-center gap-1 font-medium">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                  Voir le diplôme (PDF)
-                </a>
+          <template v-else-if="detail">
+            <!-- Statut actuel -->
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                :class="statusBadgeClass(detail.status)">
+                <span class="w-1.5 h-1.5 rounded-full" :class="statusDotClass(detail.status)"></span>
+                {{ statusLabel(detail.status) }}
+              </span>
+              <span class="text-xs text-gray-500">Déposée le {{ formatDate(detail.submitted_at) }}</span>
+            </div>
+
+            <!-- Filière et session -->
+            <div>
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Filière &amp; session</h4>
+              <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
+                <div><span class="text-gray-500">Filière :</span> <span class="font-medium text-gray-800">{{ detail.pathway?.name ?? '—' }}</span></div>
+                <div><span class="text-gray-500">Session :</span> <span class="font-medium text-gray-800">{{ detail.cohort?.code ?? '—' }}</span></div>
+                <div v-if="detail.cohort"><span class="text-gray-500">Dates :</span> <span class="font-medium text-gray-800">{{ formatDate(detail.cohort.starts_at) }} → {{ formatDate(detail.cohort.ends_at) }}</span></div>
               </div>
             </div>
-          </div>
 
-          <!-- 3. Équipement Informatique (Critère TDR) -->
-          <div>
-            <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-              Équipement (Core i5 / 8Go / 256Go min)
-            </h4>
-            <div class="bg-gray-50 p-4 rounded-xl text-sm space-y-2">
-              <div class="flex justify-between border-b border-gray-200 pb-2">
-                <span class="text-gray-500">Processeur :</span>
-                <span class="font-bold text-gray-800">{{ selectedCandidat?.processeur }}</span>
-              </div>
-              <div class="flex justify-between border-b border-gray-200 pb-2">
-                <span class="text-gray-500">RAM :</span>
-                <span class="font-bold text-gray-800">{{ selectedCandidat?.ram }}</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="text-gray-500">Photo de l'ordinateur :</span>
-                <a href="#" class="text-primary hover:underline flex items-center gap-1 font-medium">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  Voir la photo
-                </a>
+            <!-- Motivation -->
+            <div v-if="detail.motivation">
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Motivation</h4>
+              <p class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap">{{ detail.motivation }}</p>
+            </div>
+
+            <!-- Payload libre (équipement, disponibilité...) -->
+            <div v-if="detail.payload && Object.keys(detail.payload).length > 0">
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Informations complémentaires</h4>
+              <div class="bg-gray-50 p-4 rounded-xl text-sm space-y-1.5">
+                <div v-for="(value, key) in detail.payload" :key="key" class="flex justify-between gap-4">
+                  <span class="text-gray-500">{{ key }}</span>
+                  <span class="font-medium text-gray-800 text-right">{{ formatPayloadValue(value) }}</span>
+                </div>
               </div>
             </div>
-          </div>
 
+            <!-- Décision déjà prise -->
+            <div v-if="detail.decided_at" class="bg-gray-50 p-4 rounded-xl text-sm space-y-1">
+              <p><span class="text-gray-500">Décidée par :</span> <span class="font-medium text-gray-800">{{ detail.decided_by?.name ?? '—' }}</span> le {{ formatDate(detail.decided_at) }}</p>
+              <p v-if="detail.reason"><span class="text-gray-500">Motif :</span> <span class="font-medium text-gray-800">{{ detail.reason }}</span></p>
+            </div>
+
+            <!-- Saisie du motif de rejet -->
+            <div v-if="pendingDecision === 'rejected'">
+              <label class="text-sm font-medium text-gray-700 mb-1 block">Motif du rejet (obligatoire)</label>
+              <textarea v-model="rejectReason" rows="3" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"></textarea>
+              <p v-if="decideError" class="text-xs text-red-600 mt-1">{{ decideError }}</p>
+            </div>
+          </template>
         </div>
 
         <!-- Pied de Modale (Actions) -->
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
-          <button @click="rejectCandidat" class="px-5 py-2.5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 transition text-sm">
-            Rejeter la candidature
+        <div v-if="detail" class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-wrap justify-end gap-3">
+          <button
+            v-if="detail.status === 'submitted'"
+            @click="startReview"
+            :disabled="startReviewMutation.isPending.value"
+            class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-100 transition text-sm disabled:opacity-50"
+          >
+            Démarrer la revue
           </button>
-          <button @click="validateCandidat" class="px-5 py-2.5 bg-primary text-white rounded-xl font-semibold hover:bg-primary-shade transition shadow-md shadow-primary/30 text-sm">
-            Valider le formateur
-          </button>
+
+          <template v-if="canDecide">
+            <button
+              v-if="pendingDecision !== 'rejected'"
+              @click="pendingDecision = 'rejected'"
+              class="px-5 py-2.5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 transition text-sm"
+            >
+              Rejeter
+            </button>
+            <button
+              v-else
+              @click="confirmReject"
+              :disabled="decideMutation.isPending.value"
+              class="px-5 py-2.5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 transition text-sm disabled:opacity-50"
+            >
+              Confirmer le rejet
+            </button>
+            <button
+              @click="decide('waitlisted')"
+              :disabled="decideMutation.isPending.value"
+              class="px-5 py-2.5 bg-white border border-amber-200 text-amber-700 rounded-xl font-semibold hover:bg-amber-50 transition text-sm disabled:opacity-50"
+            >
+              Liste d'attente
+            </button>
+            <button
+              @click="decide('accepted')"
+              :disabled="decideMutation.isPending.value"
+              class="px-5 py-2.5 bg-primary text-white rounded-xl font-semibold hover:bg-primary-shade transition shadow-md shadow-primary/30 text-sm disabled:opacity-50"
+            >
+              Accepter
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -251,77 +264,166 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { refDebounced } from '@vueuse/core'
+import type { ApiError } from '@/api/http'
+import { useCatalogPathways } from '@/features/public/composables/useCatalogPathways'
+import {
+  useApplication,
+  useApplications,
+  useDecideApplication,
+  useStartApplicationReview,
+  type ApplicationListFilters,
+} from '../composables/useApplications'
 
-// ==================== ÉTAT DES FILTRES ET PAGINATION ====================
+// ==================== FILTRES (server-side) ====================
 const searchQuery = ref('')
-const filterFiliere = ref('')
+const searchQueryDebounced = refDebounced(searchQuery, 350)
+const filterPathwayKey = ref('')
 const filterStatus = ref('')
-const currentPage = ref(1)
-const itemsPerPage = 10
+const page = ref(1)
 
-// ==================== MODALE ====================
-const isModalOpen = ref(false)
-const selectedCandidat = ref(null)
+watch([filterPathwayKey, filterStatus, searchQueryDebounced], () => {
+  page.value = 1
+})
 
-const openModal = (candidat) => {
-  selectedCandidat.value = candidat
-  isModalOpen.value = true
+const filters = computed<ApplicationListFilters>(() => ({
+  q: searchQueryDebounced.value || undefined,
+  pathwayKey: filterPathwayKey.value || undefined,
+  status: filterStatus.value || undefined,
+  page: page.value,
+}))
+
+const { data, isPending, isError, error } = useApplications(filters)
+const applications = computed(() => data.value?.items ?? [])
+const pagination = computed(() => data.value?.pagination ?? null)
+
+const { data: pathways } = useCatalogPathways()
+
+const statusOptions = [
+  { value: 'submitted', label: 'Soumise' },
+  { value: 'in_review', label: 'En revue' },
+  { value: 'accepted', label: 'Acceptée' },
+  { value: 'waitlisted', label: 'Liste d’attente' },
+  { value: 'rejected', label: 'Rejetée' },
+  { value: 'withdrawn', label: 'Retirée' },
+]
+
+function statusLabel(status: string): string {
+  return statusOptions.find((option) => option.value === status)?.label ?? status
 }
 
-// ==================== DONNÉES FICTIVES (Simulant la BDD) ====================
-const candidats = ref([
-  { id: 1, initials: 'AD', nom: 'Aya Diomandé', email: 'aya.d@email.ci', telephone: '+225 07 00 00 01', filiere: 'Cybersécurité', date: '12/10/2024', statut: 'Validé', processeur: 'Core i7', ram: '16 Go' },
-  { id: 2, initials: 'KT', nom: 'Koffi Traoré', email: 'k.traore@email.ci', telephone: '+225 07 00 00 02', filiere: 'Data Analysis', date: '12/10/2024', statut: 'En attente', processeur: 'Core i5', ram: '8 Go' },
-  { id: 3, initials: 'MA', nom: 'Mariam Anouman', email: 'm.anouman@email.ci', telephone: '+225 07 00 00 03', filiere: 'Intelligence Artificielle', date: '11/10/2024', statut: 'Validé', processeur: 'Core i9', ram: '32 Go' },
-  { id: 4, initials: 'YB', nom: 'Yao Bamba', email: 'y.bamba@email.ci', telephone: '+225 07 00 00 04', filiere: 'IT Support', date: '11/10/2024', statut: 'Rejeté', processeur: 'Core i3', ram: '4 Go' }, // Rejeté car config insuffisante
-  { id: 5, initials: 'FS', nom: 'Fatou Sarr', email: 'f.sarr@email.ci', telephone: '+225 07 00 00 05', filiere: 'Network Specialist', date: '10/10/2024', statut: 'En attente', processeur: 'Core i5', ram: '8 Go' },
-  { id: 6, initials: 'JM', nom: 'Jean-Marc K.', email: 'jm.k@email.ci', telephone: '+225 07 00 00 06', filiere: 'Cybersécurité', date: '09/10/2024', statut: 'En attente', processeur: 'Core i5', ram: '8 Go' },
-  { id: 7, initials: 'SB', nom: 'Sarah B.', email: 's.b@email.ci', telephone: '+225 07 00 00 07', filiere: 'Data Analysis', date: '09/10/2024', statut: 'Validé', processeur: 'Core i7', ram: '16 Go' },
-  { id: 8, initials: 'PL', nom: 'Paul L.', email: 'p.l@email.ci', telephone: '+225 07 00 00 08', filiere: 'IT Support', date: '08/10/2024', statut: 'En attente', processeur: 'Core i5', ram: '8 Go' },
-])
-
-// ==================== LOGIQUE DE FILTRAGE ====================
-const filteredCandidats = computed(() => {
-  return candidats.value.filter(c => {
-    const matchSearch = c.nom.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                        c.email.toLowerCase().includes(searchQuery.value.toLowerCase())
-    const matchFiliere = filterFiliere.value ? c.filiere === filterFiliere.value : true
-    const matchStatus = filterStatus.value ? c.statut === filterStatus.value : true
-    return matchSearch && matchFiliere && matchStatus
-  })
-})
-
-// ==================== LOGIQUE DE PAGINATION ====================
-const totalPages = computed(() => Math.ceil(filteredCandidats.value.length / itemsPerPage))
-const paginatedCandidats = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  return filteredCandidats.value.slice(start, start + itemsPerPage)
-})
-
-const prevPage = () => { if (currentPage.value > 1) currentPage.value-- }
-const nextPage = () => { if (currentPage.value < totalPages.value) currentPage.value++ }
-
-// Réinitialiser la page à 1 lors d'un changement de filtre
-import { watch } from 'vue'
-watch([searchQuery, filterFiliere, filterStatus], () => {
-  currentPage.value = 1
-})
-
-// ==================== ACTIONS MODALE ====================
-const validateCandidat = () => {
-  if (selectedCandidat.value) {
-    selectedCandidat.value.statut = 'Validé'
-    isModalOpen.value = false
+function statusBadgeClass(status: string): string {
+  switch (status) {
+    case 'accepted':
+      return 'bg-primary/10 text-primary'
+    case 'in_review':
+    case 'waitlisted':
+      return 'bg-amber-100 text-amber-700'
+    case 'rejected':
+      return 'bg-red-100 text-red-700'
+    default:
+      return 'bg-gray-100 text-gray-700'
   }
 }
 
-const rejectCandidat = () => {
-  if (selectedCandidat.value) {
-    selectedCandidat.value.statut = 'Rejeté'
-    isModalOpen.value = false
+function statusDotClass(status: string): string {
+  switch (status) {
+    case 'accepted':
+      return 'bg-primary'
+    case 'in_review':
+    case 'waitlisted':
+      return 'bg-amber-500'
+    case 'rejected':
+      return 'bg-red-500'
+    default:
+      return 'bg-gray-400'
   }
+}
+
+function initialsOf(name: string | undefined): string {
+  if (!name) return '—'
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('')
+}
+
+function formatDate(value: string | null | undefined): string {
+  if (!value) return '—'
+  return new Date(value).toLocaleDateString('fr-FR')
+}
+
+function formatPayloadValue(value: unknown): string {
+  if (value === null || value === undefined) return '—'
+  if (typeof value === 'object') return JSON.stringify(value)
+  return String(value)
+}
+
+// ==================== MODALE DE DÉTAIL ====================
+const selectedKey = ref<string | null>(null)
+const pendingDecision = ref<'rejected' | null>(null)
+const rejectReason = ref('')
+const decideError = ref<string | null>(null)
+
+const { data: detail, isPending: isDetailPending, isError: isDetailError, error: detailError } = useApplication(
+  computed(() => selectedKey.value),
+)
+
+const canDecide = computed(() =>
+  detail.value !== undefined
+  && detail.value !== null
+  && ['submitted', 'in_review', 'waitlisted'].includes(detail.value.status),
+)
+
+function openModal(key: string) {
+  selectedKey.value = key
+  pendingDecision.value = null
+  rejectReason.value = ''
+  decideError.value = null
+}
+
+function closeModal() {
+  selectedKey.value = null
+  pendingDecision.value = null
+  rejectReason.value = ''
+  decideError.value = null
+}
+
+const startReviewMutation = useStartApplicationReview()
+function startReview() {
+  if (!selectedKey.value) return
+  startReviewMutation.mutate(selectedKey.value)
+}
+
+const decideMutation = useDecideApplication()
+
+function decide(decision: 'accepted' | 'waitlisted') {
+  if (!selectedKey.value) return
+  decideError.value = null
+  decideMutation.mutate(
+    { key: selectedKey.value, decision },
+    { onError: (mutationError) => { decideError.value = (mutationError as ApiError).message } },
+  )
+}
+
+function confirmReject() {
+  if (!selectedKey.value) return
+  if (!rejectReason.value.trim()) {
+    decideError.value = 'Le motif du rejet est obligatoire.'
+    return
+  }
+  decideError.value = null
+  decideMutation.mutate(
+    { key: selectedKey.value, decision: 'rejected', reason: rejectReason.value.trim() },
+    {
+      onSuccess: () => { pendingDecision.value = null },
+      onError: (mutationError) => { decideError.value = (mutationError as ApiError).message },
+    },
+  )
 }
 </script>
 

@@ -3,9 +3,20 @@
  * and `ApiExceptionRenderer` on the backend) — every endpoint returns one of
  * these two shapes, never a bare payload.
  */
+/** Present on `meta` only when `data` was a paginator (`ApiResponse::pagination`). */
+export interface ApiPaginationMeta {
+  current_page: number
+  per_page: number
+  from: number | null
+  to: number | null
+  total?: number
+  last_page?: number
+}
+
 export interface ApiMeta {
   request_id: string
   timestamp: string
+  pagination?: ApiPaginationMeta
 }
 
 export interface ApiSuccess<T> {

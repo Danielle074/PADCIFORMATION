@@ -1,7 +1,18 @@
-import axios, { AxiosError, type AxiosInstance } from 'axios'
+import axios, { AxiosError, type AxiosInstance, type AxiosResponse } from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router'
-import type { ApiFailure } from './types'
+import type { ApiFailure, ApiMeta } from './types'
+
+/**
+ * Every response's `meta` (pagination included), read off the response the
+ * success interceptor returns. Callers already destructure `const { data } =
+ * await http.get(...)` expecting `data` to be the bare resource — `meta` is
+ * attached onto the response object itself rather than nested inside `data`,
+ * so none of that existing code has to change to get pagination info.
+ */
+export function apiMeta(response: AxiosResponse): ApiMeta | null {
+  return (response as AxiosResponse & { apiMeta?: ApiMeta }).apiMeta ?? null
+}
 
 /**
  * Normalized error shape for the whole app — every catch block deals with
@@ -55,6 +66,7 @@ http.interceptors.response.use(
   // Success responses are always `{ success: true, data, message, meta }` —
   // callers want `data`, not the envelope.
   (response) => {
+    ;(response as AxiosResponse & { apiMeta?: ApiMeta }).apiMeta = response.data?.meta ?? null
     response.data = response.data?.data
     return response
   },
