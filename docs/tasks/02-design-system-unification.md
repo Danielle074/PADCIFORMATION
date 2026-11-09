@@ -126,5 +126,12 @@ src/features/profile/views/ProfilApprenants.vue
   reprennent les tokens — sinon les retravailler deux fois. Ordre
   conseillé : décisions de palette/police → 01 (nouvelles vues avec les
   tokens) → remplacement des hex dans les vues restantes.
+- `Inscription.vue` est dans la liste des 15 fichiers ci-dessus, mais le
+  05 (`05-onboarding-catalog-and-learning-flow.md`) en retire tout le
+  contenu candidature (identité civile, documents, ordinateur) — ce qui
+  réduit fortement son inventaire de hex en dur. Décisions de
+  palette/police → 05 (nouvelle `Candidature.vue` + `Inscription.vue`
+  réduit, avec les tokens) → ne pas repasser sur ce fichier une seconde
+  fois pour les hex qui auront déjà disparu avec la réécriture.
 - À faire avant le 03 : les pages branchées sur l'API dans 03 ne devront
   pas être re-revues visuellement.

@@ -58,9 +58,11 @@ contrat d'inscription** :
 
 Conséquence d'architecture : le compte et le dossier sont **deux flux** —
 1) inscription + vérification email + connexion ; 2) dossier de candidature
-(connecté). Le formulaire 5 étapes actuel mélange les deux. Voir
-`04-structure-cleanup.md` pour la décision produit ; cette tâche livre
-d'abord ce qui a un contrat exact.
+(connecté, sur une filière **et une session** précises depuis ADR-012).
+Le formulaire 5 étapes actuel mélange les deux. **Décision actée** (voir
+`05-onboarding-catalog-and-learning-flow.md`) : cette tâche livre le
+compte (étape 1 ci-dessous) ; le dossier de candidature est traité dans
+le 05, pas ici.
 
 ### 2. `ForgotPassword.vue` — setTimeout factice
 
@@ -121,10 +123,10 @@ de renvoi — endpoint existant : `POST /v1/email/verification-notification`
   `PADCI-API/docs/api/openapi.json` (et regénérer le spec si nécessaire :
   `scramble` côté backend, puis regénérer les types frontend — règle
   contract-first de `AGENTS.md`).
-- [ ] Trancher la découpe du formulaire avec le mainteneur (cf. 04) : la
-  tâche livrée ici couvre **inscription compte** (étape 1 : nom, email,
-  mot de passe, confirmation) + forgot/reset + vérification email. Le
-  dossier de candidature (étapes 2-4) est traité après décision 04.
+- [ ] Découpe du formulaire déjà tranchée (voir 05) : la tâche livrée ici
+  couvre **inscription compte** (étape 1 : nom, email, mot de passe,
+  confirmation) + forgot/reset + vérification email. Le dossier de
+  candidature (filière, session, équipement) est traité dans le 05.
 
 ### Composables (convention `useLogin.ts`)
 

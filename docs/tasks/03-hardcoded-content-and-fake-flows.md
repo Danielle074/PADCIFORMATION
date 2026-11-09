@@ -94,13 +94,21 @@ Contrat existant (module Identity) :
 ### D. Dashboard apprenant / learning
 
 - Le catalogue réel est servi par le module Catalog
-  (`PADCI-API/app/Modules/Catalog/Routes/api.php`, ex. `GET /v1/pathways`,
-  `GET /v1/pathways/{key}`, courses). Les pages chapitre (Chapitre2…7,
-  network/*) n'ont pas encore d'équivalent backend — traiter
-  `Dashboard.vue` (listes de formations/progression) dès que la décision
-  du 04 est tranchée ; les pages chapitre restent statiques en attendant
-  le module Learning (à jalonner, pas à simuler).
-- [ ] Décision enregistrée dans 04 avant de brancher quoi que ce soit ici.
+  (`PADCI-API/app/Modules/Catalog/Routes/api.php` : `GET /v1/catalog/pathways`,
+  `GET /v1/catalog/pathways/{key}`, `GET /v1/catalog/courses`).
+  **Correction du 2026-11-09** : contrairement à ce que cette section
+  disait, les pages chapitre (Chapitre2…7, network/*) **ont bien un
+  équivalent backend réel** — module Learning, déjà testé de bout en
+  bout : `GET /v1/learning/courses/{course}` (outline générique, modules
+  → chapitres, verrouillage, progression), `GET
+  /v1/learning/courses/{course}/chapters/{chapter}` (contenu),
+  `PUT .../progress`. Ce n'est pas "à attendre", c'est à brancher — plan
+  détaillé (y compris la suppression des fichiers chapitre codés en dur
+  et du dashboard figé) dans
+  `05-onboarding-catalog-and-learning-flow.md` section "Layout : un seul,
+  dynamique". Ne pas refaire ce travail ici, le fichier 05 est la
+  référence pour tout ce domaine (candidature, session, apprentissage).
+- [x] Décision enregistrée — voir 05, plus de blocage sur ce point.
 
 ### E. SuperAdmin — utilisateurs & dashboard
 

@@ -36,6 +36,12 @@ cohérence visuelle, données en dur — ne l'est pas.
    choisit désormais une session réelle à la candidature, et les 5
    filières sont seedées avec leurs vraies dates.
 
+Le 05 dépend seulement du 01 (le composable `useRegister.ts` et
+`Inscription.vue` réduit à l'étape compte) — il peut démarrer dès le 01
+terminé, sans attendre le 02/03/04. Les deux points du 04 qui le
+bloquaient (découpe du formulaire, doublon `/formations/network`) sont
+déjà tranchés et cochés dans ce fichier.
+
 ## Règles pour l'agent qui exécute ces tâches
 
 - **Lire le contrat backend avant de coder** — chaque tâche qui touche

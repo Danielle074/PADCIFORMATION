@@ -18,8 +18,8 @@ backend.
 Trois problèmes de fond, pas de détail :
 
 1. **Deux contrats backend différents, tassés en un seul formulaire.**
-   `POST /auth/register` (créer un compte) ne veut que nom/email/mot de
-   passe. `POST /applications` (candidater, module Admissions) veut
+   `POST /v1/auth/register` (créer un compte) ne veut que nom/email/mot de
+   passe. `POST /v1/applications` (candidater, module Admissions) veut
    `pathway_key` + `motivation` + `payload` libre — et **exige déjà un
    compte connecté**. Le formulaire actuel ne peut réussir ni l'un ni
    l'autre tel qu'il est écrit.
@@ -40,19 +40,19 @@ l'aveugle" (option A envisagée initialement), ni visibilité sans choix
 marche vraiment, exactement comme le tableau d'exemple le montrait (une
 seule session "Disponible" à la fois parmi plusieurs déjà planifiées).
 
-- `GET /catalog/pathways/{key}/cohorts` (public, nouveau) — sessions
+- `GET /v1/catalog/pathways/{key}/cohorts` (public, nouveau) — sessions
   d'une filière, triées par date de début :
   `{id, key, code, name, session, starts_at, ends_at, available}`.
   `available` est calculé côté backend (`CohortAvailability`) ; ne jamais
   le recalculer côté front à partir du statut brut.
-- `POST /applications` prend maintenant `cohort_key` en plus de
+- `POST /v1/applications` prend maintenant `cohort_key` en plus de
   `pathway_key` (requis) : `{pathway_key, cohort_key, motivation, payload}`.
   Le backend refuse si la cohorte n'appartient pas à la filière, ou si
   elle n'est plus `available` (code erreur `cohort_closed` /
   `cohort_outside_pathway`, voir `lang/fr/admissions.php`).
-- `GET /applications` et `GET /applications/{key}` renvoient maintenant
+- `GET /v1/applications` et `GET /v1/applications/{key}` renvoient maintenant
   un objet `cohort` (code, dates) en plus de `pathway`.
-- `GET /catalog/pathways/{key}` renvoie maintenant `equipment_requirements`
+- `GET /v1/catalog/pathways/{key}` renvoie maintenant `equipment_requirements`
   (`{min_cpu, min_ram_gb, min_storage_gb, notes}`) — c'est la donnée
   réelle à afficher à la place du texte codé en dur "Configuration
   minimale requise : Core i5 · 8 Go de RAM · 256 Go" de l'étape 4
@@ -68,7 +68,7 @@ seule session "Disponible" à la fois parmi plusieurs déjà planifiées).
 ```
 1. Visiteur anonyme
    └─ Catalogue public (filières, formations) — PEUT ÊTRE VU SANS COMPTE
-        GET /catalog/pathways, GET /catalog/pathways/{key}, GET /catalog/courses
+        GET /v1/catalog/pathways, GET /v1/catalog/pathways/{key}, GET /v1/catalog/courses
 
 2. Création de compte (court — voir 01-auth-flow-completion.md, ne pas redévelopper)
    nom + email + mot de passe → vérification email → connexion
@@ -77,25 +77,31 @@ seule session "Disponible" à la fois parmi plusieurs déjà planifiées).
    Liste des sessions de la filière avec dates et disponibilité — une
    seule cliquable ("Disponible"), les autres affichées mais désactivées
    ("Indisponible — ouverture à venir").
-        GET /catalog/pathways/{key}/cohorts
+        GET /v1/catalog/pathways/{key}/cohorts
 
 4. Candidature (sur la session choisie)
    Formulaire COURT : motivation (texte libre) + bloc "équipement"
    (possède un ordinateur ? processeur/RAM/stockage + photo), comparé à
-   `equipment_requirements` de la filière, sérialisé dans `payload`. PAS
-   de diplôme/pièce d'identité tant que le besoin métier réel n'est pas
-   reconfirmé (voir "Ce qui reste ouvert" plus bas).
-        POST /applications { pathway_key, cohort_key, motivation, payload }
+   `equipment_requirements` de la filière, sérialisé dans `payload`.
+   **Décision (2026-11-09) : les champs identité civile (genre,
+   nationalité, NNI, adresse) et documents (pièce d'identité, diplôme)
+   des étapes 1-2 actuelles sont supprimés**, pas repris dans la
+   candidature — aucune règle du backend (policy, workflow de décision)
+   ne les lit aujourd'hui ; les garder alourdirait le formulaire sans
+   utilité vérifiée. Réversible : si un besoin réel apparaît, on rajoute
+   un bloc `payload.credentials` + upload Media, même traitement que
+   l'équipement, pas une refonte.
+        POST /v1/applications { pathway_key, cohort_key, motivation, payload }
 
 5. Suivi de candidature (apprenant)
    Page "Mes candidatures" : statut en temps réel (soumise / en revue /
    acceptée / liste d'attente / rejetée). Notification déjà existante
    côté backend sur la décision (ApplicationDecided, module Communication)
    — vérifier si un canal in-app (pas seulement email) est voulu.
-        GET /applications, GET /applications/{key}
+        GET /v1/applications, GET /v1/applications/{key}
 
 6. Affectation (admin, hors scope frontend apprenant)
-   Déjà existant : POST /admin/enrollments après décision positive —
+   Déjà existant : POST /v1/admin/enrollments après décision positive —
    l'admin y retrouve la session déjà choisie par le candidat sur sa
    candidature (`application.cohort`), il n'a plus à la redeviner.
 
@@ -104,9 +110,9 @@ seule session "Disponible" à la fois parmi plusieurs déjà planifiées).
    figée en dur) → vue d'ensemble d'UNE formation (outline, progression,
    reprise) → lecture d'UN chapitre (contenu, ressources, progression
    enregistrée au fil de la lecture).
-        GET /learning/courses/{course}
-        GET /learning/courses/{course}/chapters/{chapter}
-        PUT /learning/courses/{course}/chapters/{chapter}/progress
+        GET /v1/learning/courses/{course}
+        GET /v1/learning/courses/{course}/chapters/{chapter}
+        PUT /v1/learning/courses/{course}/chapters/{chapter}/progress
 ```
 
 ## Layout : un seul, dynamique — pas un par catégorie
@@ -119,7 +125,7 @@ pattern pour Cyber Sécurité, Data Analyst, IT Support, Artificial
 Intelligence donnerait 5 paires layout+sidebar quasi identiques à
 maintenir en parallèle — c'est l'inverse de ce qu'il faut faire.
 
-**La bonne nouvelle, déjà vérifiée** : `GET /learning/courses/{course}`
+**La bonne nouvelle, déjà vérifiée** : `GET /v1/learning/courses/{course}`
 renvoie déjà la structure complète et réelle d'une formation —
 `CourseOutlineResource.php` : modules → chapitres, avec `locked`,
 `progress`, `resume`. C'est générique par construction, peu importe la
@@ -129,7 +135,7 @@ l'API**, pour n'importe quelle formation.
 
 - [ ] Un seul `LearnerLayout.vue` (fusion/renommage de `DefaultLayout.vue`),
   dont la sidebar se construit depuis l'outline de la formation
-  actuellement ouverte (`GET /learning/courses/{course}` — modules et
+  actuellement ouverte (`GET /v1/learning/courses/{course}` — modules et
   chapitres réels), pas depuis une liste de routes codées en dur.
 - [ ] Supprimer `DefaultLayoutNetworkSpecialist.vue`,
   `SidebarNetworkSpecialist.vue`, et tous les fichiers
@@ -137,20 +143,43 @@ l'API**, pour n'importe quelle formation.
   `NetworkDashboard.vue`, `NetworkTp.vue`, `NetworkExamen.vue`,
   `Introduction.vue`, `Annexes.vue` (17 fichiers), remplacés par :
   - `src/features/learning/views/CourseOverview.vue` (route
-    `/formations/:courseKey`) — appelle `GET /learning/courses/{course}`.
+    `/formations/:courseKey`) — appelle `GET /v1/learning/courses/{course}`.
   - `src/features/learning/views/ChapterViewer.vue` (route
     `/formations/:courseKey/chapitres/:chapterKey`) — appelle
-    `GET /learning/courses/{course}/chapters/{chapter}`, envoie la
+    `GET /v1/learning/courses/{course}/chapters/{chapter}`, envoie la
     progression (`PUT .../progress`) au fil de la lecture/lecture vidéo.
   - `src/features/learning/views/LearnerDashboard.vue` (remplace
     l'actuel `Dashboard.vue` figé) — liste les formations réellement
-    suivies par l'apprenant (`GET /enrollments` → une carte par
+    suivies par l'apprenant (`GET /v1/enrollments` → une carte par
     formation active, avec reprise).
-- [ ] `Exercices.vue` / `Evaluations.vue` : à rattacher au module
-  Assessment réel (`GET /learning/courses/{course}/assessments`,
-  `POST .../attempts`…) **une fois** la question du contenu "réseau" en
-  dur tranchée dans `04-structure-cleanup.md` — ne pas les dupliquer par
-  formation non plus.
+- [ ] `Exercices.vue` / `Evaluations.vue` : même principe que les
+  chapitres — à rattacher au module Assessment réel
+  (`GET /v1/learning/courses/{course}/assessments`, `POST .../attempts`…),
+  un seul composant générique par type d'écran, pas une paire par
+  formation.
+
+## Candidature — ce qui remplace le contenu actuel d'`Inscription.vue`
+
+`Inscription.vue` garde sa route (l'écran "s'inscrire") mais son contenu
+est remplacé par le compte court du 01 (`useRegister.ts` — nom, email,
+mot de passe) ; ses 727 lignes actuelles (identité civile, documents,
+formation, ordinateur, récapitulatif) disparaissent de ce fichier.
+
+- [ ] `Inscription.vue` ne garde que l'étape compte (01) ; aucun des
+  champs candidature (filière, session, équipement, documents) n'y reste.
+- [ ] Nouvelle vue `src/features/public/views/Candidature.vue` (ou
+  équivalent dans `features/learning`), sur la filière + session déjà
+  choisies (étapes 3-4 du flow proposé) : motivation + bloc équipement +
+  écran de relecture avant envoi. 3 écrans courts, pas 5.
+- [ ] Supprimer du formulaire (pas de champ caché, pas de `v-if="false"`,
+  suppression réelle) : genre, nationalité, NNI, téléphone, date de
+  naissance, adresse, diplôme + type de diplôme, upload pièce d'identité,
+  upload diplôme — décision actée ci-dessus, aucune règle backend ne les
+  lit.
+- [ ] `useSubmitApplication.ts` (`src/features/public/composables/` ou
+  `features/learning/composables/`) — `POST /v1/applications`, erreurs
+  `cohort_closed` / `cohort_outside_pathway` / `duplicate` affichées
+  explicitement (`ApiError`), pas un message générique.
 
 ## Configuration de l'ordinateur — où ça va
 
@@ -168,7 +197,7 @@ filières).
 - [ ] Afficher le minimum requis depuis `pathway.equipment_requirements`
   (étape "configuration minimale requise"), pas en dur dans le template.
 - [ ] La photo de l'ordinateur passe par le module Media existant
-  (`POST /media`, puis référencer la `key` retournée dans `payload`) —
+  (`POST /v1/media`, puis référencer la `key` retournée dans `payload`) —
   jamais un fichier encodé en base64 dans le JSON de la candidature.
 - [ ] Structurer `payload` proprement, ex. :
   ```json
@@ -191,8 +220,8 @@ filières).
   — image/icône, nom, nombre de formations (`courses_count` déjà exposé
   par `PathwayResource`). Composants shadcn déjà installés : `Card`, `Badge`.
 - **Fiche filière** : description, liste des formations publiées de la
-  filière (`GET /catalog/courses?pathway_key=...`), **liste des sessions**
-  (`GET /catalog/pathways/{key}/cohorts`) avec un badge `Badge` par
+  filière (`GET /v1/catalog/courses?pathway_key=...`), **liste des sessions**
+  (`GET /v1/catalog/pathways/{key}/cohorts`) avec un badge `Badge` par
   session (`available` → vert "Disponible", sinon gris "Indisponible" +
   date d'ouverture si connue), CTA "Candidater" actif seulement sur une
   session `available` (redirige vers connexion si non connecté, avec
@@ -210,10 +239,6 @@ filières).
 
 ## Ce qui reste ouvert (à trancher avec le mainteneur, pas à deviner)
 
-- [ ] Le dossier de candidature a-t-il encore besoin du diplôme et de la
-  pièce d'identité (champs actuels de l'étape 1-2) ? Si oui, même
-  traitement que l'équipement : upload via Media, référence dans
-  `payload` — pas de nouveau champ backend sans brief.
 - [ ] Notification in-app (pas seulement email) sur décision de
   candidature — existe déjà côté événements backend
   (`ApplicationDecided`), pas encore de canal in-app frontend.
