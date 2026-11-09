@@ -7,32 +7,33 @@
         <!-- En-tête avec dégradé (couleurs PADCI) -->
         <div
           class="text-white p-8 text-center relative overflow-hidden"
-          style="background: linear-gradient(135deg, var(--color-primary) 0%, #1a3a6b 100%);"
+          style="background: linear-gradient(135deg, var(--color-primary) 0%, #1a3a6b 100%)"
         >
           <!-- Décoration d'arrière-plan -->
           <div class="absolute inset-0 opacity-10">
-            <CertificateIcon class="absolute -right-10 -top-10"  :size="128" />
-            <CertificateIcon class="absolute -left-10 -bottom-10"  :size="96" />
-            <BookOpenIcon class="absolute right-20 bottom-0 opacity-20"  :size="72" />
+            <CertificateIcon class="absolute -right-10 -top-10" :size="128" />
+            <CertificateIcon class="absolute -left-10 -bottom-10" :size="96" />
+            <BookOpenIcon class="absolute right-20 bottom-0 opacity-20" :size="72" />
           </div>
 
           <!-- Icône principale PADCI -->
           <div class="relative mb-4">
             <div
               class="w-24 h-24 rounded-full mx-auto flex items-center justify-center backdrop-blur-sm"
-              style="background: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary)); box-shadow: 0 8px 32px rgba(224, 123, 0, 0.3);"
+              style="
+                background: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary));
+                box-shadow: 0 8px 32px rgba(224, 123, 0, 0.3);
+              "
             >
               <span class="text-3xl font-black text-white tracking-wider">PADCI</span>
             </div>
           </div>
 
-          <h1 class="text-3xl md:text-4xl font-bold mb-2 relative">
-            Programme d’Accréditation
-          </h1>
+          <h1 class="text-3xl md:text-4xl font-bold mb-2 relative">Programme d’Accréditation</h1>
           <div class="relative">
             <span
               class="inline-block px-4 py-1 rounded-full text-sm font-bold"
-              style="background: var(--color-tertiary); color: var(--color-primary);"
+              style="background: var(--color-tertiary); color: var(--color-primary)"
             >
               🚧 Certificats en cours de déploiement
             </span>
@@ -48,11 +49,11 @@
               <div class="relative">
                 <div
                   class="w-16 h-16 rounded-full animate-ping absolute"
-                  style="background: var(--color-tertiary); opacity: 0.3;"
+                  style="background: var(--color-tertiary); opacity: 0.3"
                 ></div>
                 <div
                   class="w-16 h-16 rounded-full flex items-center justify-center relative"
-                  style="background: var(--color-primary);"
+                  style="background: var(--color-primary)"
                 >
                   <CertificateIcon class="text-white" :size="30" />
                 </div>
@@ -61,11 +62,11 @@
               <div class="relative">
                 <div
                   class="w-16 h-16 rounded-full animate-ping absolute"
-                  style="background: var(--color-secondary); opacity: 0.3; animation-delay: 0.5s;"
+                  style="background: var(--color-secondary); opacity: 0.3; animation-delay: 0.5s"
                 ></div>
                 <div
                   class="w-16 h-16 rounded-full flex items-center justify-center relative"
-                  style="background: var(--color-secondary);"
+                  style="background: var(--color-secondary)"
                 >
                   <HardHatIcon class="text-white" :size="30" />
                 </div>
@@ -77,20 +78,17 @@
             </h2>
 
             <p class="text-gray-600 mb-6">
-              Le <span style="color: var(--color-primary); font-weight: 600;">Programme PADCI</span>
-              vous délivrera des attestations officielles pour chaque module validé.
-              Un système sécurisé de certificats numériques est actuellement mis en place
-              pour valoriser vos compétences acquises.
+              Le <span style="color: var(--color-primary); font-weight: 600">Programme PADCI</span>
+              vous délivrera des attestations officielles pour chaque module validé. Un système
+              sécurisé de certificats numériques est actuellement mis en place pour valoriser vos
+              compétences acquises.
             </p>
 
             <!-- Fonctionnalités à venir (spécifiques PADCI) -->
-            <div
-              class="rounded-xl p-6 mb-8"
-              style="background: var(--color-quaternary);"
-            >
+            <div class="rounded-xl p-6 mb-8" style="background: var(--color-quaternary)">
               <h3
                 class="font-bold mb-4 flex items-center justify-center gap-2"
-                style="color: var(--color-primary);"
+                style="color: var(--color-primary)"
               >
                 <GiftIcon />
                 <span>Ce que vous offre le programme PADCI</span>
@@ -98,10 +96,7 @@
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 <div class="flex items-start gap-3">
-                  <div
-                    class="rounded-full p-1 mt-0.5"
-                    style="background: var(--color-secondary);"
-                  >
+                  <div class="rounded-full p-1 mt-0.5" style="background: var(--color-secondary)">
                     <CheckIcon class="text-white" />
                   </div>
                   <div>
@@ -111,10 +106,7 @@
                 </div>
 
                 <div class="flex items-start gap-3">
-                  <div
-                    class="rounded-full p-1 mt-0.5"
-                    style="background: var(--color-secondary);"
-                  >
+                  <div class="rounded-full p-1 mt-0.5" style="background: var(--color-secondary)">
                     <CheckIcon class="text-white" />
                   </div>
                   <div>
@@ -124,10 +116,7 @@
                 </div>
 
                 <div class="flex items-start gap-3">
-                  <div
-                    class="rounded-full p-1 mt-0.5"
-                    style="background: var(--color-secondary);"
-                  >
+                  <div class="rounded-full p-1 mt-0.5" style="background: var(--color-secondary)">
                     <CheckIcon class="text-white" />
                   </div>
                   <div>
@@ -137,10 +126,7 @@
                 </div>
 
                 <div class="flex items-start gap-3">
-                  <div
-                    class="rounded-full p-1 mt-0.5"
-                    style="background: var(--color-secondary);"
-                  >
+                  <div class="rounded-full p-1 mt-0.5" style="background: var(--color-secondary)">
                     <CheckIcon class="text-white" />
                   </div>
                   <div>
@@ -155,12 +141,19 @@
             <div class="max-w-md mx-auto mb-6">
               <div class="flex justify-between text-sm text-gray-600 mb-2">
                 <span>Développement des certificats</span>
-                <span class="font-bold" style="color: var(--color-primary);">80 %</span>
+                <span class="font-bold" style="color: var(--color-primary)">80 %</span>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-3">
                 <div
                   class="h-3 rounded-full"
-                  style="width: 80%; background: linear-gradient(90deg, var(--color-secondary), var(--color-tertiary));"
+                  style="
+                    width: 80%;
+                    background: linear-gradient(
+                      90deg,
+                      var(--color-secondary),
+                      var(--color-tertiary)
+                    );
+                  "
                 ></div>
               </div>
             </div>
@@ -168,9 +161,9 @@
             <!-- Date de lancement -->
             <div
               class="inline-flex items-center gap-3 rounded-full px-6 py-3 mb-8"
-              style="background: var(--color-quaternary);"
+              style="background: var(--color-quaternary)"
             >
-              <CalendarDaysIcon :size="24" style="color: var(--color-primary);" />
+              <CalendarDaysIcon :size="24" style="color: var(--color-primary)" />
               <span class="text-gray-700">
                 <span class="font-bold">Lancement prévu :</span> 30 avril 2026
               </span>
@@ -180,7 +173,7 @@
             <button
               @click="showNotification"
               class="w-full md:w-auto text-white px-8 py-3 rounded-lg font-bold hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2 mx-auto"
-              style="background: var(--color-secondary);"
+              style="background: var(--color-secondary)"
             >
               <BellIcon />
               <span>M’avertir du lancement</span>
@@ -189,12 +182,15 @@
         </div>
 
         <!-- Pied de page avec navigation -->
-        <div class="border-t p-6" style="border-color: var(--color-quaternary); background: #f8f9fc;">
+        <div
+          class="border-t p-6"
+          style="border-color: var(--color-quaternary); background: #f8f9fc"
+        >
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <RouterLink
               to="/formations/dashboard"
               class="flex items-center gap-2 bg-white px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all border w-full md:w-auto justify-center"
-              style="border-color: var(--color-primary); color: var(--color-primary);"
+              style="border-color: var(--color-primary); color: var(--color-primary)"
             >
               <ArrowLeftIcon :size="20" />
               <span>Retour au tableau de bord</span>
@@ -203,7 +199,10 @@
             <RouterLink
               to="/formations/modules1"
               class="flex items-center gap-2 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-all w-full md:w-auto justify-center"
-              style="background: var(--color-primary); box-shadow: 0 4px 16px rgba(39, 78, 143, 0.3);"
+              style="
+                background: var(--color-primary);
+                box-shadow: 0 4px 16px rgba(39, 78, 143, 0.3);
+              "
             >
               <BookOpenIcon :size="20" />
               <span>Continuer la formation</span>
@@ -218,13 +217,18 @@
       </div>
 
       <!-- Aperçu de ce que sera le certificat -->
-      <div class="mt-6 bg-white rounded-xl shadow-md p-6 border-2 border-dashed" style="border-color: var(--color-quaternary);">
+      <div
+        class="mt-6 bg-white rounded-xl shadow-md p-6 border-2 border-dashed"
+        style="border-color: var(--color-quaternary)"
+      >
         <div class="text-center mb-4">
           <span class="text-sm text-gray-500">APERÇU (MAQUETTE)</span>
         </div>
-        <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto opacity-50">
+        <div
+          class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto opacity-50"
+        >
           <div class="text-center">
-            <CertificateIcon class="" style="color: var(--color-primary);"  :size="48" />
+            <CertificateIcon class="" style="color: var(--color-primary)" :size="48" />
             <div class="h-4 w-32 bg-gray-200 rounded mx-auto my-2"></div>
             <div class="h-3 w-48 bg-gray-200 rounded mx-auto"></div>
             <div class="border-t border-gray-200 my-3"></div>
@@ -241,7 +245,16 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowLeftIcon, BellIcon, BookOpenIcon, CalendarDaysIcon, CertificateIcon, CheckIcon, GiftIcon, HardHatIcon } from '@lucide/vue'
+import {
+  ArrowLeftIcon,
+  BellIcon,
+  BookOpenIcon,
+  CalendarDaysIcon,
+  CertificateIcon,
+  CheckIcon,
+  GiftIcon,
+  HardHatIcon,
+} from '@lucide/vue'
 import { RouterLink } from 'vue-router'
 
 const showNotification = () => {
@@ -252,10 +265,10 @@ const showNotification = () => {
 <style scoped>
 /* Variables CSS */
 
-
 /* Animations */
 @keyframes ping {
-  75%, 100% {
+  75%,
+  100% {
     transform: scale(1.5);
     opacity: 0;
   }
@@ -271,12 +284,18 @@ const showNotification = () => {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 /* Boutons */
-button, .router-link {
+button,
+.router-link {
   transition: all 0.3s ease;
 }
 </style>

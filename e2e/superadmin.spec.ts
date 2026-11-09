@@ -43,6 +43,7 @@ test.describe('SuperAdmin pages', () => {
     await expect(page.getByRole('columnheader', { name: 'Utilisateur' })).toBeVisible()
     await expect(page.getByRole('columnheader', { name: 'Rôle' })).toBeVisible()
     await expect(page.getByRole('columnheader', { name: 'Statut' })).toBeVisible()
+    await page.getByPlaceholder('Rechercher un nom, un email...').fill('smoke-superadmin')
     await expect(page.getByText("(C'est vous)")).toBeVisible()
   })
 

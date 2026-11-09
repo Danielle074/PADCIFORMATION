@@ -31,7 +31,8 @@
             <div>
               <p class="text-blue-700 font-medium">Instructions</p>
               <p class="text-sm text-blue-600">
-                Lis chaque question et choisis la bonne réponse. Tu as besoin d'au moins 7 bonnes réponses pour valider le module.
+                Lis chaque question et choisis la bonne réponse. Tu as besoin d'au moins 7 bonnes
+                réponses pour valider le module.
               </p>
             </div>
           </div>
@@ -39,13 +40,17 @@
 
         <!-- LISTE DES QUESTIONS -->
         <div class="space-y-8">
-          <div v-for="(question, index) in questions" :key="index"
-               class="border border-gray-200 rounded-lg p-5"
-               :class="{ 'border-green-500 bg-green-50': isQuestionCorrect(index) && showResults }">
-
+          <div
+            v-for="(question, index) in questions"
+            :key="index"
+            class="border border-gray-200 rounded-lg p-5"
+            :class="{ 'border-green-500 bg-green-50': isQuestionCorrect(index) && showResults }"
+          >
             <!-- En-tête de question -->
             <div class="flex items-start gap-3 mb-4">
-              <span class="bg-[#007668] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold flex-shrink-0">
+              <span
+                class="bg-[#007668] text-white w-7 h-7 rounded-full flex items-center justify-center font-bold flex-shrink-0"
+              >
                 {{ index + 1 }}
               </span>
               <div class="flex-1">
@@ -56,26 +61,44 @@
               </div>
               <!-- Icône de résultat -->
               <div v-if="showResults" class="flex-shrink-0">
-                <CircleCheckIcon class="result-mark text-green-500" :size="30" v-if="isQuestionCorrect(index)" />
+                <CircleCheckIcon
+                  class="result-mark text-green-500"
+                  :size="30"
+                  v-if="isQuestionCorrect(index)"
+                />
                 <CircleXIcon class="result-mark text-red-500" :size="30" v-else />
               </div>
             </div>
 
             <!-- Options de réponse -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 ml-10">
-              <div v-for="option in question.options" :key="option.letter"
-                   @click="selectAnswer(index, option.letter)"
-                   class="border rounded-lg p-3 cursor-pointer transition-all"
-                   :class="[
-                     selectedAnswers[index] === option.letter ? 'border-[#007668] bg-[#007668]/5' : 'border-gray-200 hover:border-[#007668] hover:bg-gray-50',
-                     showResults && option.letter === question.correctAnswer ? 'border-green-500 bg-green-100' : '',
-                     showResults && selectedAnswers[index] === option.letter && option.letter !== question.correctAnswer ? 'border-red-500 bg-red-100' : ''
-                   ]">
+              <div
+                v-for="option in question.options"
+                :key="option.letter"
+                @click="selectAnswer(index, option.letter)"
+                class="border rounded-lg p-3 cursor-pointer transition-all"
+                :class="[
+                  selectedAnswers[index] === option.letter
+                    ? 'border-[#007668] bg-[#007668]/5'
+                    : 'border-gray-200 hover:border-[#007668] hover:bg-gray-50',
+                  showResults && option.letter === question.correctAnswer
+                    ? 'border-green-500 bg-green-100'
+                    : '',
+                  showResults &&
+                  selectedAnswers[index] === option.letter &&
+                  option.letter !== question.correctAnswer
+                    ? 'border-red-500 bg-red-100'
+                    : '',
+                ]"
+              >
                 <div class="flex items-start gap-2">
                   <span class="font-bold text-gray-600">{{ option.letter }}.</span>
                   <span class="text-gray-700">{{ option.text }}</span>
                   <!-- Indicateur de bonne réponse -->
-                  <span v-if="showResults && option.letter === question.correctAnswer" class="ml-auto">
+                  <span
+                    v-if="showResults && option.letter === question.correctAnswer"
+                    class="ml-auto"
+                  >
                     <CheckIcon class="text-green-600" :size="20" />
                   </span>
                 </div>
@@ -85,14 +108,21 @@
         </div>
 
         <!-- RÉSULTATS -->
-        <div v-if="showResults" class="mt-8 p-6 rounded-lg" :class="score >= 7 ? 'bg-green-100' : 'bg-red-100'">
+        <div
+          v-if="showResults"
+          class="mt-8 p-6 rounded-lg"
+          :class="score >= 7 ? 'bg-green-100' : 'bg-red-100'"
+        >
           <div class="flex items-center gap-4">
             <div class="text-5xl">
               <TrophyIcon v-if="score >= 7" :size="30" class="text-[#FFDC00]" />
               <CircleAlertIcon class="text-red-600" v-else />
             </div>
             <div>
-              <h3 class="text-2xl font-bold" :class="score >= 7 ? 'text-green-700' : 'text-red-700'">
+              <h3
+                class="text-2xl font-bold"
+                :class="score >= 7 ? 'text-green-700' : 'text-red-700'"
+              >
                 {{ score >= 7 ? 'Félicitations !' : 'Dommage...' }}
               </h3>
               <p class="text-gray-700">
@@ -102,16 +132,20 @@
               </p>
               <!-- Barre de progression -->
               <div class="w-full bg-gray-200 rounded-full h-2.5 mt-3">
-                <div class="h-2.5 rounded-full"
-                     :class="score >= 7 ? 'bg-green-500' : 'bg-red-500'"
-                     :style="{ width: (score * 10) + '%' }"></div>
+                <div
+                  class="h-2.5 rounded-full"
+                  :class="score >= 7 ? 'bg-green-500' : 'bg-red-500'"
+                  :style="{ width: score * 10 + '%' }"
+                ></div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- BOUTONS D'ACTION -->
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-200">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-200"
+        >
           <button
             @click="resetQuiz"
             class="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-300 transition-all w-full md:w-auto justify-center"
@@ -125,7 +159,11 @@
             @click="checkAnswers"
             :disabled="!allQuestionsAnswered"
             class="flex items-center gap-3 px-8 py-3 rounded-lg font-bold transition-all shadow-lg w-full md:w-auto justify-center"
-            :class="allQuestionsAnswered ? 'bg-[#FFDC00] text-[#007668] hover:bg-[#007668] hover:text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+            :class="
+              allQuestionsAnswered
+                ? 'bg-[#FFDC00] text-[#007668] hover:bg-[#007668] hover:text-white'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            "
           >
             <ShieldCheckIcon />
             <span>Corriger mes réponses</span>
@@ -133,7 +171,10 @@
 
           <button
             v-else
-            @click="showResults = false; showResults = false"
+            @click="
+              showResults = false
+              showResults = false
+            "
             class="flex items-center gap-3 px-8 py-3 rounded-lg font-bold bg-[#007668] text-white hover:bg-[#005a4e] transition-all shadow-lg w-full md:w-auto justify-center"
           >
             <RefreshCwIcon />
@@ -151,7 +192,10 @@
         </div>
 
         <!-- Message d'alerte si toutes les questions ne sont pas répondues -->
-        <p v-if="!allQuestionsAnswered && !showResults" class="text-center text-amber-600 text-sm mt-4">
+        <p
+          v-if="!allQuestionsAnswered && !showResults"
+          class="text-center text-amber-600 text-sm mt-4"
+        >
           <CircleAlertIcon /> Veuillez répondre à toutes les questions
         </p>
       </div>
@@ -160,7 +204,19 @@
 </template>
 
 <script setup>
-import { AwardIcon, CheckIcon, CircleAlertIcon, CircleCheckIcon, CircleXIcon, GraduationCapIcon, InfoIcon, LightbulbIcon, RefreshCwIcon, RotateCcwIcon, ShieldCheckIcon } from '@lucide/vue'
+import {
+  AwardIcon,
+  CheckIcon,
+  CircleAlertIcon,
+  CircleCheckIcon,
+  CircleXIcon,
+  GraduationCapIcon,
+  InfoIcon,
+  LightbulbIcon,
+  RefreshCwIcon,
+  RotateCcwIcon,
+  ShieldCheckIcon,
+} from '@lucide/vue'
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -172,21 +228,21 @@ const questions = ref([
       { letter: 'A', text: '30 km/h' },
       { letter: 'B', text: '50 km/h' },
       { letter: 'C', text: '70 km/h' },
-      { letter: 'D', text: '90 km/h' }
+      { letter: 'D', text: '90 km/h' },
     ],
     correctAnswer: 'B',
-    hint: 'En ville, la vitesse est limitée à 50 km/h. Dans les zones scolaires ou marchés, elle est réduite à 30 km/h.'
+    hint: 'En ville, la vitesse est limitée à 50 km/h. Dans les zones scolaires ou marchés, elle est réduite à 30 km/h.',
   },
   {
     text: 'Que signifie un feu tricolore rouge ?',
     options: [
-      { letter: 'A', text: 'On peut passer si personne n\'arrive' },
+      { letter: 'A', text: "On peut passer si personne n'arrive" },
       { letter: 'B', text: 'On accélère pour dégager la voie' },
-      { letter: 'C', text: 'On s\'arrête obligatoirement' },
-      { letter: 'D', text: 'On ralentit seulement' }
+      { letter: 'C', text: "On s'arrête obligatoirement" },
+      { letter: 'D', text: 'On ralentit seulement' },
     ],
     correctAnswer: 'C',
-    hint: 'Un feu rouge impose l\'arrêt total, sans exception. Griller un feu rouge est une infraction grave.'
+    hint: "Un feu rouge impose l'arrêt total, sans exception. Griller un feu rouge est une infraction grave.",
   },
   {
     text: 'Quel numéro appelles-tu pour les urgences médicales à Abidjan ?',
@@ -194,10 +250,10 @@ const questions = ref([
       { letter: 'A', text: '110' },
       { letter: 'B', text: '180' },
       { letter: 'C', text: '1515' },
-      { letter: 'D', text: '111' }
+      { letter: 'D', text: '111' },
     ],
     correctAnswer: 'C',
-    hint: 'Le 1515 est le numéro du SAMU en Côte d\'Ivoire pour les urgences médicales.'
+    hint: "Le 1515 est le numéro du SAMU en Côte d'Ivoire pour les urgences médicales.",
   },
   {
     text: 'Tu as un accident. Tu dois le déclarer à ton assurance dans quel délai ?',
@@ -205,10 +261,10 @@ const questions = ref([
       { letter: 'A', text: '24 heures' },
       { letter: 'B', text: '48 heures' },
       { letter: 'C', text: '1 semaine' },
-      { letter: 'D', text: '1 mois' }
+      { letter: 'D', text: '1 mois' },
     ],
     correctAnswer: 'B',
-    hint: 'En Côte d\'Ivoire, la déclaration d\'accident à l\'assurance doit se faire dans les 48 heures.'
+    hint: "En Côte d'Ivoire, la déclaration d'accident à l'assurance doit se faire dans les 48 heures.",
   },
   {
     text: 'Un panneau triangulaire avec une bordure rouge indique :',
@@ -216,10 +272,10 @@ const questions = ref([
       { letter: 'A', text: 'Une interdiction' },
       { letter: 'B', text: 'Une information' },
       { letter: 'C', text: 'Un danger' },
-      { letter: 'D', text: 'Une obligation' }
+      { letter: 'D', text: 'Une obligation' },
     ],
     correctAnswer: 'C',
-    hint: 'Les panneaux triangulaires à bordure rouge signalent un danger. Ils t\'alertent d\'un risque devant toi.'
+    hint: "Les panneaux triangulaires à bordure rouge signalent un danger. Ils t'alertent d'un risque devant toi.",
   },
   {
     text: 'Tu conduis sous la pluie. Que fais-tu ?',
@@ -227,21 +283,21 @@ const questions = ref([
       { letter: 'A', text: 'Tu accélères pour finir vite' },
       { letter: 'B', text: 'Tu réduis ta vitesse et augmentes la distance de sécurité' },
       { letter: 'C', text: 'Tu continues à la même vitesse' },
-      { letter: 'D', text: 'Tu t\'arrêtes immédiatement' }
+      { letter: 'D', text: "Tu t'arrêtes immédiatement" },
     ],
     correctAnswer: 'B',
-    hint: 'La pluie rend la route glissante. Il faut réduire la vitesse et garder une grande distance de sécurité.'
+    hint: 'La pluie rend la route glissante. Il faut réduire la vitesse et garder une grande distance de sécurité.',
   },
   {
-    text: 'Que fais-tu si un policier te fait signe de t\'arrêter ?',
+    text: "Que fais-tu si un policier te fait signe de t'arrêter ?",
     options: [
-      { letter: 'A', text: 'Tu accélères pour t\'échapper' },
-      { letter: 'B', text: 'Tu t\'arrêtes calmement et tu salues' },
+      { letter: 'A', text: "Tu accélères pour t'échapper" },
+      { letter: 'B', text: "Tu t'arrêtes calmement et tu salues" },
       { letter: 'C', text: 'Tu ignores et tu continues' },
-      { letter: 'D', text: 'Tu fais demi-tour' }
+      { letter: 'D', text: 'Tu fais demi-tour' },
     ],
     correctAnswer: 'B',
-    hint: 'Fuir ou ignorer un policier est une infraction grave. Tu t\'arrêtes toujours avec respect et calme.'
+    hint: "Fuir ou ignorer un policier est une infraction grave. Tu t'arrêtes toujours avec respect et calme.",
   },
   {
     text: 'Lequel de ces comportements est autorisé en conduisant ?',
@@ -249,10 +305,10 @@ const questions = ref([
       { letter: 'A', text: 'Téléphoner avec un kit mains-libres' },
       { letter: 'B', text: 'Envoyer un SMS à un feu rouge' },
       { letter: 'C', text: 'Tenir le téléphone à la main' },
-      { letter: 'D', text: 'Regarder sa carte Google Maps en roulant' }
+      { letter: 'D', text: 'Regarder sa carte Google Maps en roulant' },
     ],
     correctAnswer: 'A',
-    hint: 'Seul le kit mains-libres est toléré. Tenir le téléphone en main est une infraction sanctionnée.'
+    hint: 'Seul le kit mains-libres est toléré. Tenir le téléphone en main est une infraction sanctionnée.',
   },
   {
     text: 'Qui a la priorité sur un passage piéton ?',
@@ -260,22 +316,22 @@ const questions = ref([
       { letter: 'A', text: 'Le véhicule le plus rapide' },
       { letter: 'B', text: 'Le premier arrivé' },
       { letter: 'C', text: 'Le piéton toujours' },
-      { letter: 'D', text: 'Le conducteur' }
+      { letter: 'D', text: 'Le conducteur' },
     ],
     correctAnswer: 'C',
-    hint: 'Le piéton engagé ou sur le point de s\'engager a toujours la priorité sur le passage piéton.'
+    hint: "Le piéton engagé ou sur le point de s'engager a toujours la priorité sur le passage piéton.",
   },
   {
     text: 'Que signifie un feu tricolore jaune fixe ?',
     options: [
       { letter: 'A', text: 'Je peux passer si je suis pressé' },
-      { letter: 'B', text: 'Je m\'arrête si je peux le faire sans danger' },
-      { letter: 'C', text: 'J\'accélère pour passer avant le rouge' },
-      { letter: 'D', text: 'C\'est un feu en panne' }
+      { letter: 'B', text: "Je m'arrête si je peux le faire sans danger" },
+      { letter: 'C', text: "J'accélère pour passer avant le rouge" },
+      { letter: 'D', text: "C'est un feu en panne" },
     ],
     correctAnswer: 'B',
-    hint: 'Le feu jaune fixe annonce le passage au rouge. Il faut s\'arrêter si on peut le faire sans danger.'
-  }
+    hint: "Le feu jaune fixe annonce le passage au rouge. Il faut s'arrêter si on peut le faire sans danger.",
+  },
 ])
 
 // Réponses sélectionnées par l'utilisateur
@@ -291,7 +347,7 @@ const selectAnswer = (questionIndex, letter) => {
 
 // Vérifier si toutes les questions ont une réponse
 const allQuestionsAnswered = computed(() => {
-  return selectedAnswers.value.every(answer => answer !== null)
+  return selectedAnswers.value.every((answer) => answer !== null)
 })
 
 // Calculer le score
@@ -340,9 +396,15 @@ button:disabled {
 }
 
 @keyframes popIn {
-  0% { transform: scale(0); }
-  80% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Style pour les options cliquables */

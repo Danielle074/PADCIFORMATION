@@ -1,18 +1,12 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
-
     <!-- HEADER / BANNIÈRE ENTIÈREMENT VISIBLE -->
     <section class="relative w-full bg-white overflow-hidden shadow-sm">
-      <img
-        :src="bannerImage"
-        alt="Bannière PADCI Formation"
-        class="w-full h-auto object-contain"
-      />
+      <img :src="bannerImage" alt="Bannière PADCI Formation" class="w-full h-auto object-contain" />
     </section>
 
     <!-- SERVICES -->
     <section class="px-6 py-16 max-w-6xl mx-auto w-full flex-1">
-
       <!-- TITRE + RETOUR -->
       <div class="mb-10 relative">
         <RouterLink
@@ -22,20 +16,15 @@
           ←
         </RouterLink>
 
-        <p class="text-sm font-semibold text-primary absolute left-0 top-5">
-          Retour
-        </p>
+        <p class="text-sm font-semibold text-primary absolute left-0 top-5">Retour</p>
 
         <div class="text-center">
-          <h2 class="text-xl font-bold text-primary mb-2">
-            Formation
-          </h2>
+          <h2 class="text-xl font-bold text-primary mb-2">Formation</h2>
         </div>
       </div>
 
       <!-- GRID - CARTES CENTRÉES (avec flex au lieu de grid pour gérer l'impair) -->
       <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
-
         <!-- CARD = LIEN -->
         <RouterLink
           v-for="(service, index) in services"
@@ -49,10 +38,8 @@
             {{ service.name }}
           </p>
         </RouterLink>
-
       </div>
     </section>
-
   </div>
 </template>
 
@@ -67,27 +54,27 @@ const services = [
   {
     name: 'Cyber sécurité',
     icon: ShieldIcon,
-    route: '/cours'
+    route: '/cours',
   },
   {
     name: 'Data Analytics',
     icon: ChartLineIcon,
-    route: '/cours'
+    route: '/cours',
   },
   {
     name: 'IT Support',
     icon: LaptopIcon,
-    route: '/cours'
+    route: '/cours',
   },
   {
     name: 'Network Specialist',
     icon: NetworkIcon,
-    route: '/cours'
+    route: '/cours',
   },
   {
     name: 'Artificial Intelligence',
     icon: BrainIcon,
-    route: '/cours'
+    route: '/cours',
   },
 ]
 </script>

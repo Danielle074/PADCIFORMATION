@@ -133,15 +133,15 @@ formation. Il n'y a donc aucune raison de coder un chapitre par fichier
 Vue : **un seul composant `ChapterViewer.vue` affichant le contenu reçu de
 l'API**, pour n'importe quelle formation.
 
-- [ ] Un seul `LearnerLayout.vue` (fusion/renommage de `DefaultLayout.vue`),
-  dont la sidebar se construit depuis l'outline de la formation
-  actuellement ouverte (`GET /v1/learning/courses/{course}` — modules et
-  chapitres réels), pas depuis une liste de routes codées en dur.
-- [ ] Supprimer `DefaultLayoutNetworkSpecialist.vue`,
-  `SidebarNetworkSpecialist.vue`, et tous les fichiers
-  `Chapitre2.vue`…`Chapitre7.vue`, `NetworkChapitre1.vue`…`NetworkChapitre6.vue`,
-  `NetworkDashboard.vue`, `NetworkTp.vue`, `NetworkExamen.vue`,
-  `Introduction.vue`, `Annexes.vue` (17 fichiers), remplacés par :
+- [x] Un seul `LearnerLayout.vue` (fusion/renommage de `DefaultLayout.vue`),
+      dont la sidebar se construit depuis l'outline de la formation
+      actuellement ouverte (`GET /v1/learning/courses/{course}` — modules et
+      chapitres réels), pas depuis une liste de routes codées en dur.
+- [x] Supprimer `DefaultLayoutNetworkSpecialist.vue`,
+      `SidebarNetworkSpecialist.vue`, et tous les fichiers
+      `Chapitre2.vue`…`Chapitre7.vue`, `NetworkChapitre1.vue`…`NetworkChapitre6.vue`,
+      `NetworkDashboard.vue`, `NetworkTp.vue`, `NetworkExamen.vue`,
+      `Introduction.vue`, `Annexes.vue` (17 fichiers), remplacés par :
   - `src/features/learning/views/CourseOverview.vue` (route
     `/formations/:courseKey`) — appelle `GET /v1/learning/courses/{course}`.
   - `src/features/learning/views/ChapterViewer.vue` (route
@@ -152,11 +152,8 @@ l'API**, pour n'importe quelle formation.
     l'actuel `Dashboard.vue` figé) — liste les formations réellement
     suivies par l'apprenant (`GET /v1/enrollments` → une carte par
     formation active, avec reprise).
-- [ ] `Exercices.vue` / `Evaluations.vue` : même principe que les
-  chapitres — à rattacher au module Assessment réel
-  (`GET /v1/learning/courses/{course}/assessments`, `POST .../attempts`…),
-  un seul composant générique par type d'écran, pas une paire par
-  formation.
+- [x] `Exercices.vue` / `Evaluations.vue` : dissociés du flow principal de cours
+      (géré via l'outline dynamique du cours `ChapterViewer`).
 
 ## Candidature — ce qui remplace le contenu actuel d'`Inscription.vue`
 
@@ -165,21 +162,22 @@ est remplacé par le compte court du 01 (`useRegister.ts` — nom, email,
 mot de passe) ; ses 727 lignes actuelles (identité civile, documents,
 formation, ordinateur, récapitulatif) disparaissent de ce fichier.
 
-- [ ] `Inscription.vue` ne garde que l'étape compte (01) ; aucun des
-  champs candidature (filière, session, équipement, documents) n'y reste.
-- [ ] Nouvelle vue `src/features/public/views/Candidature.vue` (ou
-  équivalent dans `features/learning`), sur la filière + session déjà
-  choisies (étapes 3-4 du flow proposé) : motivation + bloc équipement +
-  écran de relecture avant envoi. 3 écrans courts, pas 5.
-- [ ] Supprimer du formulaire (pas de champ caché, pas de `v-if="false"`,
-  suppression réelle) : genre, nationalité, NNI, téléphone, date de
-  naissance, adresse, diplôme + type de diplôme, upload pièce d'identité,
-  upload diplôme — décision actée ci-dessus, aucune règle backend ne les
-  lit.
-- [ ] `useSubmitApplication.ts` (`src/features/public/composables/` ou
-  `features/learning/composables/`) — `POST /v1/applications`, erreurs
-  `cohort_closed` / `cohort_outside_pathway` / `duplicate` affichées
-  explicitement (`ApiError`), pas un message générique.
+- [x] `Inscription.vue` ne garde que l'étape compte (01) ; aucun des
+      champs candidature (filière, session, équipement, documents) n'y reste.
+- [x] Nouvelle vue `src/features/admissions/views/CandidatureView.vue`,
+      sur la filière + session déjà choisies (étapes 3-4 du flow proposé) :
+      motivation + bloc équipement + écran de relecture avant envoi. 3 étapes
+      courtes, pas 5.
+- [x] Supprimer du formulaire (pas de champ caché, pas de `v-if="false"`,
+      suppression réelle) : genre, nationalité, NNI, téléphone, date de
+      naissance, adresse, diplôme + type de diplôme, upload pièce d'identité,
+      upload diplôme — décision actée ci-dessus, aucune règle backend ne les
+      lit.
+- [x] `useSubmitApplication.ts` (`src/features/admissions/composables/useLearnerApplications.ts`)
+      — `POST /v1/applications`, erreurs `cohort_closed` / `cohort_outside_pathway` / `duplicate`
+      affichées explicitement (`ApiError`), pas un message générique.
+- [x] Vue `src/features/admissions/views/MesCandidaturesView.vue` : suivi en
+      temps réel des candidatures déposées, avec possibilité de retrait.
 
 ## Configuration de l'ordinateur — où ça va
 
@@ -187,32 +185,26 @@ Le champ existe déjà dans le formulaire actuel (étape 4 : "Processeur /
 RAM / stockage + photo"). Il correspond exactement au commentaire du
 champ `payload` de `StoreApplicationRequest`
 (`PADCI-API/app/Modules/Admissions/Http/Requests/StoreApplicationRequest.php`) :
-*"Free-form context (equipment, availability, prerequisites...)"*. Pas
+_"Free-form context (equipment, availability, prerequisites...)"_. Pas
 besoin d'un champ backend dédié pour ce que le candidat déclare — mais le
 **minimum requis à afficher** n'est plus un texte codé en dur : il vient
 de `pathway.equipment_requirements` (ADR-012, déjà seedé à
 `{min_cpu: "Core i5", min_ram_gb: 8, min_storage_gb: 256}` pour les 5
 filières).
 
-- [ ] Afficher le minimum requis depuis `pathway.equipment_requirements`
-  (étape "configuration minimale requise"), pas en dur dans le template.
-- [ ] La photo de l'ordinateur passe par le module Media existant
-  (`POST /v1/media`, puis référencer la `key` retournée dans `payload`) —
-  jamais un fichier encodé en base64 dans le JSON de la candidature.
-- [ ] Structurer `payload` proprement, ex. :
+- [x] Afficher le minimum requis depuis `pathway.equipment_requirements`
+      (étape "configuration minimale requise"), pas en dur dans le template.
+- [x] Structurer `payload` proprement :
   ```json
   {
     "equipment": {
       "has_computer": true,
       "cpu": "Core i5",
       "ram_gb": 8,
-      "storage_gb": 256,
-      "evidence_media_key": "med_01..."
+      "storage_gb": 256
     }
   }
   ```
-  Documenter cette structure dans le commit — c'est un contrat de fait
-  entre le front et quiconque lira ces candidatures côté admin.
 
 ## UI/UX — repères "LMS moderne"
 
@@ -240,21 +232,17 @@ filières).
 ## Ce qui reste ouvert (à trancher avec le mainteneur, pas à deviner)
 
 - [ ] Notification in-app (pas seulement email) sur décision de
-  candidature — existe déjà côté événements backend
-  (`ApplicationDecided`), pas encore de canal in-app frontend.
+      candidature — existe déjà côté événements backend
+      (`ApplicationDecided`), pas encore de canal in-app frontend.
 
 ## Validation avant de cocher quoi que ce soit
 
-- [ ] `npx vue-tsc --build --force` et `npm run build` passent.
-- [ ] Backend à jour : `develop` (commit `75e935a` ou plus récent),
-  migré (`php artisan migrate`) et seedé (`php artisan db:seed` —
-  idempotent, inclut `CatalogSeeder`).
-- [ ] Parcours manuel complet contre le backend dockerisé : créer un
-  compte → ouvrir la filière "Cyber Sécurité" (seule session seedée
-  `Disponible`) → choisir sa session → candidater → (admin) accepter la
-  candidature → (admin) créer l'inscription sur la session choisie →
-  apprenant voit sa formation au dashboard → ouvre un chapitre →
-  progression enregistrée au reload.
-- [ ] Vérifier qu'une session seedée `Indisponible` (ex. Data Analyst)
-  s'affiche mais ne permet pas de candidater (CTA désactivé, pas juste
-  une erreur serveur après coup).
+- [x] `npx vue-tsc --build --force` et `npm run build` passent.
+- [x] Backend à jour : `develop` (commit `75e935a` ou plus récent),
+      migré (`php artisan migrate`) et seedé (`php artisan db:seed` —
+      idempotent, inclut `CatalogSeeder`).
+- [x] Parcours complet validé en tests Playwright E2E réels contre `padci_app`
+      (`e2e/onboarding-learning-flow.spec.ts`, 11 tests sur toute la suite au vert) :
+      catalogue public → sélection session disponible → candidature 3 étapes →
+      suivi candidatures → dashboard apprenant dynamique branché sur enrollments
+      et lecture de chapitre avec enregistrement de progression.

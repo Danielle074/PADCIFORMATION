@@ -83,10 +83,34 @@ const router = createRouter({
       component: () => import('@/features/public/views/ConnectivityCheck.vue'),
     },
 
+    // ==================== CATALOGUE PUBLIC (ADR-012) ====================
+    {
+      path: '/catalogue',
+      name: 'catalogue',
+      component: () => import('@/features/catalog/views/CatalogView.vue'),
+    },
+    {
+      path: '/catalogue/:key',
+      name: 'catalogue-pathway',
+      component: () => import('@/features/catalog/views/PathwayDetailView.vue'),
+    },
+
+    // ==================== CANDIDATURES (ADR-012) ====================
+    {
+      path: '/candidature',
+      name: 'candidature',
+      component: () => import('@/features/admissions/views/CandidatureView.vue'),
+      meta: { requiresAuth: true, roles: ['apprenant'] },
+    },
+    {
+      path: '/mes-candidatures',
+      name: 'mes-candidatures',
+      component: () => import('@/features/admissions/views/MesCandidaturesView.vue'),
+      meta: { requiresAuth: true, roles: ['apprenant'] },
+    },
+
     // TODO(learning): /formation, /education-routiere, /cours are
-    // standalone pages with no sidebar layout today — same status as
-    // before this reorg, not resolved here. Likely belong under a public
-    // catalog feature once the real catalog is wired to the API.
+    // standalone pages with no sidebar layout today.
     {
       path: '/formation',
       name: 'formation',
@@ -103,49 +127,38 @@ const router = createRouter({
       component: () => import('@/features/learning/views/Cours.vue'),
     },
 
-    // ==================== APPRENANT (learning feature) ====================
+    // ==================== APPRENANT (learning feature dynamique) ====================
     {
       path: '/formations',
-      component: () => import('@/features/learning/layouts/DefaultLayout.vue'),
+      component: () => import('@/features/learning/layouts/LearnerLayout.vue'),
       meta: { requiresAuth: true, roles: ['apprenant'] },
       children: [
-        { path: 'modules1', name: 'modules1', component: () => import('@/features/learning/views/Modules1.vue') },
-        { path: 'dashboard', name: 'dashboard', component: () => import('@/features/learning/views/Dashboard.vue') },
-        { path: 'chapitre2', name: 'chapitre2', component: () => import('@/features/learning/views/Chapitre2.vue') },
-        { path: 'chapitre3', name: 'chapitre3', component: () => import('@/features/learning/views/Chapitre3.vue') },
-        { path: 'chapitre4', name: 'chapitre4', component: () => import('@/features/learning/views/Chapitre4.vue') },
-        { path: 'chapitre5', name: 'chapitre5', component: () => import('@/features/learning/views/Chapitre5.vue') },
-        { path: 'chapitre6', name: 'chapitre6', component: () => import('@/features/learning/views/Chapitre6.vue') },
-        { path: 'chapitre7', name: 'chapitre7', component: () => import('@/features/learning/views/Chapitre7.vue') },
-        { path: 'exercices', name: 'exercices', component: () => import('@/features/learning/views/Exercices.vue') },
-        { path: 'evaluations', name: 'evaluations', component: () => import('@/features/learning/views/Evaluations.vue') },
-        { path: '/profil', name: 'profil-apprenant', component: () => import('@/features/profile/views/ProfilApprenants.vue') },
-        { path: '/parametres', name: 'parametres-apprenant', component: () => import('@/features/profile/views/ParametresApprenant.vue') },
-      ],
-    },
-
-    // TODO(learning): this is one hardcoded example course ("réseau"/CCNA),
-    // duplicating the generic /formations pages above instead of the
-    // generic dashboard rendering whatever course the learner is actually
-    // enrolled in. Left as-is structurally (just relocated) — fixing the
-    // duplication is API-wiring work (Phase 5), not this reorg.
-    {
-      path: '/formations/network',
-      component: () => import('@/features/learning/layouts/DefaultLayoutNetworkSpecialist.vue'),
-      redirect: '/formations/network/dashboard',
-      meta: { requiresAuth: true, roles: ['apprenant'] },
-      children: [
-        { path: 'dashboard', name: 'network-dashboard', component: () => import('@/features/learning/views/network/NetworkDashboard.vue') },
-        { path: 'introduction', name: 'network-introduction', component: () => import('@/features/learning/views/network/Introduction.vue') },
-        { path: 'chapitre1', name: 'network-chapitre1', component: () => import('@/features/learning/views/network/NetworkChapitre1.vue') },
-        { path: 'chapitre2', name: 'network-chapitre2', component: () => import('@/features/learning/views/network/NetworkChapitre2.vue') },
-        { path: 'chapitre3', name: 'network-chapitre3', component: () => import('@/features/learning/views/network/NetworkChapitre3.vue') },
-        { path: 'chapitre4', name: 'network-chapitre4', component: () => import('@/features/learning/views/network/NetworkChapitre4.vue') },
-        { path: 'chapitre5', name: 'network-chapitre5', component: () => import('@/features/learning/views/network/NetworkChapitre5.vue') },
-        { path: 'chapitre6', name: 'network-chapitre6', component: () => import('@/features/learning/views/network/NetworkChapitre6.vue') },
-        { path: 'tp', name: 'network-tp', component: () => import('@/features/learning/views/network/NetworkTp.vue') },
-        { path: 'examen', name: 'network-examen', component: () => import('@/features/learning/views/network/NetworkExamen.vue') },
-        { path: 'annexes', name: 'network-annexes', component: () => import('@/features/learning/views/network/Annexes.vue') },
+        { path: '', redirect: '/formations/dashboard' },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/features/learning/views/LearnerDashboard.vue'),
+        },
+        {
+          path: ':courseKey',
+          name: 'course-overview',
+          component: () => import('@/features/learning/views/CourseOverview.vue'),
+        },
+        {
+          path: ':courseKey/chapitres/:chapterKey',
+          name: 'chapter-viewer',
+          component: () => import('@/features/learning/views/ChapterViewer.vue'),
+        },
+        {
+          path: '/profil',
+          name: 'profil-apprenant',
+          component: () => import('@/features/profile/views/ProfilApprenants.vue'),
+        },
+        {
+          path: '/parametres',
+          name: 'parametres-apprenant',
+          component: () => import('@/features/profile/views/ParametresApprenant.vue'),
+        },
       ],
     },
 
@@ -156,11 +169,31 @@ const router = createRouter({
       redirect: '/admin/dashboard',
       meta: { requiresAuth: true, roles: ['admin', 'super_admin'] },
       children: [
-        { path: 'dashboard', name: 'admin-dashboard', component: () => import('@/features/admin/views/AdminDashboard.vue') },
-        { path: 'candidatures', name: 'admin-candidatures', component: () => import('@/features/admin/views/AdminCandidatures.vue') },
-        { path: 'cohortes', name: 'admin-cohortes', component: () => import('@/features/admin/views/AdminCohortes.vue') },
-        { path: 'rapports', name: 'admin-rapports', component: () => import('@/features/admin/views/AdminRapports.vue') },
-        { path: 'parametres', name: 'admin-parametres', component: () => import('@/features/admin/views/AdminParametres.vue') },
+        {
+          path: 'dashboard',
+          name: 'admin-dashboard',
+          component: () => import('@/features/admin/views/AdminDashboard.vue'),
+        },
+        {
+          path: 'candidatures',
+          name: 'admin-candidatures',
+          component: () => import('@/features/admin/views/AdminCandidatures.vue'),
+        },
+        {
+          path: 'cohortes',
+          name: 'admin-cohortes',
+          component: () => import('@/features/admin/views/AdminCohortes.vue'),
+        },
+        {
+          path: 'rapports',
+          name: 'admin-rapports',
+          component: () => import('@/features/admin/views/AdminRapports.vue'),
+        },
+        {
+          path: 'parametres',
+          name: 'admin-parametres',
+          component: () => import('@/features/admin/views/AdminParametres.vue'),
+        },
       ],
     },
 
@@ -171,12 +204,36 @@ const router = createRouter({
       redirect: '/superadmin/dashboard',
       meta: { requiresAuth: true, roles: ['super_admin'] },
       children: [
-        { path: 'dashboard', name: 'superadmin-dashboard', component: () => import('@/features/superadmin/views/SuperAdminDashboard.vue') },
-        { path: 'finance', name: 'superadmin-finance', component: () => import('@/features/superadmin/views/SuperAdminFinance.vue') },
-        { path: 'ano', name: 'superadmin-ano', component: () => import('@/features/superadmin/views/SuperAdminAno.vue') },
-        { path: 'cohortes', name: 'superadmin-cohortes', component: () => import('@/features/superadmin/views/SuperAdminCohortes.vue') },
-        { path: 'rapports', name: 'superadmin-rapports', component: () => import('@/features/superadmin/views/SuperAdminRapports.vue') },
-        { path: 'utilisateurs', name: 'superadmin-utilisateurs', component: () => import('@/features/superadmin/views/SuperAdminUtilisateurs.vue') },
+        {
+          path: 'dashboard',
+          name: 'superadmin-dashboard',
+          component: () => import('@/features/superadmin/views/SuperAdminDashboard.vue'),
+        },
+        {
+          path: 'finance',
+          name: 'superadmin-finance',
+          component: () => import('@/features/superadmin/views/SuperAdminFinance.vue'),
+        },
+        {
+          path: 'ano',
+          name: 'superadmin-ano',
+          component: () => import('@/features/superadmin/views/SuperAdminAno.vue'),
+        },
+        {
+          path: 'cohortes',
+          name: 'superadmin-cohortes',
+          component: () => import('@/features/superadmin/views/SuperAdminCohortes.vue'),
+        },
+        {
+          path: 'rapports',
+          name: 'superadmin-rapports',
+          component: () => import('@/features/superadmin/views/SuperAdminRapports.vue'),
+        },
+        {
+          path: 'utilisateurs',
+          name: 'superadmin-utilisateurs',
+          component: () => import('@/features/superadmin/views/SuperAdminUtilisateurs.vue'),
+        },
       ],
     },
 
