@@ -27,14 +27,14 @@ cohérence visuelle, données en dur — ne l'est pas.
    les soumissions de formulaire factices restantes.
 4. **`04-structure-cleanup.md`** — décisions produit en attente (rôle de
    certaines pages, doublon de contenu).
-5. **`05-onboarding-catalog-and-learning-flow.md`** — **proposition, pas
-   encore une checklist à exécuter** : refonte du parcours
-   inscription → catalogue → candidature → apprentissage, et
+5. **`05-onboarding-catalog-and-learning-flow.md`** — refonte du parcours
+   inscription → choix de session → candidature → apprentissage, et
    suppression du pattern "un layout par catégorie"
    (`NetworkSpecialistLayout`) au profit d'un layout unique piloté par
-   les données réelles de l'API Learning. Contient une décision produit
-   bloquante en tête de fichier (visibilité des sessions/cohortes) à
-   trancher avant toute implémentation.
+   les données réelles de l'API Learning. Le backend a été étendu pour
+   le supporter (ADR-012 côté PADCI-API, `develop` à jour) : le candidat
+   choisit désormais une session réelle à la candidature, et les 5
+   filières sont seedées avec leurs vraies dates.
 
 ## Règles pour l'agent qui exécute ces tâches
 

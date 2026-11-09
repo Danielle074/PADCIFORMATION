@@ -1,9 +1,9 @@
 # 05 — Flow optimisé : inscription → catalogue → candidature → apprentissage
 
-> Document de proposition. **Ne pas implémenter avant validation du
-> mainteneur** — section "Décision requise" en premier, elle bloque tout
-> le reste. Une fois validé, ce fichier devient une checklist comme les
-> fichiers 01-04.
+> Décision prise (2026-11-09, voir `PADCI-API/docs/architecture/adr/ADR-012-cohort-selection-and-equipment.md`,
+> commit `75e935a` sur `develop`) : le backend a été étendu plutôt que
+> contourné côté frontend. Ce fichier est maintenant une checklist comme
+> les fichiers 01-04 — à donner à un agent pour implémenter le frontend.
 
 ## Pourquoi le flow actuel à 5 étapes n'est pas optimal
 
@@ -32,56 +32,36 @@ Trois problèmes de fond, pas de détail :
    décoratives, dégradé, logo) — pas de notion d'étape réellement légère ;
    5 écrans lourds au lieu d'un parcours court.
 
-## Décision requise avant toute implémentation
+## Ce qui a changé côté backend (ADR-012) — à utiliser tel quel
 
-**Il n'existe aujourd'hui aucun endpoint public ou apprenant pour lister
-les cohortes (sessions) d'une filière avec leurs dates et leur
-disponibilité.** Vérifié dans
-`PADCI-API/app/Modules/Cohort/Routes/api.php` : la seule route de liste
-(`GET /admin/cohorts`) est derrière `can:cohorts.view` (admin/super_admin).
-Le tableau donné en exemple —
+Le candidat **voit et choisit sa session** à la candidature — ni "flow à
+l'aveugle" (option A envisagée initialement), ni visibilité sans choix
+(option B envisagée initialement) : le backend a été étendu pour que ça
+marche vraiment, exactement comme le tableau d'exemple le montrait (une
+seule session "Disponible" à la fois parmi plusieurs déjà planifiées).
 
-```
-Cyber Sécurité    1    01/04/2026    30/06/2026    Disponible
-Data Analyst      2    15/07/2026    30/09/2026    Indisponible
-...
-```
-
-— correspond exactement aux colonnes du modèle `Cohort`
-(`pathway`, `code`, `starts_at`, `ends_at`, `status` — voir
-`PADCI-API/app/Modules/Cohort/Models/Cohort.php`,
-`CohortResource.php`), mais **ce modèle n'est visible par personne
-d'autre qu'un admin aujourd'hui.** De plus, `EnrollmentWorkflow::enroll()`
-(`PADCI-API/app/Modules/Cohort/Services/EnrollmentWorkflow.php`) n'est
-appelé que depuis `POST /admin/enrollments` — **le candidat ne
-s'inscrit jamais lui-même à une cohorte**, c'est toujours un admin qui le
-fait après avoir accepté sa candidature. C'est cohérent avec le
-positionnement "centre de formation" du SRS (pas une marketplace en
-self-service), mais ça contredit "l'apprenant choisit sa session".
-
-Deux options, à trancher avant de continuer — **aucune des deux ne doit
-être choisie silencieusement par l'agent qui implémente** :
-
-- **Option A — rester fidèle au backend actuel.** Le candidat voit la
-  filière et son descriptif (catalogue public, existant), candidate sans
-  voir ni choisir de session précise. Une fois sa candidature acceptée,
-  **un admin l'affecte à une cohorte** (déjà possible aujourd'hui, aucun
-  endpoint à ajouter) ; le candidat découvre sa session (dates) seulement
-  à ce moment, via `GET /enrollments`. C'est l'option "zéro travail
-  backend".
-- **Option B — ajouter la visibilité des sessions.** Nouvel endpoint
-  public (ou apprenant-connecté) qui expose les cohortes d'une filière
-  avec disponibilité calculée (`status.acceptsEnrollments() &&
-  enrollments_count < capacity`), **sans** permettre au candidat de choisir
-  laquelle — l'affectation reste admin. Exige un brief backend
-  contract-first (nouveau endpoint, nouvelle Resource publique qui ne
-  fuite pas les champs admin de `Cohort`) + revue, avant tout travail
-  frontend sur cet écran précis.
-
-La suite de ce document est écrite pour fonctionner avec les **deux**
-options (le tableau de sessions est optionnel/affiché "si disponible" en
-option A, affiché systématiquement en option B) — mais la case à cocher
-"afficher les sessions" ne doit être commencée qu'après ce choix.
+- `GET /catalog/pathways/{key}/cohorts` (public, nouveau) — sessions
+  d'une filière, triées par date de début :
+  `{id, key, code, name, session, starts_at, ends_at, available}`.
+  `available` est calculé côté backend (`CohortAvailability`) ; ne jamais
+  le recalculer côté front à partir du statut brut.
+- `POST /applications` prend maintenant `cohort_key` en plus de
+  `pathway_key` (requis) : `{pathway_key, cohort_key, motivation, payload}`.
+  Le backend refuse si la cohorte n'appartient pas à la filière, ou si
+  elle n'est plus `available` (code erreur `cohort_closed` /
+  `cohort_outside_pathway`, voir `lang/fr/admissions.php`).
+- `GET /applications` et `GET /applications/{key}` renvoient maintenant
+  un objet `cohort` (code, dates) en plus de `pathway`.
+- `GET /catalog/pathways/{key}` renvoie maintenant `equipment_requirements`
+  (`{min_cpu, min_ram_gb, min_storage_gb, notes}`) — c'est la donnée
+  réelle à afficher à la place du texte codé en dur "Configuration
+  minimale requise : Core i5 · 8 Go de RAM · 256 Go" de l'étape 4
+  actuelle.
+- Les 5 filières réelles (Cyber Sécurité, Data Analyst, IT Support,
+  Network Specialist, Artificial Intelligence) sont seedées avec leur
+  session (`database/seeders/CatalogSeeder.php`, tourne dans tous les
+  environnements) — données déjà en base dès que le backend est
+  migré/seedé, rien à inventer côté front pour tester.
 
 ## Flow proposé
 
@@ -93,24 +73,33 @@ option A, affiché systématiquement en option B) — mais la case à cocher
 2. Création de compte (court — voir 01-auth-flow-completion.md, ne pas redévelopper)
    nom + email + mot de passe → vérification email → connexion
 
-3. Candidature (apprenant connecté, sur la filière choisie en étape 1)
-   Formulaire COURT : motivation (texte libre) + bloc "équipement"
-   (possède un ordinateur ? processeur/RAM/stockage + photo) sérialisé
-   dans `payload`. PAS de diplôme/pièce d'identité tant que le besoin
-   métier réel n'est pas reconfirmé (voir "Ce qui reste ouvert" plus bas).
-        POST /applications { pathway_key, motivation, payload }
+3. Choix de la session (apprenant connecté, sur la filière choisie en étape 1)
+   Liste des sessions de la filière avec dates et disponibilité — une
+   seule cliquable ("Disponible"), les autres affichées mais désactivées
+   ("Indisponible — ouverture à venir").
+        GET /catalog/pathways/{key}/cohorts
 
-4. Suivi de candidature (apprenant)
+4. Candidature (sur la session choisie)
+   Formulaire COURT : motivation (texte libre) + bloc "équipement"
+   (possède un ordinateur ? processeur/RAM/stockage + photo), comparé à
+   `equipment_requirements` de la filière, sérialisé dans `payload`. PAS
+   de diplôme/pièce d'identité tant que le besoin métier réel n'est pas
+   reconfirmé (voir "Ce qui reste ouvert" plus bas).
+        POST /applications { pathway_key, cohort_key, motivation, payload }
+
+5. Suivi de candidature (apprenant)
    Page "Mes candidatures" : statut en temps réel (soumise / en revue /
    acceptée / liste d'attente / rejetée). Notification déjà existante
    côté backend sur la décision (ApplicationDecided, module Communication)
    — vérifier si un canal in-app (pas seulement email) est voulu.
         GET /applications, GET /applications/{key}
 
-5. Affectation (admin, hors scope frontend apprenant)
-   Déjà existant : POST /admin/enrollments après décision positive.
+6. Affectation (admin, hors scope frontend apprenant)
+   Déjà existant : POST /admin/enrollments après décision positive —
+   l'admin y retrouve la session déjà choisie par le candidat sur sa
+   candidature (`application.cohort`), il n'a plus à la redeviner.
 
-6. Apprentissage (apprenant, dès qu'un Enrollment existe)
+7. Apprentissage (apprenant, dès qu'un Enrollment existe)
    Dashboard listant les formations réellement suivies (pas une formation
    figée en dur) → vue d'ensemble d'UNE formation (outline, progression,
    reprise) → lecture d'UN chapitre (contenu, ressources, progression
@@ -170,8 +159,14 @@ RAM / stockage + photo"). Il correspond exactement au commentaire du
 champ `payload` de `StoreApplicationRequest`
 (`PADCI-API/app/Modules/Admissions/Http/Requests/StoreApplicationRequest.php`) :
 *"Free-form context (equipment, availability, prerequisites...)"*. Pas
-besoin d'un champ backend dédié — **c'est déjà prévu pour ça**.
+besoin d'un champ backend dédié pour ce que le candidat déclare — mais le
+**minimum requis à afficher** n'est plus un texte codé en dur : il vient
+de `pathway.equipment_requirements` (ADR-012, déjà seedé à
+`{min_cpu: "Core i5", min_ram_gb: 8, min_storage_gb: 256}` pour les 5
+filières).
 
+- [ ] Afficher le minimum requis depuis `pathway.equipment_requirements`
+  (étape "configuration minimale requise"), pas en dur dans le template.
 - [ ] La photo de l'ordinateur passe par le module Media existant
   (`POST /media`, puis référencer la `key` retournée dans `payload`) —
   jamais un fichier encodé en base64 dans le JSON de la candidature.
@@ -193,13 +188,16 @@ besoin d'un champ backend dédié — **c'est déjà prévu pour ça**.
 ## UI/UX — repères "LMS moderne"
 
 - **Catalogue** : grille de cartes (une par filière), pas un tableau brut
-  — image/icône, nom, nombre de formations (`pathways_count` déjà exposé
-  par `PathwayResource`), badge de statut si option B retenue. Composants
-  shadcn déjà installés : `Card`, `Badge`.
+  — image/icône, nom, nombre de formations (`courses_count` déjà exposé
+  par `PathwayResource`). Composants shadcn déjà installés : `Card`, `Badge`.
 - **Fiche filière** : description, liste des formations publiées de la
-  filière (`GET /catalog/courses?pathway_key=...`), CTA "Candidater"
-  (redirige vers connexion si non connecté, avec retour automatique —
-  pattern déjà en place dans `router/index.ts`, `query.redirect`).
+  filière (`GET /catalog/courses?pathway_key=...`), **liste des sessions**
+  (`GET /catalog/pathways/{key}/cohorts`) avec un badge `Badge` par
+  session (`available` → vert "Disponible", sinon gris "Indisponible" +
+  date d'ouverture si connue), CTA "Candidater" actif seulement sur une
+  session `available` (redirige vers connexion si non connecté, avec
+  retour automatique — pattern déjà en place dans `router/index.ts`,
+  `query.redirect`).
 - **Suivi de candidature** : statut visuel clair (`Badge` shadcn,
   couleur par statut), pas un texte brut.
 - **Dashboard apprenant** : cartes "formation en cours" avec barre de
@@ -216,18 +214,22 @@ besoin d'un champ backend dédié — **c'est déjà prévu pour ça**.
   pièce d'identité (champs actuels de l'étape 1-2) ? Si oui, même
   traitement que l'équipement : upload via Media, référence dans
   `payload` — pas de nouveau champ backend sans brief.
-- [ ] Une candidature vise-t-elle une filière (comme aujourd'hui,
-  `pathway_key`) ou une formation précise (`course`) ? Le contrat actuel
-  ne prend que `pathway_key`.
 - [ ] Notification in-app (pas seulement email) sur décision de
   candidature — existe déjà côté événements backend
   (`ApplicationDecided`), pas encore de canal in-app frontend.
 
 ## Validation avant de cocher quoi que ce soit
 
-- [ ] Décision "Option A / Option B" actée et écrite dans le commit.
 - [ ] `npx vue-tsc --build --force` et `npm run build` passent.
+- [ ] Backend à jour : `develop` (commit `75e935a` ou plus récent),
+  migré (`php artisan migrate`) et seedé (`php artisan db:seed` —
+  idempotent, inclut `CatalogSeeder`).
 - [ ] Parcours manuel complet contre le backend dockerisé : créer un
-  compte → candidater à une filière → (admin) accepter la candidature →
-  (admin) créer l'inscription → apprenant voit sa formation au dashboard
-  → ouvre un chapitre → progression enregistrée au reload.
+  compte → ouvrir la filière "Cyber Sécurité" (seule session seedée
+  `Disponible`) → choisir sa session → candidater → (admin) accepter la
+  candidature → (admin) créer l'inscription sur la session choisie →
+  apprenant voit sa formation au dashboard → ouvre un chapitre →
+  progression enregistrée au reload.
+- [ ] Vérifier qu'une session seedée `Indisponible` (ex. Data Analyst)
+  s'affiche mais ne permet pas de candidater (CTA désactivé, pas juste
+  une erreur serveur après coup).
