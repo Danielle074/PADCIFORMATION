@@ -59,7 +59,7 @@
               </svg>
             </span>
             <input
-              v-model="password"
+              v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
               required
               placeholder="Nouveau mot de passe"
@@ -88,12 +88,12 @@
               </svg>
             </span>
             <input
-              v-model="confirmPassword"
+              v-model="form.passwordConfirmation"
               :type="showConfirmPassword ? 'text' : 'password'"
               required
               placeholder="Confirmer le mot de passe"
               class="w-full pl-12 pr-12 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400 focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
-              :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500/15': errorMessage }"
+              :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500/15': mismatch }"
             />
             <button
               type="button"
@@ -119,7 +119,7 @@
           <!-- Bouton Soumettre -->
           <button
             type="submit"
-            :disabled="isLoading"
+            :disabled="isPending""
             class="group w-full inline-flex items-center justify-center gap-2
                    bg-gradient-to-r from-[#198341] to-[#22a854]
                    hover:from-[#146b34] hover:to-[#198341]
@@ -128,14 +128,14 @@
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
                    disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            <svg v-if="isLoading" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+            <svg v-if="isPending" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span v-if="!isLoading">Réinitialiser le mot de passe</span>
+            <span v-if="!isPending">Réinitialiser le mot de passe</span>
             <span v-else>Enregistrement...</span>
 
-            <svg v-if="!isLoading" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg v-if="!isPending" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
           </button>
@@ -212,51 +212,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { ApiError } from '@/api/http'
 import formLogo from "@/assets/images/logoemsp.png"
 import loginImage from "@/assets/images/photodecybersecurite.jpg"
+import { useResetPassword } from '../composables/useResetPassword'
 
-// États des champs
-const password = ref('')
-const confirmPassword = ref('')
+const route = useRoute()
+
+const reset = useResetPassword()
+
+// Le lien de l'email pointe ici avec ?token=…&email=… (voir
+// ResetPasswordNotification côté backend) : les deux paramètres pré-remplissent
+// le formulaire. `email` reste éditable, le jeton est caché mais requis.
+const token = ref(typeof route.query.token === 'string' ? route.query.token : '')
+const form = reactive({
+  email: typeof route.query.email === 'string' ? route.query.email : '',
+  password: '',
+  passwordConfirmation: '',
+})
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 
-// États UI
-const isLoading = ref(false)
-const isSuccess = ref(false)
+// Validation en temps réel : si les deux champs sont remplis et ne correspondent pas
+const mismatch = computed(() => {
+  return form.passwordConfirmation.length > 0 && form.password !== form.passwordConfirmation
+})
 const errorMessage = ref('')
 
-// Validation en temps réel : si les deux champs sont remplis et ne correspondent pas
-watch([password, confirmPassword], () => {
-  if (confirmPassword.value && password.value !== confirmPassword.value) {
-    errorMessage.value = "Les mots de passe ne correspondent pas."
-  } else {
-    errorMessage.value = ""
-  }
-})
+const isPending = computed(() => reset.isPending.value)
+const isSuccess = computed(() => reset.isSuccess.value)
 
-// Fonction de soumission
-const handleSubmit = () => {
-  // Sécurité de base
-  if (password.value.length < 8) {
-    errorMessage.value = "Le mot de passe doit contenir au moins 8 caractères."
+const handleSubmit = async () => {
+  errorMessage.value = ''
+
+  if (form.password.length < 8) {
+    errorMessage.value = 'Le mot de passe doit contenir au moins 8 caractères.'
     return
   }
 
-  if (password.value !== confirmPassword.value) {
-    errorMessage.value = "Les mots de passe ne correspondent pas."
+  if (mismatch.value) {
+    errorMessage.value = 'Les mots de passe ne correspondent pas.'
     return
   }
 
-  isLoading.value = true
-  errorMessage.value = ""
+  if (!token.value) {
+    errorMessage.value =
+      'Jeton de réinitialisation manquant dans le lien. Redemandez un e-mail de réinitialisation.'
+    return
+  }
 
-  // Simulation d'un appel API (à remplacer par ton vrai backend)
-  setTimeout(() => {
-    isLoading.value = false
-    isSuccess.value = true
-  }, 1500)
+  try {
+    await reset.mutateAsync({
+      email: form.email,
+      token: token.value,
+      password: form.password,
+      password_confirmation: form.passwordConfirmation,
+    })
+  } catch (error) {
+    errorMessage.value =
+      error instanceof ApiError
+        ? error.message
+        : 'Une erreur est survenue.'
+  }
 }
 </script>
 

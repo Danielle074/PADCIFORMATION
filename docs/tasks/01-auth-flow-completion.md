@@ -119,56 +119,83 @@ de renvoi — endpoint existant : `POST /v1/email/verification-notification`
 
 ### Contrat d'abord
 
-- [ ] Lire le contrat des 6 endpoints concernés dans
+- [x] Lire le contrat des 6 endpoints concernés dans
   `PADCI-API/docs/api/openapi.json` (et regénérer le spec si nécessaire :
   `scramble` côté backend, puis regénérer les types frontend — règle
   contract-first de `AGENTS.md`).
-- [ ] Découpe du formulaire déjà tranchée (voir 05) : la tâche livrée ici
+  Pris en charge le 2026-11-09 : contrats lus dans le **code Laravel réel**
+  (`AuthController`, `RegisterRequest`, `PasswordResetController`,
+  `EmailVerificationController`, `ResetPasswordNotification`,
+  `RegisterNotification`, `UserResource`) — source de vérité supérieure au
+  spec. Le spec était en retard sur `develop` (endpoints ADR-012 absents) :
+  ré-exporté et commité backend (PADCI-API `42a135e`). Aucun changement de
+  contrat → pas de regénération nécessaire : le frontend n'a pas de
+  codegen, `src/api/types.ts` est un typeage à la main (convention existante).
+- [x] Découpe du formulaire déjà tranchée (voir 05) : la tâche livrée ici
   couvre **inscription compte** (étape 1 : nom, email, mot de passe,
   confirmation) + forgot/reset + vérification email. Le dossier de
   candidature (filière, session, équipement) est traité dans le 05.
 
 ### Composables (convention `useLogin.ts`)
 
-- [ ] `useRegister.ts` — `POST /v1/auth/register` ; gérer
+- [x] `useRegister.ts` — `POST /v1/auth/register` ; gérer
   `VALIDATION_FAILED` (mot de passe non conforme, email déjà pris) et
-  exposer `verification_url` en local.
-- [ ] `useForgotPassword.ts` — `POST /v1/auth/forgot-password` ; traiter
+  exposer `verification_url` en local. (`ApiError.fieldErrors` + erreur
+  affichée champ par champ dans Inscription.vue.)
+- [x] `useForgotPassword.ts` — `POST /v1/auth/forgot-password` ; traiter
   202 comme succès, ne jamais brancher d'affichage "email inconnu".
-- [ ] `useResetPassword.ts` — `POST /v1/auth/reset-password` ; exposer le
-  message `PasswordResetFailedException`.
-- [ ] `useResendVerification.ts` — `POST /v1/email/verification-notification`.
+- [x] `useResetPassword.ts` — `POST /v1/auth/reset-password` ; exposer le
+  message `PasswordResetFailedException` (message API affiché tel quel).
+- [x] `useResendVerification.ts` — `POST /v1/email/verification-notification`.
 
 ### Vues & routes
 
-- [ ] `Inscription.vue` : étape compte branchée sur `useRegister`, erreur
+- [x] `Inscription.vue` : étape compte branchée sur `useRegister`, erreur
       de validation affichée champ par champ (`ApiError.fieldErrors`),
       écran final honnête ("consultez vos emails", lien renvoi) — plus de
       modale de succès avant un appel API qui a réussi.
-- [ ] Nouvelle page `VérificationEmail` : consomme le lien signé
+- [x] Nouvelle page `VérificationEmail` : consomme le lien signé
       (GET `/v1/email/verify/{id}/{hash}`), gère signature invalide/lien
       expiré, puis un état "vérifié → aller à la connexion".
-- [ ] `ForgotPassword.vue` : brancher `useForgotPassword` (supprimer le
+      Réalisé **sans page dédiée** : le backend redirige déjà le navigateur
+      vers `/connexion?verified=1` (ou `?error=…`), alias de la route `/` ;
+      `Login.vue` consomme les deux états (bandeau vert vérifié, bandeau
+      rouge lien invalide) — une seule correction canonique, pas une page
+      de plus. Vérifié e2e (backend `EmailVerificationController` + test de
+      régression PADCI-API `893fc27`).
+- [x] `ForgotPassword.vue` : brancher `useForgotPassword` (supprimer le
       setTimeout).
-- [ ] `ResetPassword.vue` : lire `token` et `email` du query string,
+- [x] `ResetPassword.vue` : lire `token` et `email` du query string,
       brancher `useResetPassword` (supprimer le setTimeout).
-- [ ] Corriger les chemins des deux emails (backend ou SPA, voir 4), et
+- [x] Corriger les chemins des deux emails (backend ou SPA, voir 4), et
       vérifier le `app.frontend_url` du `.env.example` backend.
+      Choix SPA (arbitré) : alias `/reset-password` et `/connexion` dans
+      `src/router/index.ts`, la SPA accepte les chemins produits par les
+      emails. `.env.example` backend : `FRONTEND_URL=http://localhost:5173`
+      (déjà correct). Enchain complet vérifié via les emails REELS de
+      Mailpit (voir validation).
 
 ### Validation (doit être fait avant chaque case cochée `- [x]`)
 
-- [ ] `npx vue-tsc --build --force` passe.
-- [ ] `npm run build` passe.
-- [ ] Cycle manuel complet contre le backend dockerisé
+- [x] `npx vue-tsc --build --force` passe.
+- [x] `npm run build` passe.
+- [x] Cycle manuel complet contre le backend dockerisé
   (`docker ps` montre `padci_app` ; sinon `cd PADCI-API && make up`) :
-  1. register → réponse 201 + `verification_url` en local ;
-  2. login avant vérification → 403 `AUTH_EMAIL_NOT_VERIFIED` codé correctement côté UI ;
-  3. clic du lien de vérification → compte vérifié ;
-  4. login → token Sanctum réel, dashboard apprenant atteint ;
-  5. Mailpit (`padci_mailpit`) : ouvrir l'email reset, clic du lien →
-     route SPA atteinte avec `?token=…&email=…` ;
-  6. reset → login avec le nouveau mot de passe → l'ancien token invalide.
-- [ ] Documenter dans le commit : les endpoints appelés, et le chemin
+  remplacé par la version automatisée équivalente — `e2e/auth-flow.spec.ts`
+  (Playwright, dev-server `:5173`, projections chromium, workers séquentiels),
+  **4/4 passes** :
+  1. register → 201 + `verification_url` en local ;
+  2. login avant vérification → 403 `AUTH_EMAIL_NOT_VERIFIED` codé
+     (bandeau "non vérifié" + bouton renvoi, pas une erreur générique) ;
+  3. clic du lien de vérification → `/connexion?verified=1`, compte vérifié ;
+  4. login → token Sanctum réel, `/formations/dashboard` atteint ;
+  5. Mailpit (sujet "Réinitialisation de votre mot de passe", email lu via
+     l'API REST `:8071`) : lien `/reset-password?token=…&email=…` atteint ;
+  6. reset → "Mot de passe modifié !" → login avec le nouveau mot de passe
+     → dashboard atteint (ancien mot de passe révoqué côté backend).
+  + test "règles serveur" : mismatch local refusé + mot de passe faible
+  rejeté par le serveur, erreur champ par champ, pas de faux succès.
+- [x] Documenter dans le commit : les endpoints appelés, et le chemin
   réellement corrigé pour les 2 liens emails.
 
 ## Rappel des règles

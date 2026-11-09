@@ -35,6 +35,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
+      // `/connexion` est le chemin sur lequel le backend redirige le
+      // navigateur après consommation du lien de vérification d'email
+      // (EmailVerificationController : `/connexion?verified=1`). Alias, pas
+      // une seconde route : une seule page de connexion pour l'app.
+      alias: '/connexion',
       component: () => import('@/features/auth/views/Login.vue'),
     },
     {
@@ -43,8 +48,12 @@ const router = createRouter({
       component: () => import('@/features/auth/views/ForgotPassword.vue'),
     },
     {
+      // Chemin consommé par le lien de l'email de réinitialisation
+      // (?token=…&email=…, ResetPasswordNotification). Alias de la route
+      // canonique française — un seul composant, deux chemins d'entrée.
       path: '/reinitialiser-mot-de-passe',
       name: 'reset-password',
+      alias: '/reset-password',
       component: () => import('@/features/auth/views/ResetPassword.vue'),
     },
     {

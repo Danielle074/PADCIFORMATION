@@ -18,12 +18,55 @@
         </div>
 
         <p
-          v-if="formError"
+          v-if="formError && !unverified"
           role="alert"
           class="mb-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3"
         >
           {{ formError }}
         </p>
+
+        <!-- Retour de vérification : l'API consomme le lien signé de l'email et
+             renvoie le navigateur ici avec ?verified=1
+             (EmailVerificationController côté backend) -->
+        <p
+          v-if="emailVerified"
+          class="mb-4 rounded-lg bg-green-50 border border-[#198341]/30 text-[#198341] text-sm px-4 py-3"
+        >
+          Adresse vérifiée ✓ — vous pouvez vous connecter.
+        </p>
+
+        <!-- Lien de vérification consommé mais invalide ou expiré
+             (EmailVerificationController::failure → /connexion?error=…).
+             Demander un nouveau lien, ne pas laisser croire à une
+             "mauvaise identification". -->
+        <p
+          v-if="verifyError"
+          class="mb-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3"
+        >
+          Lien de vérification invalide ou expiré. Identifiez-vous : vous pourrez
+          redemander un e-mail de vérification.
+        </p>
+
+        <!-- Compte existant mais email non vérifié : le 403
+             AUTH_EMAIL_NOT_VERIFIED de /auth/login est intercepté ici plutôt
+             qu'affiché comme une "mauvaise identification". -->
+        <div
+          v-if="unverified"
+          role="alert"
+          class="mb-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm px-4 py-3"
+        >
+          <p>Adresse email non vérifiée — consultez votre boîte mail.</p>
+          <button
+            v-if="!resendDone"
+            type="button"
+            :disabled="resendPending"
+            class="mt-2 font-medium text-[#198341] hover:underline disabled:opacity-60"
+            @click="resendLink"
+          >
+            {{ resendPending ? 'Envoi en cours…' : "Renvoyer l'e-mail de vérification" }}
+          </button>
+          <p v-else class="mt-1 font-medium text-[#198341]">E-mail de vérification renvoyé ✓</p>
+        </div>
 
         <!-- ================= ÉTAPE MOT DE PASSE ================= -->
         <form v-if="challengeToken === null" class="space-y-5" @submit.prevent="submitLogin">
@@ -211,6 +254,7 @@ import loginImage from "@/assets/images/photodecybersecurite.jpg"
 import { ApiError } from '@/api/http'
 import { useLogin } from '../composables/useLogin'
 import { useMfaChallenge } from '../composables/useMfaChallenge'
+import { useResendVerification } from '../composables/useResendVerification'
 
 const showPassword = ref(false)
 const togglePassword = () => {
@@ -226,6 +270,27 @@ const formError = ref<string | null>(null)
 
 const login = useLogin()
 const mfaChallenge = useMfaChallenge()
+const resendVerification = useResendVerification()
+
+// ?verified=1 : l'API de vérification d'email redirige ici après consommation
+// du lien signé (voir EmailVerificationController). ?error=… : lien expiré ou
+// signature invalide (`failure()`).
+const emailVerified = computed(() => route.query.verified === '1')
+const verifyError = computed(() => typeof route.query.error === 'string')
+
+// 403 AUTH_EMAIL_NOT_VERIFIED à la connexion : état dédié avec renvoi du lien.
+const unverified = ref(false)
+const resendPending = computed(() => resendVerification.isPending.value)
+const resendDone = ref(false)
+
+async function resendLink(): Promise<void> {
+  try {
+    await resendVerification.mutateAsync({ email: email.value })
+    resendDone.value = true
+  } catch (error) {
+    formError.value = error instanceof ApiError ? error.message : 'Une erreur est survenue.'
+  }
+}
 
 // Set once a 428 AUTH_MFA_REQUIRED comes back from useLogin — switches the
 // form to the "enter your 6-digit code" step instead of a second meaning
@@ -242,6 +307,7 @@ async function afterAuthenticated(): Promise<void> {
 
 async function submitLogin(): Promise<void> {
   formError.value = null
+  unverified.value = false
 
   try {
     await login.mutateAsync({ email: email.value, password: password.value })
@@ -249,6 +315,10 @@ async function submitLogin(): Promise<void> {
   } catch (error) {
     if (error instanceof ApiError && error.code === 'AUTH_MFA_REQUIRED') {
       challengeToken.value = error.details?.challenge_token as string
+      return
+    }
+    if (error instanceof ApiError && error.code === 'AUTH_EMAIL_NOT_VERIFIED') {
+      unverified.value = true
       return
     }
     formError.value = error instanceof ApiError ? error.message : 'Une erreur est survenue.'

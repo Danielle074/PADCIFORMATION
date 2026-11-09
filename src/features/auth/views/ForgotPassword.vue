@@ -69,7 +69,7 @@
           <!-- Bouton Soumettre -->
           <button
             type="submit"
-            :disabled="isLoading"
+            :disabled="isPending"
             class="group w-full inline-flex items-center justify-center gap-2
                    bg-gradient-to-r from-[#198341] to-[#22a854]
                    hover:from-[#146b34] hover:to-[#198341]
@@ -78,14 +78,14 @@
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
                    disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            <svg v-if="isLoading" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+            <svg v-if="isPending" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span v-if="!isLoading">Envoyer le lien</span>
+            <span v-if="!isPending">Envoyer le lien</span>
             <span v-else>Envoi en cours...</span>
 
-            <svg v-if="!isLoading" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg v-if="!isPending" class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
@@ -109,7 +109,8 @@
           </router-link>
 
           <button
-            @click="isSubmitted = false"
+            type="button"
+            @click="retry"
             class="w-full text-center text-sm text-gray-500 hover:text-[#198341] transition-colors"
           >
             Vous n'avez pas reçu l'email ? Réessayer
@@ -169,26 +170,35 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { ApiError } from '@/api/http'
 import formLogo from "@/assets/images/logoemsp.png"
 import loginImage from "@/assets/images/photodecybersecurite.jpg"
+import { useForgotPassword } from '../composables/useForgotPassword'
 
-// États du formulaire
 const email = ref('')
-const isLoading = ref(false)
-const isSubmitted = ref(false)
+const formError = ref<string | null>(null)
 
-// Fonction de soumission
-const handleSubmit = () => {
+const forgot = useForgotPassword()
+const isPending = computed(() => forgot.isPending.value)
+const isSubmitted = computed(() => forgot.isSuccess.value)
+
+const handleSubmit = async () => {
   if (!email.value) return
+  formError.value = null
 
-  isLoading.value = true
+  // Le backend répond 202 que l'adresse existe ou non — jamais de branche
+  // "email inconnu" à afficher (voir PasswordResetController::forgot).
+  try {
+    await forgot.mutateAsync({ email: email.value })
+  } catch (error) {
+    formError.value = error instanceof ApiError ? error.message : 'Une erreur est survenue.'
+  }
+}
 
-  // Simulation d'un appel API (à remplacer par ton vrai backend)
-  setTimeout(() => {
-    isLoading.value = false
-    isSubmitted.value = true
-  }, 1500) // 1.5 seconde de chargement
+/** Back to the form (the mutation state is reset, the email field is retained). */
+const retry = () => {
+  forgot.reset()
 }
 </script>
 
