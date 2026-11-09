@@ -6,12 +6,26 @@
       <div>
         <h1 class="text-2xl font-bold text-gray-800">Gestion des Cohortes</h1>
         <p class="text-sm text-gray-500 mt-1">
-          Suivi de la répartition des 200 formateurs par filière et de l'avancement des sessions.
+          Sessions par filière : effectifs, statut et dates.
         </p>
       </div>
     </div>
 
-    <!-- ================= RÉSUMÉ GLOBAL ================= -->
+    <!-- ================= FILTRES ================= -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+      <div class="flex flex-col md:flex-row gap-4">
+        <select v-model="filterPathwayKey" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]">
+          <option value="">Toutes les filières</option>
+          <option v-for="pathway in pathways" :key="pathway.key" :value="pathway.key">{{ pathway.name }}</option>
+        </select>
+        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[170px]">
+          <option value="">Tous les statuts</option>
+          <option v-for="status in statusOptions" :key="status.value" :value="status.value">{{ status.label }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ================= RÉSUMÉ GLOBAL (calculé depuis les cohortes réellement chargées) ================= -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
         <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -20,20 +34,20 @@
           </svg>
         </div>
         <div>
-          <p class="text-sm text-gray-500 font-medium">Total Formateurs</p>
-          <p class="text-2xl font-bold text-gray-800">200 <span class="text-sm text-gray-400 font-normal">/ 200</span></p>
+          <p class="text-sm text-gray-500 font-medium">Total inscrits</p>
+          <p class="text-2xl font-bold text-gray-800">{{ totalEnrolled }}</p>
         </div>
       </div>
 
       <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
         <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
           <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
         <div>
-          <p class="text-sm text-gray-500 font-medium">Objectif Parité (Femmes)</p>
-          <p class="text-2xl font-bold text-primary">36% <span class="text-sm text-gray-400 font-normal">(72 femmes)</span></p>
+          <p class="text-sm text-gray-500 font-medium">Sessions actives</p>
+          <p class="text-2xl font-bold text-primary">{{ activeCount }} <span class="text-sm text-gray-400 font-normal">/ {{ cohorts.length }}</span></p>
         </div>
       </div>
 
@@ -44,90 +58,70 @@
           </svg>
         </div>
         <div>
-          <p class="text-sm text-gray-500 font-medium">Formations Terminées</p>
-          <p class="text-2xl font-bold text-gray-800">2 <span class="text-sm text-gray-400 font-normal">/ 5 filières</span></p>
+          <p class="text-sm text-gray-500 font-medium">Sessions terminées</p>
+          <p class="text-2xl font-bold text-gray-800">{{ completedCount }} <span class="text-sm text-gray-400 font-normal">/ {{ cohorts.length }}</span></p>
         </div>
       </div>
     </div>
 
-    <!-- ================= CARTES DES COHORTES (5 FILIÈRES) ================= -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- ================= ÉTATS ================= -->
+    <div v-if="isPending" class="text-center text-gray-500 py-10">Chargement des cohortes…</div>
+    <div v-else-if="isError" class="text-center text-red-600 py-10">
+      {{ (error as ApiError)?.message ?? 'Impossible de charger les cohortes.' }}
+    </div>
+    <div v-else-if="cohorts.length === 0" class="text-center text-gray-500 py-10">
+      Aucune cohorte ne correspond à vos critères.
+    </div>
 
-      <!-- Boucle sur les filières -->
-      <div v-for="cohorte in cohortes" :key="cohorte.id" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition flex flex-col">
+    <!-- ================= CARTES DES COHORTES ================= -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="cohort in cohorts" :key="cohort.key" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition flex flex-col">
 
         <!-- En-tête de la carte -->
         <div class="p-5 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm shadow-sm">
-              C{{ cohorte.id }}
+            <div class="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
+              {{ cohort.code.slice(0, 4) }}
             </div>
             <div>
-              <h3 class="font-bold text-gray-800">{{ cohorte.nom }}</h3>
-              <p class="text-xs text-gray-500">Session {{ cohorte.session }}</p>
+              <h3 class="font-bold text-gray-800">{{ cohort.pathway?.name ?? '—' }}</h3>
+              <p class="text-xs text-gray-500">{{ cohort.session ?? cohort.code }}</p>
             </div>
           </div>
-          <!-- Badge statut -->
-          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-            :class="{
-              'bg-primary/10 text-primary': cohorte.statut === 'Terminé',
-              'bg-blue-100 text-blue-700': cohorte.statut === 'En cours',
-              'bg-gray-100 text-gray-500': cohorte.statut === 'À venir'
-            }">
-            {{ cohorte.statut }}
+          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0" :class="statusBadgeClass(cohort.status)">
+            {{ statusLabel(cohort.status) }}
           </span>
         </div>
 
-        <!-- Corps de la carte (Données) -->
+        <!-- Corps de la carte (Données réelles) -->
         <div class="p-5 flex-1 space-y-4">
-
-          <!-- Effectif -->
           <div>
             <div class="flex justify-between text-sm mb-1">
               <span class="text-gray-500 font-medium">Effectif</span>
-              <span class="font-bold text-gray-800">{{ cohorte.inscrits }} / 40</span>
+              <span class="font-bold text-gray-800">
+                {{ cohort.enrollments_count ?? 0 }}<span v-if="cohort.capacity"> / {{ cohort.capacity }}</span>
+              </span>
             </div>
-            <div class="w-full bg-gray-100 rounded-full h-2">
-              <div class="bg-primary h-2 rounded-full" :style="{ width: (cohorte.inscrits / 40) * 100 + '%' }"></div>
+            <div v-if="cohort.capacity" class="w-full bg-gray-100 rounded-full h-2">
+              <div class="bg-primary h-2 rounded-full" :style="{ width: Math.min(100, ((cohort.enrollments_count ?? 0) / cohort.capacity) * 100) + '%' }"></div>
             </div>
           </div>
 
-          <!-- Détails (Lieu, Date, Format) -->
           <div class="grid grid-cols-2 gap-3 text-sm">
             <div class="bg-gray-50 p-2 rounded-lg">
               <p class="text-xs text-gray-400 mb-0.5">Début</p>
-              <p class="font-medium text-gray-700">{{ cohorte.debut }}</p>
+              <p class="font-medium text-gray-700">{{ formatDate(cohort.starts_at) }}</p>
             </div>
             <div class="bg-gray-50 p-2 rounded-lg">
               <p class="text-xs text-gray-400 mb-0.5">Fin</p>
-              <p class="font-medium text-gray-700">{{ cohorte.fin }}</p>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-sm pt-2 border-t border-gray-100">
-            <div class="flex items-center gap-2 text-gray-600">
-              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>80h (50h en ligne / 30h présentiel)</span>
-            </div>
-            <div class="flex items-center gap-2 text-gray-600">
-              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              <span>EMSP Abidjan / LMS NetAcad</span>
+              <p class="font-medium text-gray-700">{{ formatDate(cohort.ends_at) }}</p>
             </div>
           </div>
         </div>
 
-        <!-- Pied de la carte (Action) -->
-        <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
-          <div class="flex -space-x-2">
-            <!-- Avatars fictifs -->
-            <div class="w-7 h-7 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-[10px] font-bold text-gray-600">AB</div>
-            <div class="w-7 h-7 rounded-full bg-gray-400 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">CD</div>
-            <div class="w-7 h-7 rounded-full bg-primary border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">+{{ cohorte.inscrits - 2 }}</div>
-          </div>
-          <button class="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
-            Détails
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-          </button>
+        <!-- Pied de la carte -->
+        <div class="p-4 border-t border-gray-100 bg-gray-50 text-xs text-gray-500">
+          Code : <span class="font-medium text-gray-700">{{ cohort.code }}</span>
         </div>
       </div>
     </div>
@@ -135,57 +129,59 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import type { ApiError } from '@/api/http'
+import { useCatalogPathways } from '@/features/public/composables/useCatalogPathways'
+import { useCohorts, type CohortListFilters } from '../composables/useCohorts'
 
-// ==================== DONNÉES DES 5 COHORTES (Conformes au TDR) ====================
-const cohortes = ref([
-  {
-    id: 1,
-    nom: 'Intelligence Artificielle',
-    session: 'Octobre 2024',
-    inscrits: 40,
-    debut: '07/10/2024',
-    fin: '18/10/2024',
-    statut: 'Terminé'
-  },
-  {
-    id: 2,
-    nom: 'Cybersécurité',
-    session: 'Novembre 2024',
-    inscrits: 38,
-    debut: '04/11/2024',
-    fin: '15/11/2024',
-    statut: 'En cours'
-  },
-  {
-    id: 3,
-    nom: 'Data Analysis',
-    session: 'Novembre 2024',
-    inscrits: 40,
-    debut: '18/11/2024',
-    fin: '29/11/2024',
-    statut: 'En cours'
-  },
-  {
-    id: 4,
-    nom: 'IT Support',
-    session: 'Décembre 2024',
-    inscrits: 30,
-    debut: '02/12/2024',
-    fin: '13/12/2024',
-    statut: 'À venir'
-  },
-  {
-    id: 5,
-    nom: 'Network Specialist',
-    session: 'Janvier 2025',
-    inscrits: 0,
-    debut: '06/01/2025',
-    fin: '17/01/2025',
-    statut: 'À venir'
+const filterPathwayKey = ref('')
+const filterStatus = ref('')
+
+const filters = computed<CohortListFilters>(() => ({
+  pathwayKey: filterPathwayKey.value || undefined,
+  status: filterStatus.value || undefined,
+}))
+
+const { data, isPending, isError, error } = useCohorts(filters)
+const cohorts = computed(() => data.value?.items ?? [])
+
+const { data: pathways } = useCatalogPathways()
+
+const statusOptions = [
+  { value: 'planned', label: 'Planifiée' },
+  { value: 'open', label: 'Ouverte' },
+  { value: 'running', label: 'En cours' },
+  { value: 'completed', label: 'Terminée' },
+  { value: 'cancelled', label: 'Annulée' },
+]
+
+function statusLabel(status: string): string {
+  return statusOptions.find((option) => option.value === status)?.label ?? status
+}
+
+function statusBadgeClass(status: string): string {
+  switch (status) {
+    case 'completed':
+      return 'bg-primary/10 text-primary'
+    case 'open':
+    case 'running':
+      return 'bg-blue-100 text-blue-700'
+    case 'cancelled':
+      return 'bg-red-100 text-red-700'
+    default:
+      return 'bg-gray-100 text-gray-500'
   }
-])
+}
+
+function formatDate(value: string | null): string {
+  if (!value) return '—'
+  return new Date(value).toLocaleDateString('fr-FR')
+}
+
+const totalEnrolled = computed(() => cohorts.value.reduce((sum, cohort) => sum + (cohort.enrollments_count ?? 0), 0))
+const activeCount = computed(() => cohorts.value.filter((cohort) => cohort.status === 'open' || cohort.status === 'running').length)
+const completedCount = computed(() => cohorts.value.filter((cohort) => cohort.status === 'completed').length)
 </script>
 
 <style scoped>

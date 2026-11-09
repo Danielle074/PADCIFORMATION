@@ -89,13 +89,35 @@ middleware `can:admissions.view` / `can:admissions.manage`) :
   le badge "12" à côté de "Candidatures" dans `SidebarAdmin.vue` est
   statique (pas branché) — à traiter si quelqu'un retouche ce composant.
 
-### B. AdminCohortes + AdminDashboard
+### B. AdminCohortes + AdminDashboard — FAIT (2026-11-09)
 
-- Module backend : `PADCI-API/app/Modules/Cohort/Routes/api.php` — lire les
-  routes réelles et porter les champs des Resources.
-- [ ] Brancher cohortes sur le contrat.
-- [ ] Brancher dashboard admin (l.255) : décider avec le mainteneur si le
-  tableau `recentCandidats` devient la liste candidates paginée réelle.
+- [x] `AdminCohortes.vue` branché sur `GET /v1/admin/cohorts`
+  (`src/features/admin/composables/useCohorts.ts`) : filtres filière/statut
+  server-side, cartes réelles (filière, session, statut sur les 5 valeurs
+  réelles `CohortStatus`, effectif/capacité, dates), stats résumé calculées
+  depuis les cohortes chargées (plus de "200 formateurs"/"parité femmes"
+  inventés — aucune donnée de genre n'existe côté backend, volontairement
+  pas affiché).
+- [x] `AdminDashboard.vue` entièrement refondu sur le vrai module
+  Operations (`src/features/admin/composables/useDashboard.ts`) :
+  - `GET /v1/admin/dashboard/overview` → les 4 KPI (apprenants, cohortes
+    actives, taux de complétion, certificats délivrés) — les anciennes
+    cartes ("Formateurs formés 148/200", "Kits pédagogiques") n'avaient
+    aucun contrat backend, retirées plutôt que laissées fictives.
+  - `GET /v1/admin/dashboard/reports/pathways` → graphique "Inscrits par
+    filière" (barres réelles, inscrits + complétés).
+  - Statut des candidatures (doughnut) : pas d'endpoint d'agrégat dédié
+    (Admissions est un module séparé d'Operations) — calculé via 6 appels
+    légers `GET /admin/applications?status=X&per_page=1` lisant
+    `meta.pagination.total` (jamais le contenu), reste correct quel que
+    soit le volume contrairement à compter une page plafonnée côté client.
+  - Tableau "Dernières candidatures acceptées" : réutilise
+    `useApplications` (section A) filtré `status=accepted`.
+  - Décision pour `recentCandidats` : devient la liste réelle (pas de
+    nouvelle décision produit nécessaire, le contrat existait déjà).
+- Vérifié en navigateur réel (Playwright, compte `admin@example.com`) :
+  0 erreur console sur les deux pages, données affichées correspondent
+  exactement aux données seedées/créées en HTTP réel (captures prises).
 
 ### C. Profil / paramètres apprenant
 
