@@ -11,7 +11,7 @@
       </div>
 
       <!-- Bouton de génération de rapport global -->
-      <button class="flex items-center justify-center gap-2 bg-[#198341] hover:bg-[#146b34] text-white px-4 py-2.5 rounded-xl font-medium transition-colors shadow-sm text-sm">
+      <button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-shade text-white px-4 py-2.5 rounded-xl font-medium transition-colors shadow-sm text-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
@@ -23,7 +23,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="px-6 py-5 border-b border-gray-100">
         <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           Indicateurs de performance (Cibles TDR)
@@ -44,11 +44,11 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Formateurs formés et certifiés</td>
               <td class="py-4 px-6 text-center text-gray-600">200</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">148</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">148</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-[#198341] h-2 rounded-full" style="width: 74%"></div>
+                    <div class="bg-primary h-2 rounded-full" style="width: 74%"></div>
                   </div>
                   <span class="text-xs font-bold text-gray-700">74%</span>
                 </div>
@@ -58,11 +58,11 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Taux de certification Cisco/Oracle</td>
               <td class="py-4 px-6 text-center text-gray-600">≥ 80%</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">82%</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">82%</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-[#198341] h-2 rounded-full" style="width: 82%"></div>
+                    <div class="bg-primary h-2 rounded-full" style="width: 82%"></div>
                   </div>
                   <span class="text-xs font-bold text-gray-700">82%</span>
                 </div>
@@ -72,11 +72,11 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Taux d'assiduité aux sessions</td>
               <td class="py-4 px-6 text-center text-gray-600">≥ 90%</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">94%</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">94%</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-[#198341] h-2 rounded-full" style="width: 94%"></div>
+                    <div class="bg-primary h-2 rounded-full" style="width: 94%"></div>
                   </div>
                   <span class="text-xs font-bold text-gray-700">94%</span>
                 </div>
@@ -86,11 +86,11 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Taux de satisfaction (évaluation à chaud)</td>
               <td class="py-4 px-6 text-center text-gray-600">≥ 85%</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">89%</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">89%</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-[#198341] h-2 rounded-full" style="width: 89%"></div>
+                    <div class="bg-primary h-2 rounded-full" style="width: 89%"></div>
                   </div>
                   <span class="text-xs font-bold text-gray-700">89%</span>
                 </div>
@@ -100,7 +100,7 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Kits pédagogiques validés</td>
               <td class="py-4 px-6 text-center text-gray-600">5</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">4</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">4</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
@@ -114,11 +114,11 @@
             <tr class="hover:bg-gray-50 transition">
               <td class="py-4 px-6 font-medium text-gray-800">Taux de femmes dans le pool (Parité)</td>
               <td class="py-4 px-6 text-center text-gray-600">30 - 40%</td>
-              <td class="py-4 px-6 text-center font-bold text-[#198341]">36%</td>
+              <td class="py-4 px-6 text-center font-bold text-primary">36%</td>
               <td class="py-4 px-6">
                 <div class="flex items-center gap-2">
                   <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-[#198341] h-2 rounded-full" style="width: 36%"></div>
+                    <div class="bg-primary h-2 rounded-full" style="width: 36%"></div>
                   </div>
                   <span class="text-xs font-bold text-gray-700">36%</span>
                 </div>
@@ -135,7 +135,7 @@
       <!-- Graphique 1 : Répartition Hommes / Femmes par filière -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+          <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
           Répartition par Genre (Parité)
         </h3>
         <div class="h-64">
@@ -146,7 +146,7 @@
       <!-- Graphique 2 : Taux de réussite par filière -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+          <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
           Taux de réussite (Certification) par Filière
         </h3>
         <div class="h-64">
@@ -171,7 +171,7 @@
               <p class="text-xs text-gray-500 mt-0.5">Généré le {{ doc.date }} · {{ doc.taille }}</p>
             </div>
           </div>
-          <button class="text-[#198341] hover:bg-[#198341]/10 p-2 rounded-lg transition" title="Télécharger">
+          <button class="text-primary hover:bg-primary/10 p-2 rounded-lg transition" title="Télécharger">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
           </button>
         </li>
@@ -192,6 +192,9 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 // ==================== DONNÉES GENRE (Parité TDR) ====================
+// Couleurs Chart.js : options de config natives sans classes Tailwind —
+// valeurs littérales. #198341 = --color-primary (marque), #9ca3af = gris
+// de contraste, #f3f4f6 = grille (gray-100).
 const genderChartData = {
   labels: ['Cybersécurité', 'Data Analysis', 'IT Support', 'Network', 'IA'],
   datasets: [

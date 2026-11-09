@@ -5,8 +5,8 @@
     <div class="flex w-full md:w-1/2 items-center justify-center order-2 md:order-1 py-10 px-5 bg-white relative overflow-hidden">
 
       <!-- Bulles décoratives floutées -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#198341]/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
-      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-[#198341]/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
+      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
 
       <div class="w-full max-w-md relative z-10 animate-fade-in-up">
 
@@ -30,7 +30,7 @@
              (EmailVerificationController côté backend) -->
         <p
           v-if="emailVerified"
-          class="mb-4 rounded-lg bg-green-50 border border-[#198341]/30 text-[#198341] text-sm px-4 py-3"
+          class="mb-4 rounded-lg bg-green-50 border border-primary/30 text-primary text-sm px-4 py-3"
         >
           Adresse vérifiée ✓ — vous pouvez vous connecter.
         </p>
@@ -60,12 +60,12 @@
             v-if="!resendDone"
             type="button"
             :disabled="resendPending"
-            class="mt-2 font-medium text-[#198341] hover:underline disabled:opacity-60"
+            class="mt-2 font-medium text-primary hover:underline disabled:opacity-60"
             @click="resendLink"
           >
             {{ resendPending ? 'Envoi en cours…' : "Renvoyer l'e-mail de vérification" }}
           </button>
-          <p v-else class="mt-1 font-medium text-[#198341]">E-mail de vérification renvoyé ✓</p>
+          <p v-else class="mt-1 font-medium text-primary">E-mail de vérification renvoyé ✓</p>
         </div>
 
         <!-- ================= ÉTAPE MOT DE PASSE ================= -->
@@ -73,7 +73,7 @@
 
           <!-- Email -->
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -88,13 +88,13 @@
               required
               placeholder="Email professionnel"
               class="w-full pl-12 pr-5 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400
-                     focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
+                     focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary focus:outline-none transition-all duration-300"
             />
           </div>
 
           <!-- Mot de passe -->
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -109,13 +109,13 @@
               required
               placeholder="Mot de passe"
               class="w-full pl-12 pr-12 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400
-                     focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
+                     focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary focus:outline-none transition-all duration-300"
             />
             <button
               type="button"
               @click="togglePassword"
               :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#198341] transition-colors p-1 rounded-lg hover:bg-[#198341]/10"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
             >
               <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -131,7 +131,7 @@
 
           <!-- Options -->
           <div class="flex items-center justify-between text-sm text-gray-600">
-            <router-link to="/mot-de-passe-oublie" class="text-[#198341] font-medium hover:underline transition-colors">
+            <router-link to="/mot-de-passe-oublie" class="text-primary font-medium hover:underline transition-colors">
               Mot de passe oublié ?
             </router-link>
           </div>
@@ -141,10 +141,10 @@
             type="submit"
             :disabled="isPending"
             class="group w-full inline-flex items-center justify-center gap-2
-                   bg-gradient-to-r from-[#198341] to-[#22a854]
-                   hover:from-[#146b34] hover:to-[#198341]
+                   bg-gradient-to-r from-primary to-primary-bright
+                   hover:from-primary-shade hover:to-primary
                    text-white py-3.5 rounded-xl font-semibold text-base
-                   shadow-lg shadow-[#198341]/30 hover:shadow-xl hover:shadow-[#198341]/40
+                   shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
                    disabled:opacity-60 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
           >
@@ -172,15 +172,15 @@
               required
               placeholder="123456"
               class="w-full px-5 py-3.5 text-center text-lg tracking-widest border border-gray-200 rounded-xl bg-gray-50 text-gray-800
-                     focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
+                     focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary focus:outline-none transition-all duration-300"
             />
           </div>
           <button
             type="submit"
             :disabled="isPending"
-            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#198341] to-[#22a854]
-                   hover:from-[#146b34] hover:to-[#198341] text-white py-3.5 rounded-xl font-semibold text-base
-                   shadow-lg shadow-[#198341]/30 transition-all duration-300
+            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-bright
+                   hover:from-primary-shade hover:to-primary text-white py-3.5 rounded-xl font-semibold text-base
+                   shadow-lg shadow-primary/30 transition-all duration-300
                    disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {{ isPending ? 'Vérification…' : 'Valider' }}
@@ -190,7 +190,7 @@
         <!-- Lien inscription -->
         <p class="text-center text-sm mt-6">
           <span class="text-gray-600">Vous n'avez pas de compte ?</span>
-          <router-link to="/inscription" class="text-[#198341] font-semibold hover:underline ml-1">
+          <router-link to="/inscription" class="text-primary font-semibold hover:underline ml-1">
             Inscrivez-vous
           </router-link>
         </p>
@@ -208,7 +208,7 @@
       <img :src="loginImage" alt="PADCI Formation" class="w-full h-full object-cover" />
 
       <!-- Dégradé vert plus transparent par-dessus l'image -->
-      <div class="absolute inset-0 bg-gradient-to-br from-[#198341]/50 via-[#198341]/30 to-[#0f5229]/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/50 via-primary/30 to-primary-deep/50"></div>
 
       <!-- Overlay desktop -->
       <div class="hidden md:flex absolute inset-0 z-20 flex-col justify-center items-center px-10 text-center text-white">

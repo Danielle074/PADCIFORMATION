@@ -40,7 +40,7 @@
           :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/dashboard') }"
           @click="$emit('close')"
         >
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <LayoutDashboardIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Tableau de bord</span>
         </router-link>
       </div>
@@ -54,7 +54,7 @@
 
         <!-- AJOUT ICI : L'INTRODUCTION -->
         <router-link to="/formations/network/introduction" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/introduction') }" @click="$emit('close')">
-          <i class='bx bx-info-circle text-xl group-hover:scale-110 transition-transform'></i>
+          <InfoIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">Introduction</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">Bienvenue & Méthode</span>
@@ -63,7 +63,7 @@
 
         <!-- Chapitre 1 -->
         <router-link to="/formations/network/chapitre1" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre1') }" @click="$emit('close')">
-          <i class='bx bx-layer text-xl group-hover:scale-110 transition-transform'></i>
+          <LayersIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">1. Fondamentaux</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">20% de l'examen</span>
@@ -72,7 +72,7 @@
 
         <!-- Chapitre 2 -->
         <router-link to="/formations/network/chapitre2" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre2') }" @click="$emit('close')">
-          <i class='bx bx-git-branch text-xl group-hover:scale-110 transition-transform'></i>
+          <GitBranchIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">2. Accès réseau (VLAN)</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">20% de l'examen</span>
@@ -81,7 +81,7 @@
 
         <!-- Chapitre 3 -->
         <router-link to="/formations/network/chapitre3" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre3') }" @click="$emit('close')">
-          <i class='bx bx-network-chart text-xl group-hover:scale-110 transition-transform'></i>
+          <NetworkIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">3. Connectivité IP</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">25% de l'examen</span>
@@ -91,7 +91,7 @@
 
         <!-- Chapitre 4 -->
         <router-link to="/formations/network/chapitre4" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre4') }" @click="$emit('close')">
-          <i class='bx bx-server text-xl group-hover:scale-110 transition-transform'></i>
+          <ServerIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">4. Services IP</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">10% de l'examen</span>
@@ -100,7 +100,7 @@
 
         <!-- Chapitre 5 -->
         <router-link to="/formations/network/chapitre5" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre5') }" @click="$emit('close')">
-          <i class='bx bx-shield-quarter text-xl group-hover:scale-110 transition-transform'></i>
+          <ShieldHalfIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">5. Sécurité</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">15% de l'examen</span>
@@ -109,7 +109,7 @@
 
         <!-- Chapitre 6 -->
         <router-link to="/formations/network/chapitre6" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/chapitre6') }" @click="$emit('close')">
-          <i class='bx bx-bot text-xl group-hover:scale-110 transition-transform'></i>
+          <BotIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <div class="flex flex-col flex-1">
             <span class="truncate">6. Automatisation</span>
             <span class="text-[10px] text-gray-400 group-hover:text-primary/70">10% de l'examen</span>
@@ -126,19 +126,19 @@
       <div class="space-y-1 px-3">
         <!-- Packet Tracer -->
         <router-link to="/formations/network/tp" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/tp') }" @click="$emit('close')">
-          <i class='bx bx-laptop text-xl group-hover:scale-110 transition-transform'></i>
+          <LaptopIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Travaux Pratiques (TP)</span>
         </router-link>
 
         <!-- Préparation Examen -->
         <router-link to="/formations/network/examen" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/examen') }" @click="$emit('close')">
-          <i class='bx bx-certification text-xl group-hover:scale-110 transition-transform'></i>
+          <AwardIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Préparation Examen</span>
         </router-link>
 
         <!-- Annexes -->
         <router-link to="/formations/network/annexes" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/network/annexes') }" @click="$emit('close')">
-          <i class='bx bx-book-content text-xl group-hover:scale-110 transition-transform'></i>
+          <BookOpenTextIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Annexes & Glossaire</span>
         </router-link>
       </div>
@@ -147,7 +147,7 @@
       <div class="border-t border-gray-100 my-4"></div>
       <div class="px-3">
         <router-link to="/" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:bg-gray-100 transition-all duration-200" @click="$emit('close')">
-          <i class='bx bx-exit text-xl'></i>
+          <LogOutIcon :size="20" />
           <span>Retour à l'accueil</span>
         </router-link>
       </div>
@@ -171,6 +171,7 @@
 </template>
 
 <script setup lang="ts">
+import { AwardIcon, BookOpenTextIcon, BotIcon, GitBranchIcon, InfoIcon, LaptopIcon, LayersIcon, LayoutDashboardIcon, LogOutIcon, NetworkIcon, ServerIcon, ShieldHalfIcon } from '@lucide/vue'
 import { useRoute } from 'vue-router'
 import padciLogo from '@/assets/images/logodepadci.png'
 

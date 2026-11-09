@@ -12,7 +12,7 @@
         <!-- En-tête du module -->
         <div class="bg-[#007668] text-white p-4 rounded-t-xl flex justify-between items-center">
           <div class="flex items-center gap-2">
-            <i class='bx bx-book-open text-xl'></i>
+            <BookOpenIcon :size="20" />
             <span class="font-bold">Support de cours officiel – Chapitre 1</span>
           </div>
           <!-- Indicateur de page -->
@@ -31,7 +31,7 @@
             class="flex-shrink-0 bg-[#007668] hover:bg-[#007668]/90 text-white rounded-full p-3 shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
             style="min-width: 50px;"
           >
-            <i class='bx bx-chevron-left text-3xl'></i>
+            <ChevronLeftIcon :size="30" />
           </button>
 
           <!-- Image active -->
@@ -50,7 +50,7 @@
             class="flex-shrink-0 bg-[#007668] hover:bg-[#007668]/90 text-white rounded-full p-3 shadow-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
             style="min-width: 50px;"
           >
-            <i class='bx bx-chevron-right text-3xl'></i>
+            <ChevronRightIcon :size="30" />
           </button>
         </div>
 
@@ -65,7 +65,7 @@
           to="/"
           class="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-300 transition-all w-full md:w-auto justify-center"
         >
-          <i class='bx bx-left-arrow-alt text-xl'></i>
+          <ArrowLeftIcon :size="20" />
           <span>Précédent</span>
         </RouterLink>
 
@@ -76,7 +76,7 @@
           :class="isLastSlideViewed ? 'bg-[#FFDC00] text-[#007668] hover:bg-[#007668] hover:text-white' : 'bg-gray-300 text-gray-500 pointer-events-none'"
         >
           <span>Suivant</span>
-          <i class='bx bx-right-arrow-alt text-2xl'></i>
+          <ArrowRightIcon :size="24" />
         </RouterLink>
 
       </div>
@@ -92,6 +92,7 @@
 </template>
 
 <script setup>
+import { ArrowLeftIcon, ArrowRightIcon, BookOpenIcon, ChevronLeftIcon, ChevronRightIcon } from '@lucide/vue'
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 

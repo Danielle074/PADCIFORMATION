@@ -19,7 +19,7 @@
           to="/formation"
           class="inline-flex items-center gap-2 text-primary font-semibold hover:underline"
         >
-          <i class='bx bx-arrow-back text-xl'></i>
+          <ArrowLeftIcon :size="20" />
           Retour aux formations
         </RouterLink>
       </div>
@@ -76,10 +76,10 @@
                     @click="openModal = true"
                     class="text-primary hover:text-primary/70 transition"
                   >
-                    <i class='bx bx-show text-2xl'></i>
+                    <EyeIcon :size="24" />
                   </button>
                   <span v-else class="text-gray-300 cursor-not-allowed">
-                    <i class='bx bx-show text-2xl'></i>
+                    <EyeIcon :size="24" />
                   </span>
                 </td>
               </tr>
@@ -109,7 +109,7 @@
               :disabled="currentPage === 1"
               class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
-              <i class='bx bx-chevron-left text-lg'></i>
+              <ChevronLeftIcon :size="18" />
             </button>
 
             <!-- Numéros de page -->
@@ -133,7 +133,7 @@
               :disabled="currentPage === totalPages"
               class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
-              <i class='bx bx-chevron-right text-lg'></i>
+              <ChevronRightIcon :size="18" />
             </button>
           </nav>
         </div>
@@ -152,7 +152,7 @@
         <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
           <RouterLink
             to="/accueil"
-            class="bg-gradient-to-r from-[#198341] to-[#22a854] hover:from-[#146b34] hover:to-[#198341] text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-primary/30 hover:-translate-y-0.5 text-center"
+            class="bg-gradient-to-r from-primary to-primary-bright hover:from-primary-shade hover:to-primary text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-primary/30 hover:-translate-y-0.5 text-center"
           >
             S'enregistrer à la formation
           </RouterLink>
@@ -170,6 +170,7 @@
 </template>
 
 <script setup>
+import { ArrowLeftIcon, ChevronLeftIcon, ChevronRightIcon, EyeIcon } from '@lucide/vue'
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import bannerImage from '@/assets/images/banierepadciformation.png'

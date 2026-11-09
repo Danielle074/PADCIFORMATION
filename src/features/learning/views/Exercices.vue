@@ -5,7 +5,7 @@
       <!-- EN-TÊTE DU QUIZ -->
       <div class="bg-gradient-to-r from-[#007668] to-[#005a4e] text-white p-6 rounded-t-xl">
         <div class="flex items-center gap-3 mb-3">
-          <i class='bx bxs-graduation text-3xl'></i>
+          <GraduationCapIcon :size="30" />
           <h1 class="text-2xl md:text-3xl font-bold">Quiz Final - Module 1</h1>
         </div>
         <p class="text-white/90 mb-2">Évaluation des connaissances • Éducation routière</p>
@@ -27,7 +27,7 @@
         <!-- Message de consigne -->
         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8">
           <div class="flex items-start gap-3">
-            <i class='bx bx-info-circle text-blue-500 text-xl'></i>
+            <InfoIcon class="text-blue-500" :size="20" />
             <div>
               <p class="text-blue-700 font-medium">Instructions</p>
               <p class="text-sm text-blue-600">
@@ -51,13 +51,13 @@
               <div class="flex-1">
                 <p class="font-medium text-gray-800">{{ question.text }}</p>
                 <p v-if="question.hint && showResults" class="text-sm text-[#007668] mt-1 italic">
-                  <i class='bx bx-bulb mr-1'></i> {{ question.hint }}
+                  <LightbulbIcon class="mr-1" /> {{ question.hint }}
                 </p>
               </div>
               <!-- Icône de résultat -->
               <div v-if="showResults" class="flex-shrink-0">
-                <i v-if="isQuestionCorrect(index)" class='bx bx-check-circle text-3xl text-green-500'></i>
-                <i v-else class='bx bx-x-circle text-3xl text-red-500'></i>
+                <CircleCheckIcon class="result-mark text-green-500" :size="30" v-if="isQuestionCorrect(index)" />
+                <CircleXIcon class="result-mark text-red-500" :size="30" v-else />
               </div>
             </div>
 
@@ -76,7 +76,7 @@
                   <span class="text-gray-700">{{ option.text }}</span>
                   <!-- Indicateur de bonne réponse -->
                   <span v-if="showResults && option.letter === question.correctAnswer" class="ml-auto">
-                    <i class='bx bx-check text-green-600 text-xl'></i>
+                    <CheckIcon class="text-green-600" :size="20" />
                   </span>
                 </div>
               </div>
@@ -88,8 +88,8 @@
         <div v-if="showResults" class="mt-8 p-6 rounded-lg" :class="score >= 7 ? 'bg-green-100' : 'bg-red-100'">
           <div class="flex items-center gap-4">
             <div class="text-5xl">
-              <i v-if="score >= 7" class='bx bxs-trophy text-[#FFDC00]'></i>
-              <i v-else class='bx bxs-error-circle text-red-600'></i>
+              <TrophyIcon v-if="score >= 7" :size="30" class="text-[#FFDC00]" />
+              <CircleAlertIcon class="text-red-600" v-else />
             </div>
             <div>
               <h3 class="text-2xl font-bold" :class="score >= 7 ? 'text-green-700' : 'text-red-700'">
@@ -116,7 +116,7 @@
             @click="resetQuiz"
             class="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-300 transition-all w-full md:w-auto justify-center"
           >
-            <i class='bx bx-reset'></i>
+            <RotateCcwIcon />
             <span>Réinitialiser</span>
           </button>
 
@@ -127,7 +127,7 @@
             class="flex items-center gap-3 px-8 py-3 rounded-lg font-bold transition-all shadow-lg w-full md:w-auto justify-center"
             :class="allQuestionsAnswered ? 'bg-[#FFDC00] text-[#007668] hover:bg-[#007668] hover:text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
           >
-            <i class='bx bx-check-shield'></i>
+            <ShieldCheckIcon />
             <span>Corriger mes réponses</span>
           </button>
 
@@ -136,7 +136,7 @@
             @click="showResults = false; showResults = false"
             class="flex items-center gap-3 px-8 py-3 rounded-lg font-bold bg-[#007668] text-white hover:bg-[#005a4e] transition-all shadow-lg w-full md:w-auto justify-center"
           >
-            <i class='bx bx-refresh'></i>
+            <RefreshCwIcon />
             <span>Refaire le quiz</span>
           </button>
 
@@ -145,14 +145,14 @@
             to="/formations/chapitre7"
             class="flex items-center gap-3 px-8 py-3 rounded-lg font-bold bg-green-600 text-white hover:bg-green-700 transition-all shadow-lg w-full md:w-auto justify-center"
           >
-            <i class='bx bx-certification'></i>
+            <AwardIcon />
             <span>Obtenir mon certificat</span>
           </RouterLink>
         </div>
 
         <!-- Message d'alerte si toutes les questions ne sont pas répondues -->
         <p v-if="!allQuestionsAnswered && !showResults" class="text-center text-amber-600 text-sm mt-4">
-          <i class='bx bx-error-circle'></i> Veuillez répondre à toutes les questions
+          <CircleAlertIcon /> Veuillez répondre à toutes les questions
         </p>
       </div>
     </section>
@@ -160,6 +160,7 @@
 </template>
 
 <script setup>
+import { AwardIcon, CheckIcon, CircleAlertIcon, CircleCheckIcon, CircleXIcon, GraduationCapIcon, InfoIcon, LightbulbIcon, RefreshCwIcon, RotateCcwIcon, ShieldCheckIcon } from '@lucide/vue'
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -334,7 +335,7 @@ button:disabled {
 }
 
 /* Animation pour les coches */
-.bx-check-circle, .bx-x-circle {
+.result-mark {
   animation: popIn 0.3s ease;
 }
 

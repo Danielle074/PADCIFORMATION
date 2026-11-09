@@ -99,11 +99,14 @@ import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, Categ
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale)
 
+// Couleurs de séries Chart.js : les options de config n'acceptent pas de
+// classes Tailwind — valeurs littérales calées sur la famille --color-primary
+// (#198341 / #22a854 / #146b34), '#9ca3af' gris de contraste pour la 4e part.
 const budgetChartData = {
   labels: ['Fondements', 'Connectivité', 'Services Numériques', 'Gestion Projet'],
   datasets: [{
     data: [25, 45, 20, 10],
-    backgroundColor: ['#1E3A8A', '#F97316', '#FB923C', '#94A3B8'],
+    backgroundColor: ['#198341', '#22a854', '#146b34', '#9ca3af'],
     borderWidth: 2,
     borderColor: '#ffffff'
   }]
@@ -114,7 +117,7 @@ const progressChartData = {
   datasets: [{
     label: 'Avancement (%)',
     data: [35, 20, 45, 60],
-    backgroundColor: '#F97316',
+    backgroundColor: '#198341',
     borderRadius: 6
   }]
 }

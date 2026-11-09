@@ -14,8 +14,8 @@
     <!-- ================= RÉSUMÉ GLOBAL ================= -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-full bg-[#198341]/10 flex items-center justify-center shrink-0">
-          <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
         </div>
@@ -26,20 +26,20 @@
       </div>
 
       <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-full bg-[#198341]/10 flex items-center justify-center shrink-0">
-          <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         </div>
         <div>
           <p class="text-sm text-gray-500 font-medium">Objectif Parité (Femmes)</p>
-          <p class="text-2xl font-bold text-[#198341]">36% <span class="text-sm text-gray-400 font-normal">(72 femmes)</span></p>
+          <p class="text-2xl font-bold text-primary">36% <span class="text-sm text-gray-400 font-normal">(72 femmes)</span></p>
         </div>
       </div>
 
       <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-full bg-[#198341]/10 flex items-center justify-center shrink-0">
-          <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
           </svg>
         </div>
@@ -59,7 +59,7 @@
         <!-- En-tête de la carte -->
         <div class="p-5 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-[#198341] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+            <div class="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-sm shadow-sm">
               C{{ cohorte.id }}
             </div>
             <div>
@@ -70,7 +70,7 @@
           <!-- Badge statut -->
           <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
             :class="{
-              'bg-[#198341]/10 text-[#198341]': cohorte.statut === 'Terminé',
+              'bg-primary/10 text-primary': cohorte.statut === 'Terminé',
               'bg-blue-100 text-blue-700': cohorte.statut === 'En cours',
               'bg-gray-100 text-gray-500': cohorte.statut === 'À venir'
             }">
@@ -88,7 +88,7 @@
               <span class="font-bold text-gray-800">{{ cohorte.inscrits }} / 40</span>
             </div>
             <div class="w-full bg-gray-100 rounded-full h-2">
-              <div class="bg-[#198341] h-2 rounded-full" :style="{ width: (cohorte.inscrits / 40) * 100 + '%' }"></div>
+              <div class="bg-primary h-2 rounded-full" :style="{ width: (cohorte.inscrits / 40) * 100 + '%' }"></div>
             </div>
           </div>
 
@@ -106,11 +106,11 @@
 
           <div class="space-y-2 text-sm pt-2 border-t border-gray-100">
             <div class="flex items-center gap-2 text-gray-600">
-              <svg class="w-4 h-4 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <span>80h (50h en ligne / 30h présentiel)</span>
             </div>
             <div class="flex items-center gap-2 text-gray-600">
-              <svg class="w-4 h-4 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               <span>EMSP Abidjan / LMS NetAcad</span>
             </div>
           </div>
@@ -122,9 +122,9 @@
             <!-- Avatars fictifs -->
             <div class="w-7 h-7 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-[10px] font-bold text-gray-600">AB</div>
             <div class="w-7 h-7 rounded-full bg-gray-400 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">CD</div>
-            <div class="w-7 h-7 rounded-full bg-[#198341] border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">+{{ cohorte.inscrits - 2 }}</div>
+            <div class="w-7 h-7 rounded-full bg-primary border-2 border-white flex items-center justify-center text-[10px] font-bold text-white">+{{ cohorte.inscrits - 2 }}</div>
           </div>
-          <button class="text-sm font-semibold text-[#198341] hover:underline flex items-center gap-1">
+          <button class="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
             Détails
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
           </button>

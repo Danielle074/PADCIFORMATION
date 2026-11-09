@@ -15,7 +15,7 @@
           <!-- REMPLACEMENT DE L'EMOJI PAR UNE ICÔNE -->
           <h1 class="text-2xl sm:text-3xl font-extrabold mb-2 flex items-center gap-2">
             Bonjour, {{ auth.user?.name }}
-            <i class='bx bx-happy-beaming text-yellow-400 text-3xl'></i>
+            <SmileIcon class="text-yellow-400" :size="30" />
           </h1>
           <p class="text-blue-100 text-sm max-w-lg">
             Prêt à devenir un expert réseau ? Continuez votre préparation pour la certification Cisco CCNA 200-301.
@@ -40,7 +40,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
         <div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-          <i class='bx bx-book-reader text-2xl'></i>
+          <BookOpenTextIcon :size="24" />
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Chapitres lus</p>
@@ -49,7 +49,7 @@
       </div>
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
         <div class="w-12 h-12 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
-          <i class='bx bx-laptop text-2xl'></i>
+          <LaptopIcon :size="24" />
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">TP réalisés</p>
@@ -58,7 +58,7 @@
       </div>
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
         <div class="w-12 h-12 rounded-lg bg-green-50 text-green-600 flex items-center justify-center shrink-0">
-          <i class='bx bx-time-five text-2xl'></i>
+          <ClockIcon :size="24" />
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Temps d'étude</p>
@@ -67,7 +67,7 @@
       </div>
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
         <div class="w-12 h-12 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-          <i class='bx bx-trophy text-2xl'></i>
+          <TrophyIcon :size="24" />
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Score moyen</p>
@@ -82,7 +82,7 @@
       <div class="p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-4">
           <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-            <i class='bx bx-play-circle text-3xl text-blue-600'></i>
+            <CirclePlayIcon class="text-blue-600" :size="30" />
           </div>
           <div>
             <p class="text-xs font-bold text-blue-600 uppercase tracking-wide mb-1">Reprendre la lecture</p>
@@ -103,7 +103,7 @@
     <div>
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-          <i class='bx bx-grid-alt text-blue-600 text-xl'></i> Programme du cours
+          <LayoutGridIcon class="text-blue-600" :size="20" /> Programme du cours
         </h2>
       </div>
 
@@ -117,7 +117,7 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                <i class='bx bx-info-circle text-2xl text-blue-400'></i>
+                <InfoIcon class="text-blue-400" :size="24" />
               </div>
               <div>
                 <h3 class="text-lg font-bold mb-1 group-hover:text-blue-300 transition">Introduction au CCNA</h3>
@@ -127,7 +127,7 @@
               </div>
             </div>
             <span class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors shrink-0">
-              Commencer <i class='bx bx-right-arrow-alt text-lg'></i>
+              Commencer <ArrowRightIcon class="arrow-nudge" :size="18" />
             </span>
           </div>
         </router-link>
@@ -136,7 +136,7 @@
         <router-link to="/formations/network/chapitre1" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-blue-400 hover:shadow-md transition group">
           <div class="flex justify-between items-start mb-3">
             <div class="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-blue-50 group-hover:text-blue-600 transition">
-              <i class='bx bx-layer text-xl'></i>
+              <LayersIcon :size="20" />
             </div>
             <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">Terminé</span>
           </div>
@@ -144,7 +144,7 @@
           <p class="text-xs text-gray-500">Modèles OSI, TCP/IP, adressage IP.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
             <span>20% de l'examen</span>
-            <i class='bx bx-check-circle text-green-500 text-lg'></i>
+            <CircleCheckIcon class="text-green-500" :size="18" />
           </div>
         </router-link>
 
@@ -153,7 +153,7 @@
           <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -mr-8 -mt-8"></div>
           <div class="flex justify-between items-start mb-3 relative z-10">
             <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 transition">
-              <i class='bx bx-git-branch text-xl'></i>
+              <GitBranchIcon :size="20" />
             </div>
             <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded">En cours</span>
           </div>
@@ -161,7 +161,7 @@
           <p class="text-xs text-gray-500 relative z-10">VLAN, Trunks, Spanning Tree.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400 relative z-10">
             <span>20% de l'examen</span>
-            <i class='bx bx-right-arrow-alt text-blue-500 text-lg'></i>
+            <ArrowRightIcon class="arrow-nudge text-blue-500" :size="18" />
           </div>
         </router-link>
 
@@ -169,7 +169,7 @@
         <router-link to="/formations/network/chapitre3" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-orange-400 hover:shadow-md transition group">
           <div class="flex justify-between items-start mb-3">
             <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 transition">
-              <i class='bx bx-network-chart text-xl'></i>
+              <NetworkIcon :size="20" />
             </div>
             <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-1 rounded">Priorité</span>
           </div>
@@ -177,7 +177,7 @@
           <p class="text-xs text-gray-500">Routage statique, OSPF, HSRP.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
             <span>25% de l'examen</span>
-            <i class='bx bx-lock-alt text-gray-300 text-lg'></i>
+            <LockIcon class="text-gray-300" :size="18" />
           </div>
         </router-link>
 
@@ -185,7 +185,7 @@
         <router-link to="/formations/network/chapitre4" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-emerald-400 hover:shadow-md transition group">
           <div class="flex justify-between items-start mb-3">
             <div class="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition">
-              <i class='bx bx-server text-xl'></i>
+              <ServerIcon :size="20" />
             </div>
             <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded">À venir</span>
           </div>
@@ -193,7 +193,7 @@
           <p class="text-xs text-gray-500">DHCP, DNS, NAT, NTP.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
             <span>10% de l'examen</span>
-            <i class='bx bx-lock-alt text-gray-300 text-lg'></i>
+            <LockIcon class="text-gray-300" :size="18" />
           </div>
         </router-link>
 
@@ -201,7 +201,7 @@
         <router-link to="/formations/network/chapitre5" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-red-400 hover:shadow-md transition group">
           <div class="flex justify-between items-start mb-3">
             <div class="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-red-50 group-hover:text-red-600 transition">
-              <i class='bx bx-shield-quarter text-xl'></i>
+              <ShieldHalfIcon :size="20" />
             </div>
             <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded">À venir</span>
           </div>
@@ -209,7 +209,7 @@
           <p class="text-xs text-gray-500">Triade CIA, ACL, VPN, WPA3.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
             <span>15% de l'examen</span>
-            <i class='bx bx-lock-alt text-gray-300 text-lg'></i>
+            <LockIcon class="text-gray-300" :size="18" />
           </div>
         </router-link>
 
@@ -217,7 +217,7 @@
         <router-link to="/formations/network/chapitre6" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-indigo-400 hover:shadow-md transition group">
           <div class="flex justify-between items-start mb-3">
             <div class="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition">
-              <i class='bx bx-bot text-xl'></i>
+              <BotIcon :size="20" />
             </div>
             <span class="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded">À venir</span>
           </div>
@@ -225,7 +225,7 @@
           <p class="text-xs text-gray-500">SDN, API REST, JSON, Ansible.</p>
           <div class="mt-4 flex items-center justify-between text-xs text-gray-400">
             <span>10% de l'examen</span>
-            <i class='bx bx-lock-alt text-gray-300 text-lg'></i>
+            <LockIcon class="text-gray-300" :size="18" />
           </div>
         </router-link>
 
@@ -237,13 +237,13 @@
       <!-- Carte Examen -->
       <router-link to="/formations/network/examen" class="bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl p-6 text-white shadow-md hover:shadow-lg transition group relative overflow-hidden">
         <div class="absolute right-0 bottom-0 opacity-20 group-hover:scale-110 transition-transform">
-          <i class='bx bx-certification text-8xl'></i>
+          <AwardIcon class=""  :size="96" />
         </div>
         <div class="relative z-10">
           <h3 class="text-xl font-bold mb-2">Préparation à l'examen</h3>
           <p class="text-orange-100 text-sm mb-4">Testez vos connaissances avec des examens blancs et des exercices corrigés.</p>
           <span class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold">
-            Commencer l'entraînement <i class='bx bx-right-arrow-alt'></i>
+            Commencer l'entraînement <ArrowRightIcon class="arrow-nudge" />
           </span>
         </div>
       </router-link>
@@ -251,13 +251,13 @@
       <!-- Carte Annexes -->
       <router-link to="/formations/network/annexes" class="bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl p-6 text-white shadow-md hover:shadow-lg transition group relative overflow-hidden">
         <div class="absolute right-0 bottom-0 opacity-20 group-hover:scale-110 transition-transform">
-          <i class='bx bx-book-content text-8xl'></i>
+          <BookOpenTextIcon class=""  :size="96" />
         </div>
         <div class="relative z-10">
           <h3 class="text-xl font-bold mb-2">Annexes & Glossaire</h3>
           <p class="text-teal-100 text-sm mb-4">Retrouvez toutes les commandes Cisco et le vocabulaire technique.</p>
           <span class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold">
-            Consulter <i class='bx bx-right-arrow-alt'></i>
+            Consulter <ArrowRightIcon class="arrow-nudge" />
           </span>
         </div>
       </router-link>
@@ -267,6 +267,7 @@
 </template>
 
 <script setup lang="ts">
+import { ArrowRightIcon, AwardIcon, BookOpenTextIcon, BotIcon, CircleCheckIcon, CirclePlayIcon, ClockIcon, GitBranchIcon, InfoIcon, LaptopIcon, LayersIcon, LayoutGridIcon, LockIcon, NetworkIcon, ServerIcon, ShieldHalfIcon, SmileIcon, TrophyIcon } from '@lucide/vue'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -274,7 +275,7 @@ const auth = useAuthStore()
 
 <style scoped>
 /* Animations fluides au survol */
-.group:hover .bx-right-arrow-alt {
+.group:hover .arrow-nudge {
   transform: translateX(4px);
   transition: transform 0.2s ease;
 }

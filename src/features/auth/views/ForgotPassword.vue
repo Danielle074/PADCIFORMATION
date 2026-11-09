@@ -5,15 +5,15 @@
     <div class="flex w-full md:w-1/2 items-center justify-center order-2 md:order-1 py-10 px-5 bg-white relative overflow-hidden">
 
       <!-- Bulles décoratives floutées -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#198341]/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
-      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-[#198341]/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
+      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
 
       <div class="w-full max-w-md relative z-10 animate-fade-in-up">
 
         <!-- Bouton Retour -->
         <router-link
           to="/"
-          class="inline-flex items-center gap-2 text-gray-500 hover:text-[#198341] mb-6 transition group font-medium text-sm"
+          class="inline-flex items-center gap-2 text-gray-500 hover:text-primary mb-6 transition group font-medium text-sm"
         >
           <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -36,7 +36,7 @@
           <!-- ÉTAT 2 : SUCCÈS -->
           <template v-else>
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 animate-bounce">
-              <svg class="w-8 h-8 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
@@ -52,7 +52,7 @@
         <form v-if="!isSubmitted" @submit.prevent="handleSubmit" class="space-y-5">
 
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -62,7 +62,7 @@
               type="email"
               required
               placeholder="Email professionnel"
-              class="w-full pl-12 pr-5 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400 focus:bg-white focus:ring-4 focus:ring-[#198341]/15 focus:border-[#198341] focus:outline-none transition-all duration-300"
+              class="w-full pl-12 pr-5 py-3.5 text-base border border-gray-200 rounded-xl bg-gray-50 text-gray-800 placeholder:text-gray-400 focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary focus:outline-none transition-all duration-300"
             />
           </div>
 
@@ -71,10 +71,10 @@
             type="submit"
             :disabled="isPending"
             class="group w-full inline-flex items-center justify-center gap-2
-                   bg-gradient-to-r from-[#198341] to-[#22a854]
-                   hover:from-[#146b34] hover:to-[#198341]
+                   bg-gradient-to-r from-primary to-primary-bright
+                   hover:from-primary-shade hover:to-primary
                    text-white py-3.5 rounded-xl font-semibold text-base
-                   shadow-lg shadow-[#198341]/30 hover:shadow-xl hover:shadow-[#198341]/40
+                   shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
                    disabled:opacity-70 disabled:cursor-not-allowed"
           >
@@ -96,10 +96,10 @@
           <router-link
             to="/"
             class="w-full inline-flex items-center justify-center gap-2
-                   bg-gradient-to-r from-[#198341] to-[#22a854]
-                   hover:from-[#146b34] hover:to-[#198341]
+                   bg-gradient-to-r from-primary to-primary-bright
+                   hover:from-primary-shade hover:to-primary
                    text-white py-3.5 rounded-xl font-semibold text-base
-                   shadow-lg shadow-[#198341]/30 hover:shadow-xl hover:shadow-[#198341]/40
+                   shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
           >
             Retour à la connexion
@@ -111,7 +111,7 @@
           <button
             type="button"
             @click="retry"
-            class="w-full text-center text-sm text-gray-500 hover:text-[#198341] transition-colors"
+            class="w-full text-center text-sm text-gray-500 hover:text-primary transition-colors"
           >
             Vous n'avez pas reçu l'email ? Réessayer
           </button>
@@ -130,7 +130,7 @@
       <img :src="loginImage" alt="PADCI Formation" class="w-full h-full object-cover" />
 
       <!-- Dégradé vert transparent -->
-      <div class="absolute inset-0 bg-gradient-to-br from-[#198341]/50 via-[#198341]/30 to-[#0f5229]/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/50 via-primary/30 to-primary-deep/50"></div>
 
       <!-- Overlay desktop -->
       <div class="hidden md:flex absolute inset-0 z-20 flex-col justify-center items-center px-10 text-center text-white">

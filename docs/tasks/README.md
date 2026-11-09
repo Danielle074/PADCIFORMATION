@@ -16,6 +16,17 @@ partie de l'authentification (connexion, MFA, déconnexion) sont posés et
 inscription, mot de passe oublié/réinitialisation, vérification d'email,
 cohérence visuelle, données en dur — ne l'est pas.
 
+## État au 2026-11-09
+
+`01` et `02` sont faits et vérifiés (build + tests réels) :
+- Flux auth réel (register/vérification email/forgot/reset/login),
+  `Inscription.vue` réduit à l'étape compte.
+- Décisions de design system actées et implémentées : palette verte
+  `#198341` (famille primary/bright/shade/deep), police Futura PT
+  auto-hébergée, dark mode désactivé, icônes lucide (`boxicons` retiré).
+  Reste ouvert sur 02 : la revue visuelle humaine page par page n'a pas
+  été faite (pas bloquant pour continuer sur 03/04/05).
+
 ## Ordre recommandé
 
 1. **`01-auth-flow-completion.md`** — le flux d'authentification n'est pas

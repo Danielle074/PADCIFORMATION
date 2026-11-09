@@ -40,7 +40,7 @@
           to="/inscription"
           class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
-          <i class="bx bx-user-plus text-primary text-6xl mb-4"></i>
+          <UserPlusIcon class="text-primary size-16 mb-4" />
           <p class="text-primary font-semibold text-2xl">
             Inscription
           </p>
@@ -51,7 +51,7 @@
           to="/Formation"
           class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
-          <i class="bx bx-book-open text-primary text-6xl mb-4"></i>
+          <BookOpenIcon class="text-primary size-16 mb-4" />
           <p class="text-primary font-semibold text-2xl">
             Formation
           </p>
@@ -63,6 +63,7 @@
 </template>
 
 <script setup>
+import { BookOpenIcon, UserPlusIcon } from '@lucide/vue'
 import { RouterLink } from 'vue-router'
 import bannerImage from '@/assets/images/banierepadciformation.png'
 </script>

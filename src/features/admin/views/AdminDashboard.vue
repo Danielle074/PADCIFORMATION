@@ -10,7 +10,7 @@
         </p>
       </div>
       <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100">
-        <div class="w-2 h-2 rounded-full bg-[#198341] animate-pulse"></div>
+        <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
         <span class="text-sm font-medium text-gray-600">Projet en cours · Phase 1 (2025-2030)</span>
       </div>
     </div>
@@ -28,11 +28,11 @@
               <p class="text-sm text-gray-400 font-medium mb-1">/ 200</p>
             </div>
             <div class="w-full bg-gray-100 rounded-full h-1.5 mt-3">
-              <div class="bg-[#198341] h-1.5 rounded-full" style="width: 74%"></div>
+              <div class="bg-primary h-1.5 rounded-full" style="width: 74%"></div>
             </div>
           </div>
-          <div class="bg-[#198341]/10 p-3 rounded-xl">
-            <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-primary/10 p-3 rounded-xl">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
@@ -46,12 +46,12 @@
             <p class="text-gray-500 text-sm font-medium">Taux de certification</p>
             <div class="flex items-end gap-2 mt-1">
               <p class="text-3xl font-bold text-gray-800">82%</p>
-              <p class="text-sm text-[#198341] font-medium mb-1">+2%</p>
+              <p class="text-sm text-primary font-medium mb-1">+2%</p>
             </div>
             <p class="text-xs text-gray-400 mt-3">Cisco / Oracle (Cible : ≥ 80%)</p>
           </div>
-          <div class="bg-[#198341]/10 p-3 rounded-xl">
-            <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-primary/10 p-3 rounded-xl">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
             </svg>
           </div>
@@ -65,12 +65,12 @@
             <p class="text-gray-500 text-sm font-medium">Taux de femmes</p>
             <div class="flex items-end gap-2 mt-1">
               <p class="text-3xl font-bold text-gray-800">36%</p>
-              <p class="text-sm text-[#198341] font-medium mb-1">Objectif</p>
+              <p class="text-sm text-primary font-medium mb-1">Objectif</p>
             </div>
             <p class="text-xs text-gray-400 mt-3">Cible : ≥ 30 à 40%</p>
           </div>
-          <div class="bg-[#198341]/10 p-3 rounded-xl">
-            <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-primary/10 p-3 rounded-xl">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
@@ -88,8 +88,8 @@
             </div>
             <p class="text-xs text-gray-400 mt-3">1 en cours de révision</p>
           </div>
-          <div class="bg-[#198341]/10 p-3 rounded-xl">
-            <svg class="w-6 h-6 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-primary/10 p-3 rounded-xl">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
           </div>
@@ -124,7 +124,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
         <h3 class="text-lg font-bold text-gray-800">Dernières candidatures validées</h3>
-        <router-link to="/admin/candidatures" class="text-sm font-semibold text-[#198341] hover:underline flex items-center gap-1">
+        <router-link to="/admin/candidatures" class="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
           Tout voir
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
         </router-link>
@@ -144,7 +144,7 @@
             <tr v-for="(candidat, index) in recentCandidats" :key="index" class="hover:bg-gray-50 transition">
               <td class="py-4 px-6">
                 <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-full bg-[#198341]/10 flex items-center justify-center text-[#198341] font-bold text-xs">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
                     {{ candidat.initials }}
                   </div>
                   <div>
@@ -161,8 +161,8 @@
                 </span>
               </td>
               <td class="py-4 px-6 text-center">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#198341]/10 text-[#198341]">
-                  <span class="w-1.5 h-1.5 rounded-full bg-[#198341]"></span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
                   Validé
                 </span>
               </td>
@@ -217,6 +217,10 @@ const statusChartData = {
   datasets: [
     {
       data: [148, 32, 10, 10],
+      // Couleurs de séries Chart.js : les options de config n'acceptent
+      // pas de classes Tailwind — valeurs littérales, --color-primary
+      // pour la série "Validées", autres couleurs de statut
+      // (amber/rouge/gris justifiées).
       backgroundColor: [
         '#198341',
         '#f59e0b',

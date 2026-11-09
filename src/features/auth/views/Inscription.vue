@@ -5,15 +5,15 @@
     <div class="flex w-full md:w-1/2 items-center justify-center order-2 md:order-1 py-10 px-5 bg-white relative overflow-hidden">
 
       <!-- Bulles décoratives floutées -->
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#198341]/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
-      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-[#198341]/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none animate-float-slow"></div>
+      <div class="absolute -bottom-32 -right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none animate-float-slow" style="animation-delay: 2s;"></div>
 
       <div class="w-full max-w-md relative z-10 animate-fade-in-up">
 
         <!-- Bouton Retour -->
         <router-link
           to="/"
-          class="inline-flex items-center gap-2 text-gray-600 hover:text-[#198341] mb-4 transition group font-medium text-sm"
+          class="inline-flex items-center gap-2 text-gray-600 hover:text-primary mb-4 transition group font-medium text-sm"
         >
           <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -36,7 +36,7 @@
           <!-- ÉTAT SUCCÈS HONNÊTE : compte créé, en attente de vérification -->
           <template v-else>
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-8 h-8 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
@@ -52,7 +52,7 @@
             <div v-if="verificationUrl" class="mt-4 w-full">
               <a
                 :href="verificationUrl"
-                class="block w-full text-center bg-green-50 border border-[#198341]/30 rounded-xl px-4 py-3 text-sm text-[#198341] hover:bg-green-100 transition"
+                class="block w-full text-center bg-green-50 border border-primary/30 rounded-xl px-4 py-3 text-sm text-primary hover:bg-green-100 transition"
               >
                 [dev] Vérifier l'adresse maintenant
               </a>
@@ -65,7 +65,7 @@
               v-if="verificationUrl === null"
               type="button"
               :disabled="resendPending || resendDone"
-              class="mt-5 text-sm font-medium text-[#198341] hover:underline transition disabled:opacity-60 disabled:hover:no-underline"
+              class="mt-5 text-sm font-medium text-primary hover:underline transition disabled:opacity-60 disabled:hover:no-underline"
               :class="{ 'text-gray-500': resendDone }"
               @click="resend"
             >
@@ -75,9 +75,9 @@
             <router-link
               to="/"
               class="mt-4 w-full inline-flex items-center justify-center gap-2
-                     bg-gradient-to-r from-[#198341] to-[#22a854]
+                     bg-gradient-to-r from-primary to-primary-bright
                      text-white py-3 rounded-xl font-semibold transition-all duration-300
-                     hover:-translate-y-0.5 shadow-lg shadow-[#198341]/30"
+                     hover:-translate-y-0.5 shadow-lg shadow-primary/30"
             >
               Aller à la connexion
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@
 
           <!-- Nom -->
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -105,7 +105,7 @@
 
           <!-- Email -->
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -118,7 +118,7 @@
 
           <!-- Mot de passe -->
           <div class="relative group">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -129,7 +129,7 @@
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#198341] transition-colors p-1 rounded-lg hover:bg-[#198341]/10"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors p-1 rounded-lg hover:bg-primary/10"
               aria-label="Afficher ou masquer le mot de passe"
             >
               <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +148,7 @@
             class="relative group"
             :class="{ 'animate-shake mismatch': mismatch }"
           >
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#198341] transition-colors">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -172,9 +172,9 @@
             type="submit"
             :disabled="isPending"
             class="group w-full inline-flex items-center justify-center gap-2
-                   bg-gradient-to-r from-[#198341] to-[#22a854] hover:from-[#146b34] hover:to-[#198341]
+                   bg-gradient-to-r from-primary to-primary-bright hover:from-primary-shade hover:to-primary
                    text-white py-3.5 rounded-xl font-semibold text-base
-                   shadow-lg shadow-[#198341]/30 hover:shadow-xl hover:shadow-[#198341]/40
+                   shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
                    transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0
                    disabled:opacity-70 disabled:cursor-not-allowed"
           >
@@ -188,7 +188,7 @@
 
           <p class="text-sm text-gray-500 text-center">
             Déjà un compte ?
-            <router-link to="/" class="text-[#198341] hover:underline font-medium">Se connecter</router-link>
+            <router-link to="/" class="text-primary hover:underline font-medium">Se connecter</router-link>
           </p>
         </form>
 
@@ -204,7 +204,7 @@
       <img :src="loginImage" alt="PADCI Formation" class="w-full h-full object-cover" />
 
       <!-- Dégradé vert transparent -->
-      <div class="absolute inset-0 bg-gradient-to-br from-[#198341]/50 via-[#198341]/30 to-[#0f5229]/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/50 via-primary/30 to-primary-deep/50"></div>
 
       <!-- Overlay desktop -->
       <div class="hidden md:flex absolute inset-0 z-20 flex-col justify-center items-center px-10 text-center text-white">
@@ -275,7 +275,7 @@ function inputClasses(field: string, extras = ''): string {
     extras,
     invalid
       ? 'border-red-300 bg-red-50 focus:border-red-500 focus:ring-red-500/15'
-      : 'border-gray-200 focus:ring-[#198341]/15 focus:border-[#198341]',
+      : 'border-gray-200 focus:ring-primary/15 focus:border-primary',
   ].join(' ')
 }
 
@@ -344,6 +344,8 @@ async function resend(): Promise<void> {
   25% { transform: translateX(-6px); }
   75% { transform: translateX(6px); }
 }
+/* Rouge de statut d'erreur (red-500) : flash visuel du mismatch,
+   cohérent avec les classes text-red-600 du formulaire. */
 .animate-shake.mismatch input { border-color: #ef4444; }
 .animate-shake { animation: shake 0.35s ease-in-out 1 both; }
 </style>

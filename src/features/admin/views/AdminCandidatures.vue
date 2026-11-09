@@ -11,7 +11,7 @@
       </div>
 
       <!-- Bouton d'export -->
-      <button class="flex items-center justify-center gap-2 bg-[#198341] hover:bg-[#146b34] text-white px-4 py-2 rounded-xl font-medium transition-colors shadow-sm text-sm">
+      <button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-shade text-white px-4 py-2 rounded-xl font-medium transition-colors shadow-sm text-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
@@ -32,12 +32,12 @@
             v-model="searchQuery"
             type="text"
             placeholder="Rechercher un nom, email..."
-            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm"
+            class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
           >
         </div>
 
         <!-- Filtre Filière -->
-        <select v-model="filterFiliere" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm text-gray-700 bg-white min-w-[200px]">
+        <select v-model="filterFiliere" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]">
           <option value="">Toutes les filières</option>
           <option value="Cybersécurité">Cybersécurité</option>
           <option value="Data Analysis">Data Analysis</option>
@@ -47,7 +47,7 @@
         </select>
 
         <!-- Filtre Statut -->
-        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm text-gray-700 bg-white min-w-[150px]">
+        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[150px]">
           <option value="">Tous les statuts</option>
           <option value="Validé">Validé</option>
           <option value="En attente">En attente</option>
@@ -76,7 +76,7 @@
             <tr v-for="candidat in filteredCandidats" :key="candidat.id" class="hover:bg-gray-50 transition">
               <td class="py-4 px-6">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-[#198341]/10 flex items-center justify-center text-[#198341] font-bold text-sm shrink-0">
+                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
                     {{ candidat.initials }}
                   </div>
                   <div>
@@ -99,13 +99,13 @@
               <td class="py-4 px-6">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
                   :class="{
-                    'bg-[#198341]/10 text-[#198341]': candidat.statut === 'Validé',
+                    'bg-primary/10 text-primary': candidat.statut === 'Validé',
                     'bg-amber-100 text-amber-700': candidat.statut === 'En attente',
                     'bg-red-100 text-red-700': candidat.statut === 'Rejeté'
                   }">
                   <span class="w-1.5 h-1.5 rounded-full"
                     :class="{
-                      'bg-[#198341]': candidat.statut === 'Validé',
+                      'bg-primary': candidat.statut === 'Validé',
                       'bg-amber-500': candidat.statut === 'En attente',
                       'bg-red-500': candidat.statut === 'Rejeté'
                     }"></span>
@@ -113,7 +113,7 @@
                 </span>
               </td>
               <td class="py-4 px-6 text-center">
-                <button @click="openModal(candidat)" class="text-[#198341] hover:bg-[#198341]/10 p-2 rounded-lg transition" title="Voir le dossier">
+                <button @click="openModal(candidat)" class="text-primary hover:bg-primary/10 p-2 rounded-lg transition" title="Voir le dossier">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -160,7 +160,7 @@
         <!-- En-tête Modale -->
         <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-[#198341] flex items-center justify-center text-white font-bold text-lg shadow-md">
+            <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md">
               {{ selectedCandidat?.initials }}
             </div>
             <div>
@@ -179,7 +179,7 @@
           <!-- 1. Informations Personnelles -->
           <div>
             <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               Identité & Contact
             </h4>
             <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
@@ -193,7 +193,7 @@
           <!-- 2. Prérequis Académiques -->
           <div>
             <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
               Diplôme & Documents
             </h4>
             <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
@@ -201,7 +201,7 @@
               <div><span class="text-gray-500">Spécialité :</span> <span class="font-medium text-gray-800">Réseaux & Télécoms</span></div>
               <div class="col-span-2 flex items-center gap-2 mt-2">
                 <span class="text-gray-500">Fichier diplôme :</span>
-                <a href="#" class="text-[#198341] hover:underline flex items-center gap-1 font-medium">
+                <a href="#" class="text-primary hover:underline flex items-center gap-1 font-medium">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   Voir le diplôme (PDF)
                 </a>
@@ -212,7 +212,7 @@
           <!-- 3. Équipement Informatique (Critère TDR) -->
           <div>
             <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-              <svg class="w-4 h-4 text-[#198341]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               Équipement (Core i5 / 8Go / 256Go min)
             </h4>
             <div class="bg-gray-50 p-4 rounded-xl text-sm space-y-2">
@@ -226,7 +226,7 @@
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-500">Photo de l'ordinateur :</span>
-                <a href="#" class="text-[#198341] hover:underline flex items-center gap-1 font-medium">
+                <a href="#" class="text-primary hover:underline flex items-center gap-1 font-medium">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   Voir la photo
                 </a>
@@ -241,7 +241,7 @@
           <button @click="rejectCandidat" class="px-5 py-2.5 bg-white border border-red-200 text-red-600 rounded-xl font-semibold hover:bg-red-50 transition text-sm">
             Rejeter la candidature
           </button>
-          <button @click="validateCandidat" class="px-5 py-2.5 bg-[#198341] text-white rounded-xl font-semibold hover:bg-[#146b34] transition shadow-md shadow-[#198341]/30 text-sm">
+          <button @click="validateCandidat" class="px-5 py-2.5 bg-primary text-white rounded-xl font-semibold hover:bg-primary-shade transition shadow-md shadow-primary/30 text-sm">
             Valider le formateur
           </button>
         </div>
@@ -333,8 +333,8 @@ const rejectCandidat = () => {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border-radius: 4px;
+  /* --border : variable shadcn CSS réelle (équivalent de l'ancien #e5e7eb). */
+  background: var(--border);
 }
 
 @keyframes modalIn {

@@ -43,7 +43,7 @@
           :to="service.route"
           class="bg-secondary rounded-xl p-8 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm"
         >
-          <i :class="service.icon" class="text-primary text-4xl mb-4"></i>
+          <component :is="service.icon" class="text-primary size-10 mb-4" />
 
           <p class="text-primary font-semibold text-lg">
             {{ service.name }}
@@ -58,32 +58,35 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { BrainIcon, ChartLineIcon, LaptopIcon, NetworkIcon, ShieldIcon } from '@lucide/vue'
 import bannerImage from '@/assets/images/banierepadciformation.png'
 
+// Données des filières réelles (05 branchera sur l'API Catalog) : les
+// icônes sont des composants directement dans le template des cards.
 const services = [
   {
     name: 'Cyber sécurité',
-    icon: 'bx bx-shield',
+    icon: ShieldIcon,
     route: '/cours'
   },
   {
     name: 'Data Analytics',
-    icon: 'bx bx-chart',
+    icon: ChartLineIcon,
     route: '/cours'
   },
   {
     name: 'IT Support',
-    icon: 'bx bx-laptop',
+    icon: LaptopIcon,
     route: '/cours'
   },
   {
     name: 'Network Specialist',
-    icon: 'bx bx-network-chart',
+    icon: NetworkIcon,
     route: '/cours'
   },
   {
     name: 'Artificial Intelligence',
-    icon: 'bx bx-brain',
+    icon: BrainIcon,
     route: '/cours'
   },
 ]

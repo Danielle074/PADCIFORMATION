@@ -25,11 +25,11 @@
         </select>
         <!-- Icône Boxicon à gauche -->
         <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <i class='bx bx-map text-lg text-primary'></i>
+          <MapIcon class="text-primary" :size="18" />
         </div>
         <!-- Chevron à droite DANS LE BOUTON -->
         <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <i class='bx bx-chevron-down text-lg text-primary'></i>
+          <ChevronDownIcon class="chevron-down text-primary" :size="18" />
         </div>
       </div>
 
@@ -38,7 +38,7 @@
         @click="updateData"
         class="flex-1 min-w-[150px] bg-primary text-white font-bold py-3 px-4 rounded-full shadow hover:bg-primary/90 hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 group"
       >
-        <i class='bx bx-refresh text-lg group-hover:rotate-180 transition-transform duration-500'></i>
+        <RefreshCwIcon class="group-hover:rotate-180 transition-transform duration-500" :size="18" />
         <span>Actualisé</span>
       </button>
     </div>
@@ -50,13 +50,13 @@
         to="/nouvelle-demande"
         class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg shadow transition-all duration-300 flex items-center justify-center gap-2 group"
       >
-        <i class="bx bx-plus-circle text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+        <CirclePlusIcon class="group-hover:rotate-90 transition-transform duration-300" :size="18" />
         <span>Ajouter une nouvelle demande</span>
       </router-link>
 
       <!-- Barre de recherche à droite -->
       <div class="relative w-full sm:w-72">
-        <i class='bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base'></i>
+        <SearchIcon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" :size="16" />
         <input
           type="text"
           v-model="searchQuery"
@@ -100,7 +100,7 @@
                   :to="app.route"
                   class="text-primary hover:text-primary/90 inline-flex items-center justify-center bg-gray-50 w-10 h-10 rounded-full border border-gray-200 hover:border-primary transition-all group"
                 >
-                  <i class='bx bx-show text-xl group-hover:scale-110 transition-transform'></i>
+                  <EyeIcon class="group-hover:scale-110 transition-transform" :size="20" />
                 </router-link>
               </td>
             </tr>
@@ -117,7 +117,7 @@
           <div class="flex justify-center sm:justify-end">
             <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
               <button @click="prevPage" :disabled="currentPage === 1" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class='bx bx-chevron-left text-lg'></i>
+                <ChevronLeftIcon :size="18" />
               </button>
               <button v-for="page in displayedPages" :key="page" @click="goToPage(page)" :class="[
                 'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
@@ -128,7 +128,7 @@
                 {{ page }}
               </button>
               <button @click="nextPage" :disabled="currentPage === totalPages" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class='bx bx-chevron-right text-lg'></i>
+                <ChevronRightIcon :size="18" />
               </button>
             </nav>
           </div>
@@ -306,11 +306,11 @@ export default {
 
 <style scoped>
 /* Animation pour le chevron */
-.bx-chevron-down {
+.chevron-down {
   transition: transform 0.3s ease;
 }
 
-select:hover + div .bx-chevron-down {
+select:hover + div .chevron-down {
   transform: translateY(2px);
 }
 
@@ -320,16 +320,6 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
   transition: background-color 5000s ease-in-out 0s;
-}
-
-/* Animation pour le bouton refresh */
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.group:hover .bx-refresh {
-  animation: spin 1s ease infinite;
 }
 
 /* Style pour le tableau */
@@ -345,7 +335,7 @@ span.rounded-full {
 
 /* Style pour le bouton d'action */
 .router-link-active {
-  background-color: #007668 !important;
+  background-color: var(--color-primary) !important;
   color: white !important;
 }
 </style>

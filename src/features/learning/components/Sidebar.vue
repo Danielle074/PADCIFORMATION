@@ -46,7 +46,7 @@
           :class="{ 'bg-primary/10 text-primary': isActive('/formations/dashboard') }"
           @click="$emit('close')"
         >
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <LayoutDashboardIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Tableau de bord</span>
         </router-link>
 
@@ -56,38 +56,38 @@
         </div>
 
         <router-link to="/formations/modules1" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/modules1') }" @click="$emit('close')">
-          <i class='bx bx-traffic-cone text-xl group-hover:scale-110 transition-transform'></i>
+          <TrafficConeIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 1: Code de la route</span>
           <span class="ml-auto text-xs bg-secondary text-white px-2 py-0.5 rounded-full">Nouveau</span>
         </router-link>
 
         <router-link to="/formations/chapitre2" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre2') }" @click="$emit('close')">
-          <i class='bx bx-signal-5 text-xl group-hover:scale-110 transition-transform'></i>
+          <SignalIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 2: Les panneaux et signaux</span>
         </router-link>
 
         <router-link to="/formations/chapitre3" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre3') }" @click="$emit('close')">
-          <i class='bx bxs-motorcycle text-xl group-hover:scale-110 transition-transform'></i>
+          <BikeIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 3: Comportement et sécurité</span>
         </router-link>
 
         <router-link to="/formations/chapitre4" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre4') }" @click="$emit('close')">
-          <i class='bx bxs-shield text-xl group-hover:scale-110 transition-transform'></i>
+          <ShieldIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 4: Étude de cas</span>
         </router-link>
 
         <router-link to="/formations/chapitre5" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre5') }" @click="$emit('close')">
-          <i class='bx bxs-map text-xl group-hover:scale-110 transition-transform'></i>
+          <MapIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 5: Les 5 Étapes</span>
         </router-link>
 
         <router-link to="/formations/chapitre6" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre6') }" @click="$emit('close')">
-          <i class='bx bxs-first-aid text-xl group-hover:scale-110 transition-transform'></i>
+          <BriefcaseMedicalIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 6: Activités interactives</span>
         </router-link>
 
         <router-link to="/formations/chapitre7" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/chapitre7') }" @click="$emit('close')">
-          <i class='bx bxs-graduation text-xl group-hover:scale-110 transition-transform'></i>
+          <GraduationCapIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span class="truncate">Chapitre 7: Résumé</span>
         </router-link>
 
@@ -98,31 +98,31 @@
         </div>
 
         <router-link to="/formations/exercices" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/exercices') }" @click="$emit('close')">
-          <i class='bx bxs-pencil text-xl group-hover:scale-110 transition-transform'></i>
+          <PencilIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Exercices pratiques</span>
         </router-link>
 
         <router-link to="/formations/evaluations" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/evaluations') }" @click="$emit('close')">
-          <i class='bx bxs-bar-chart-alt-2 text-xl group-hover:scale-110 transition-transform'></i>
+          <BarChart2Icon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Évaluations</span>
         </router-link>
 
         <!-- Admin Dashboard -->
         <div class="border-t border-gray-100 my-4"></div>
         <router-link to="/admin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/admin/dashboard') }" @click="$emit('close')">
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <LayoutDashboardIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>Admin Dashboard</span>
         </router-link>
 
         <router-link to="/superadmin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/superadmin/dashboard') }" @click="$emit('close')">
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
+          <LayoutDashboardIcon class="group-hover:scale-110 transition-transform" :size="20" />
           <span>SuperAdmin Dashboard</span>
         </router-link>
 
         <!-- Retour -->
         <div class="border-t border-gray-100 my-4"></div>
         <router-link to="/" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-500 hover:bg-gray-100 transition-all duration-200" @click="$emit('close')">
-          <i class='bx bx-exit text-xl'></i>
+          <LogOutIcon :size="20" />
           <span>Retour à l'accueil</span>
         </router-link>
       </div>
@@ -143,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import { BarChart2Icon, BikeIcon, BriefcaseMedicalIcon, GraduationCapIcon, LayoutDashboardIcon, LogOutIcon, MapIcon, PencilIcon, ShieldIcon, SignalIcon, TrafficConeIcon } from '@lucide/vue'
 import { useRoute } from 'vue-router'
 import padciLogo from '@/assets/images/logodepadci.png'
 

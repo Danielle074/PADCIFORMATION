@@ -130,7 +130,7 @@
     <!-- PROFIL SUPER ADMIN (Bas de la sidebar) -->
     <div class="p-4 border-t border-gray-100 bg-gray-50/50 shrink-0">
       <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white transition cursor-pointer border border-transparent hover:border-gray-200 group">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center text-white font-bold shadow-md shrink-0">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-[color:var(--color-primary-shade)] flex items-center justify-center text-white font-bold shadow-md shrink-0">
           SA
         </div>
         <div class="flex-1 min-w-0">
@@ -192,6 +192,6 @@ const handleLogout = async () => {
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #F97316; /* Orange au survol */
+  background: var(--color-primary);
 }
 </style>

@@ -54,7 +54,7 @@
       <!-- OBJECTIFS D'APPRENTISSAGE -->
       <div class="bg-[#f0f9f5] rounded-xl p-6 mb-8 border-l-4 border-[#FFDC00]">
         <h3 class="font-bold text-[#007668] text-lg mb-4 flex items-center gap-2">
-          <i class='bx bx-target-lock text-2xl'></i>
+          <TargetIcon :size="24" />
           Ce que vous allez apprendre dans ce chapitre
         </h3>
         <ul class="grid md:grid-cols-2 gap-3">
@@ -80,7 +80,7 @@
           </li>
         </ul>
         <div class="mt-4 flex items-center gap-2 text-sm text-gray-600 bg-white/50 p-3 rounded-lg">
-          <i class='bx bx-time text-[#007668]'></i>
+          <ClockIcon class="text-[#007668]" />
           <span>⏱ Durée estimée : 45 minutes • Lisez chaque partie calmement. À la fin, un quiz vous permettra de vérifier ce que vous avez appris.</span>
         </div>
       </div>
@@ -94,7 +94,7 @@
         </p>
 
         <div class="bg-yellow-50 p-4 rounded-lg mb-4 flex items-start gap-3">
-          <i class='bx bx-question-mark text-2xl text-[#FFDC00] bg-[#007668] rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0'></i>
+          <CircleQuestionMarkIcon class="text-[#FFDC00] bg-[#007668] rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0" :size="24" />
           <div>
             <p class="font-semibold text-[#007668]">Le saviez-vous?</p>
             <p class="text-sm text-gray-700">En Côte d'Ivoire, les accidents de la route sont l'une des premières causes de décès. La majorité des accidents arrivent à cause du non-respect du Code de la Route. Respecter les règles, c'est protéger votre vie et votre travail.</p>
@@ -134,7 +134,7 @@
         </div>
 
         <div class="bg-red-50 p-4 rounded-lg mb-6 flex items-start gap-3">
-          <i class='bx bx-error-circle text-2xl text-red-600 flex-shrink-0'></i>
+          <CircleAlertIcon class="text-red-600 flex-shrink-0" :size="24" />
           <div>
             <p class="font-semibold text-red-700">Attention !</p>
             <p class="text-sm text-gray-700">Rouler sans ces documents peut entraîner une amende ou la saisie de votre véhicule par la Police ou la Gendarmerie.</p>
@@ -153,7 +153,7 @@
         </ul>
 
         <div class="bg-blue-50 p-4 rounded-lg flex items-start gap-3">
-          <i class='bx bx-bulb text-2xl text-blue-600 flex-shrink-0'></i>
+          <LightbulbIcon class="text-blue-600 flex-shrink-0" :size="24" />
           <div>
             <p class="font-semibold text-blue-700">Conseil pratique</p>
             <p class="text-sm text-gray-700">Vérifiez votre véhicule chaque matin avant de partir : pneus, freins, rétroviseurs, feux. Cela prend 5 minutes et peut vous sauver la vie.</p>
@@ -182,7 +182,7 @@
           class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg hover:scale-105 transition-all cursor-pointer border-2 border-transparent hover:border-[#FFDC00] group"
         >
           <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-red-200 transition">
-            <i class='bx bxs-file-pdf text-red-600 text-4xl'></i>
+            <FileTextIcon class="text-red-600"  :size="36" />
           </div>
           <h3 class="font-bold text-[#007668] text-lg mb-1">PDF</h3>
           <p class="text-sm text-gray-600">Télécharger le cours complet</p>
@@ -196,7 +196,7 @@
           class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg hover:scale-105 transition-all cursor-pointer border-2 border-transparent hover:border-[#FFDC00] group"
         >
           <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-blue-200 transition">
-            <i class='bx bxs-video text-blue-600 text-4xl'></i>
+            <VideoIcon class="text-blue-600"  :size="36" />
           </div>
           <h3 class="font-bold text-[#007668] text-lg mb-1">Vidéo</h3>
           <p class="text-sm text-gray-600">Regarder la leçon vidéo</p>
@@ -210,7 +210,7 @@
           class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg hover:scale-105 transition-all cursor-pointer border-2 border-transparent hover:border-[#FFDC00] group"
         >
           <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-green-200 transition">
-            <i class='bx bx-question-mark text-green-600 text-4xl'></i>
+            <CircleQuestionMarkIcon class="text-green-600"  :size="36" />
           </div>
           <h3 class="font-bold text-[#007668] text-lg mb-1">Quiz</h3>
           <p class="text-sm text-gray-600">Tester vos connaissances</p>
@@ -224,9 +224,9 @@
           to="/inscription-formation"
           class="inline-flex items-center gap-3 bg-[#FFDC00] text-[#007668] px-8 py-4 rounded-lg font-bold text-lg hover:bg-[#007668] hover:text-white transition-all shadow-lg hover:shadow-xl"
         >
-          <i class='bx bx-edit-alt text-2xl'></i>
+          <SquarePenIcon :size="24" />
           S'enregistrer pour cette formation
-          <i class='bx bx-right-arrow-alt text-2xl'></i>
+          <ArrowRightIcon :size="24" />
         </RouterLink>
         <p class="text-xs text-gray-500 mt-3">L'enregistrement vous permet de suivre votre progression et d'obtenir une attestation</p>
       </div>
@@ -236,6 +236,7 @@
 </template>
 
 <script setup>
+import { ArrowRightIcon, CircleAlertIcon, CircleQuestionMarkIcon, ClockIcon, FileTextIcon, LightbulbIcon, SquarePenIcon, TargetIcon, VideoIcon } from '@lucide/vue'
 import { RouterLink } from 'vue-router'
 import headerImage from '@/assets/images/bannieredepoli.jpg'
 

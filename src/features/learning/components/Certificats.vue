@@ -11,9 +11,9 @@
         >
           <!-- Décoration d'arrière-plan -->
           <div class="absolute inset-0 opacity-10">
-            <i class="bx bxs-certificate absolute text-9xl -right-10 -top-10"></i>
-            <i class="bx bxs-certificate absolute text-8xl -left-10 -bottom-10"></i>
-            <i class="bx bxs-book-open absolute text-7xl right-20 bottom-0 opacity-20"></i>
+            <CertificateIcon class="absolute -right-10 -top-10"  :size="128" />
+            <CertificateIcon class="absolute -left-10 -bottom-10"  :size="96" />
+            <BookOpenIcon class="absolute right-20 bottom-0 opacity-20"  :size="72" />
           </div>
 
           <!-- Icône principale PADCI -->
@@ -54,7 +54,7 @@
                   class="w-16 h-16 rounded-full flex items-center justify-center relative"
                   style="background: var(--color-primary);"
                 >
-                  <i class="bx bxs-certificate text-3xl text-white"></i>
+                  <CertificateIcon class="text-white" :size="30" />
                 </div>
               </div>
               <div class="text-4xl font-bold text-gray-300">+</div>
@@ -67,7 +67,7 @@
                   class="w-16 h-16 rounded-full flex items-center justify-center relative"
                   style="background: var(--color-secondary);"
                 >
-                  <i class="bx bxs-construction text-3xl text-white"></i>
+                  <HardHatIcon class="text-white" :size="30" />
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@
                 class="font-bold mb-4 flex items-center justify-center gap-2"
                 style="color: var(--color-primary);"
               >
-                <i class="bx bx-gift"></i>
+                <GiftIcon />
                 <span>Ce que vous offre le programme PADCI</span>
               </h3>
 
@@ -102,7 +102,7 @@
                     class="rounded-full p-1 mt-0.5"
                     style="background: var(--color-secondary);"
                   >
-                    <i class="bx bx-check text-white"></i>
+                    <CheckIcon class="text-white" />
                   </div>
                   <div>
                     <p class="font-medium text-gray-800">Certificats officiels</p>
@@ -115,7 +115,7 @@
                     class="rounded-full p-1 mt-0.5"
                     style="background: var(--color-secondary);"
                   >
-                    <i class="bx bx-check text-white"></i>
+                    <CheckIcon class="text-white" />
                   </div>
                   <div>
                     <p class="font-medium text-gray-800">Téléchargement PDF</p>
@@ -128,7 +128,7 @@
                     class="rounded-full p-1 mt-0.5"
                     style="background: var(--color-secondary);"
                   >
-                    <i class="bx bx-check text-white"></i>
+                    <CheckIcon class="text-white" />
                   </div>
                   <div>
                     <p class="font-medium text-gray-800">QR Code unique</p>
@@ -141,7 +141,7 @@
                     class="rounded-full p-1 mt-0.5"
                     style="background: var(--color-secondary);"
                   >
-                    <i class="bx bx-check text-white"></i>
+                    <CheckIcon class="text-white" />
                   </div>
                   <div>
                     <p class="font-medium text-gray-800">Historique complet</p>
@@ -170,10 +170,7 @@
               class="inline-flex items-center gap-3 rounded-full px-6 py-3 mb-8"
               style="background: var(--color-quaternary);"
             >
-              <i
-                class="bx bx-calendar-star text-2xl"
-                style="color: var(--color-primary);"
-              ></i>
+              <CalendarDaysIcon :size="24" style="color: var(--color-primary);" />
               <span class="text-gray-700">
                 <span class="font-bold">Lancement prévu :</span> 30 avril 2026
               </span>
@@ -185,7 +182,7 @@
               class="w-full md:w-auto text-white px-8 py-3 rounded-lg font-bold hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2 mx-auto"
               style="background: var(--color-secondary);"
             >
-              <i class="bx bx-bell"></i>
+              <BellIcon />
               <span>M’avertir du lancement</span>
             </button>
           </div>
@@ -199,7 +196,7 @@
               class="flex items-center gap-2 bg-white px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all border w-full md:w-auto justify-center"
               style="border-color: var(--color-primary); color: var(--color-primary);"
             >
-              <i class="bx bx-arrow-back text-xl"></i>
+              <ArrowLeftIcon :size="20" />
               <span>Retour au tableau de bord</span>
             </RouterLink>
 
@@ -208,7 +205,7 @@
               class="flex items-center gap-2 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-all w-full md:w-auto justify-center"
               style="background: var(--color-primary); box-shadow: 0 4px 16px rgba(39, 78, 143, 0.3);"
             >
-              <i class="bx bx-book-open text-xl"></i>
+              <BookOpenIcon :size="20" />
               <span>Continuer la formation</span>
             </RouterLink>
           </div>
@@ -227,7 +224,7 @@
         </div>
         <div class="bg-gradient-to-br from-gray-50 to-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto opacity-50">
           <div class="text-center">
-            <i class="bx bxs-certificate text-5xl" style="color: var(--color-primary);"></i>
+            <CertificateIcon class="" style="color: var(--color-primary);"  :size="48" />
             <div class="h-4 w-32 bg-gray-200 rounded mx-auto my-2"></div>
             <div class="h-3 w-48 bg-gray-200 rounded mx-auto"></div>
             <div class="border-t border-gray-200 my-3"></div>
@@ -244,6 +241,7 @@
 </template>
 
 <script setup lang="ts">
+import { ArrowLeftIcon, BellIcon, BookOpenIcon, CalendarDaysIcon, CertificateIcon, CheckIcon, GiftIcon, HardHatIcon } from '@lucide/vue'
 import { RouterLink } from 'vue-router'
 
 const showNotification = () => {

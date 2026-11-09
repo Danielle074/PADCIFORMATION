@@ -30,7 +30,7 @@
         <div class="flex items-center gap-2 sm:gap-4">
           <!-- Notifications -->
           <button class="relative p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-full transition-all">
-            <i class='bx bxs-bell text-2xl'></i>
+            <BellIcon :size="24" />
             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
           </button>
 
@@ -51,7 +51,7 @@
                 <p class="text-xs text-gray-500">Network Specialist</p>
               </div>
 
-              <i class='bx bx-chevron-down text-xl text-gray-500 transition-transform duration-300' :class="{ 'rotate-180': isProfileMenuOpen }"></i>
+              <ChevronDownIcon class="text-gray-500 transition-transform duration-300" :size="20" :class="{ 'rotate-180': isProfileMenuOpen }" />
             </button>
 
             <!-- Sous-menu déroulant -->
@@ -72,7 +72,7 @@
                   class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                   @click="closeProfileMenu"
                 >
-                  <i class='bx bxs-user text-lg'></i>
+                  <UserIcon :size="18" />
                   <span>Voir mon profil</span>
                 </router-link>
 
@@ -81,7 +81,7 @@
                   class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                   @click="closeProfileMenu"
                 >
-                  <i class='bx bxs-cog text-lg'></i>
+                  <SettingsIcon :size="18" />
                   <span>Paramètres</span>
                 </router-link>
 
@@ -92,7 +92,7 @@
                   @click="handleLogout"
                   class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-all duration-200"
                 >
-                  <i class='bx bxs-log-out text-lg'></i>
+                  <LogOutIcon :size="18" />
                   <span>Se déconnecter</span>
                 </button>
               </div>
@@ -131,6 +131,7 @@
 </template>
 
 <script setup lang="ts">
+import { BellIcon, ChevronDownIcon, LogOutIcon, SettingsIcon, UserIcon } from '@lucide/vue'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 // Importation de ta nouvelle sidebar spécialisée
 import SidebarNetworkSpecialist from '@/features/learning/components/SidebarNetworkSpecialist.vue'

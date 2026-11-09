@@ -9,7 +9,7 @@
           Gérez votre profil, la sécurité et la configuration de la plateforme PADCI.
         </p>
       </div>
-      <button class="flex items-center justify-center gap-2 bg-[#198341] hover:bg-[#146b34] text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm text-sm">
+      <button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-shade text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm text-sm">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
@@ -25,7 +25,7 @@
           :key="tab.id"
           @click="activeTab = tab.id"
           class="pb-3 px-1 text-sm font-medium border-b-2 transition-colors"
-          :class="activeTab === tab.id ? 'border-[#198341] text-[#198341]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          :class="activeTab === tab.id ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
         >
           {{ tab.name }}
         </button>
@@ -41,11 +41,11 @@
 
         <!-- Avatar -->
         <div class="flex items-center gap-6">
-          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#198341] to-[#22a854] flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary-bright flex items-center justify-center text-white font-bold text-2xl shadow-lg">
             AD
           </div>
           <div>
-            <button class="border border-gray-300 hover:border-[#198341] hover:text-[#198341] text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+            <button class="border border-gray-300 hover:border-primary hover:text-primary text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
               Changer d'avatar
             </button>
             <p class="text-xs text-gray-500 mt-2">JPG, PNG. Taille max : 2 Mo.</p>
@@ -56,19 +56,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
-            <input type="text" value="Admin UCP-PADCI" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <input type="text" value="Admin UCP-PADCI" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
-            <input type="email" value="admin@padci.ci" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <input type="email" value="admin@padci.ci" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Fonction / Rôle</label>
-            <input type="text" value="Coordonnateur UCP" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <input type="text" value="Coordonnateur UCP" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
-            <input type="tel" value="+225 27 20 00 00 00" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <input type="tel" value="+225 27 20 00 00 00" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
           </div>
         </div>
       </div>
@@ -80,15 +80,15 @@
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Mot de passe actuel</label>
-            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm md:w-1/2">
+            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm md:w-1/2">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Nouveau mot de passe</label>
-            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm md:w-1/2">
+            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm md:w-1/2">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
-            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm md:w-1/2">
+            <input type="password" placeholder="••••••••" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm md:w-1/2">
           </div>
         </div>
 
@@ -99,7 +99,7 @@
               <h3 class="text-sm font-bold text-gray-800">Double authentification (2FA)</h3>
               <p class="text-sm text-gray-500 mt-1">Ajoutez une couche de sécurité supplémentaire à votre compte.</p>
             </div>
-            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-[#198341] focus:ring-offset-2">
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
               <span class="inline-block h-4 w-4 transform rounded-full bg-white transition shadow"></span>
             </button>
           </div>
@@ -117,7 +117,7 @@
               <h3 class="text-sm font-bold text-gray-800">Nouvelles candidatures</h3>
               <p class="text-sm text-gray-500 mt-1">Recevoir un email quand un formateur soumet son dossier.</p>
             </div>
-            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-[#198341] transition-colors focus:outline-none">
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none">
               <span class="inline-block h-4 w-4 transform rounded-full bg-white transition translate-x-6 shadow"></span>
             </button>
           </div>
@@ -127,7 +127,7 @@
               <h3 class="text-sm font-bold text-gray-800">Fin de cohorte</h3>
               <p class="text-sm text-gray-500 mt-1">Recevoir une alerte à la fin d'une session de formation.</p>
             </div>
-            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-[#198341] transition-colors focus:outline-none">
+            <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none">
               <span class="inline-block h-4 w-4 transform rounded-full bg-white transition translate-x-6 shadow"></span>
             </button>
           </div>
@@ -148,7 +148,7 @@
       <div v-if="activeTab === 'utilisateurs'" class="space-y-6">
         <div class="flex items-center justify-between">
           <h2 class="text-lg font-bold text-gray-800">Gestion des Accès</h2>
-          <button class="flex items-center gap-2 text-sm font-medium text-[#198341] bg-[#198341]/10 hover:bg-[#198341]/20 px-4 py-2 rounded-lg transition">
+          <button class="flex items-center gap-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-lg transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
             Ajouter un administrateur
           </button>
@@ -168,7 +168,7 @@
               <tr class="hover:bg-gray-50">
                 <td class="py-3 px-4 font-medium text-gray-800">Admin UCP</td>
                 <td class="py-3 px-4 text-gray-600">admin@padci.ci</td>
-                <td class="py-3 px-4"><span class="px-2 py-1 bg-[#198341]/10 text-[#198341] rounded text-xs font-bold">Super Admin</span></td>
+                <td class="py-3 px-4"><span class="px-2 py-1 bg-primary/10 text-primary rounded text-xs font-bold">Super Admin</span></td>
                 <td class="py-3 px-4 text-center text-gray-400 text-xs italic">Vous</td>
               </tr>
               <tr class="hover:bg-gray-50">
@@ -193,15 +193,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Nom du projet</label>
-            <input type="text" value="PADCI - Phase 1" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm bg-gray-50" disabled>
+            <input type="text" value="PADCI - Phase 1" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-gray-50" disabled>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Maître d'ouvrage</label>
-            <input type="text" value="MTNIT / UCP-PADCI" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm bg-gray-50" disabled>
+            <input type="text" value="MTNIT / UCP-PADCI" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm bg-gray-50" disabled>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Année budgétaire</label>
-            <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
               <option>2024</option>
               <option>2025</option>
               <option>2026</option>
@@ -209,7 +209,7 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Ligne budgétaire</label>
-            <input type="text" value="Composante 3 - Sous-composante 3.2" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#198341]/20 focus:border-[#198341] text-sm">
+            <input type="text" value="Composante 3 - Sous-composante 3.2" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm">
           </div>
         </div>
 
@@ -218,19 +218,19 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
               <p class="text-xs text-gray-500 mb-1">Formateurs cibles</p>
-              <input type="number" value="200" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-[#198341]">
+              <input type="number" value="200" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-primary">
             </div>
             <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
               <p class="text-xs text-gray-500 mb-1">% de femmes min.</p>
-              <input type="number" value="30" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-[#198341]">
+              <input type="number" value="30" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-primary">
             </div>
             <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
               <p class="text-xs text-gray-500 mb-1">Taux certif. min.</p>
-              <input type="number" value="80" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-[#198341]">
+              <input type="number" value="80" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-primary">
             </div>
             <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
               <p class="text-xs text-gray-500 mb-1">Kits péda.</p>
-              <input type="number" value="5" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-[#198341]">
+              <input type="number" value="5" class="w-full bg-white border border-gray-200 rounded px-2 py-1 text-sm font-bold text-gray-800 focus:outline-none focus:border-primary">
             </div>
           </div>
         </div>
