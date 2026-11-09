@@ -1,18 +1,12 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
-
     <!-- HEADER / BANNIÈRE ENTIÈREMENT VISIBLE -->
     <section class="relative w-full bg-white overflow-hidden shadow-sm">
-      <img
-        :src="bannerImage"
-        alt="Bannière PADCI Formation"
-        class="w-full h-auto object-contain"
-      />
+      <img :src="bannerImage" alt="Bannière PADCI Formation" class="w-full h-auto object-contain" />
     </section>
 
     <!-- SERVICES -->
     <section class="px-6 py-16 max-w-6xl mx-auto w-full flex-1">
-
       <!-- TITRE + RETOUR -->
       <div class="mb-10 relative">
         <RouterLink
@@ -22,14 +16,10 @@
           ←
         </RouterLink>
 
-        <p class="text-sm font-semibold text-primary absolute left-0 top-5">
-          Retour
-        </p>
+        <p class="text-sm font-semibold text-primary absolute left-0 top-5">Retour</p>
 
         <div class="text-center">
-          <h2 class="text-xl font-bold text-primary mb-2">
-            Nouvelle Demande
-          </h2>
+          <h2 class="text-xl font-bold text-primary mb-2">Nouvelle Demande</h2>
         </div>
       </div>
 
@@ -41,23 +31,18 @@
           class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
           <UserPlusIcon class="text-primary size-16 mb-4" />
-          <p class="text-primary font-semibold text-2xl">
-            Inscription
-          </p>
+          <p class="text-primary font-semibold text-2xl">Inscription</p>
         </RouterLink>
 
         <!-- CARD FORMATION -->
         <RouterLink
-          to="/Formation"
+          to="/formation"
           class="bg-secondary rounded-xl p-12 flex flex-col items-center justify-center text-center shadow-md hover:scale-105 transition cursor-pointer w-80"
         >
           <BookOpenIcon class="text-primary size-16 mb-4" />
-          <p class="text-primary font-semibold text-2xl">
-            Formation
-          </p>
+          <p class="text-primary font-semibold text-2xl">Formation</p>
         </RouterLink>
       </div>
-
     </section>
   </div>
 </template>
