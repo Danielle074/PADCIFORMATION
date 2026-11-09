@@ -18,14 +18,21 @@ cohérence visuelle, données en dur — ne l'est pas.
 
 ## État au 2026-11-09
 
-`01` et `02` sont faits et vérifiés (build + tests réels) :
+`01`, `02` et `03` sont faits et vérifiés (build + tests réels) :
+
 - Flux auth réel (register/vérification email/forgot/reset/login),
   `Inscription.vue` réduit à l'étape compte.
 - Décisions de design system actées et implémentées : palette verte
   `#198341` (famille primary/bright/shade/deep), police Futura PT
   auto-hébergée, dark mode désactivé, icônes lucide (`boxicons` retiré).
   Reste ouvert sur 02 : la revue visuelle humaine page par page n'a pas
-  été faite (pas bloquant pour continuer sur 03/04/05).
+  été faite (pas bloquant pour continuer sur 04/05).
+- Remplacement du contenu factice (03) :
+  - 03.A : AdminCandidatures branché sur l'API Admissions.
+  - 03.B : AdminCohortes et AdminDashboard branchés sur les modules Cohort et Operations.
+  - 03.C : Profil et paramètres apprenant branchés sur Identity.
+  - 03.D : Transféré vers la refonte globale 05.
+  - 03.E & 03.F : SuperAdmin (utilisateurs, KPIs, budget, décaissements, ANOs) branché sur Identity, Operations et Finance (ADR-011). Tests Playwright e2e au vert.
 
 ## Ordre recommandé
 
@@ -59,7 +66,7 @@ déjà tranchés et cochés dans ce fichier.
   l'API cite le fichier backend exact (`PADCI-API/app/...`) et les champs
   attendus. Ne pas deviner un nom de champ.
 - **Un commit par tâche cochée** (ou par petit groupe cohérent), sur
-  `develop`. Message de commit qui dit *quoi* et *pourquoi*, pas juste "fix".
+  `develop`. Message de commit qui dit _quoi_ et _pourquoi_, pas juste "fix".
 - **Vérifier avant de cocher** : `npx vue-tsc --build --force` et
   `npm run build` doivent passer. Pour tout ce qui touche un appel API,
   tester en vrai contre le backend (`docker ps` doit montrer `padci_app`

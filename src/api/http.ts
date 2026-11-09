@@ -24,13 +24,31 @@ export class ApiError extends Error {
   readonly details: Record<string, unknown> | null
   readonly requestId: string | null
 
-  constructor(message: string, code: string, status: number, details: Record<string, unknown> | null, requestId: string | null) {
+  constructor(
+    message: string,
+    code: string,
+    status: number,
+    details: Record<string, unknown> | null,
+    requestId: string | null,
+  ) {
     super(message)
     this.name = 'ApiError'
     this.code = code
     this.status = status
     this.details = details
     this.requestId = requestId
+  }
+
+  /**
+   * The most useful message to show when there is no per-field form to
+   * attach `fieldErrors` to (a confirm dialog, a row action...): the first
+   * field-level validation message when there is one — `message` alone is
+   * often just the generic "Les données fournies sont invalides." — falling
+   * back to `message` for every other error shape.
+   */
+  get displayMessage(): string {
+    const firstFieldError = Object.values(this.fieldErrors)[0]?.[0]
+    return firstFieldError ?? this.message
   }
 
   /** Field-level validation messages, when `code === 'VALIDATION_FAILED'`. */
@@ -85,7 +103,10 @@ http.interceptors.response.use(
       // FR-006/ADR-006: super_admin/admin without TOTP confirmed yet. Catch
       // it here, once, instead of every feature that eventually calls a
       // protected endpoint having to handle this itself.
-      if (failure.code === 'AUTH_MFA_SETUP_REQUIRED' && router.currentRoute.value.name !== 'mfa-setup') {
+      if (
+        failure.code === 'AUTH_MFA_SETUP_REQUIRED' &&
+        router.currentRoute.value.name !== 'mfa-setup'
+      ) {
         router.push('/mfa/configuration')
       }
 

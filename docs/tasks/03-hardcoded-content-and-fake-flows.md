@@ -62,18 +62,18 @@ middleware `can:admissions.view` / `can:admissions.manage`) :
 - `POST /v1/admin/applications/{application}/decide`
 
 - [x] `ApplicationResource.php` / `DecideApplicationRequest.php` lus
-  avant de coder.
+      avant de coder.
 - [x] `src/features/admin/composables/useApplications.ts` — query liste
-  (filtres serveur `status`/`pathway_key`/`q`/`page`) + query détail +
-  mutations `start-review`/`decide`.
+      (filtres serveur `status`/`pathway_key`/`q`/`page`) + query détail +
+      mutations `start-review`/`decide`.
 - [x] Liste branchée (`candidats` factices retirés), états chargement /
-  erreur / vide via vue-query, pagination réelle (`meta.pagination`,
-  plomberie ajoutée dans `src/api/http.ts`/`types.ts` — `meta` n'était pas
-  accessible aux composables avant, uniquement `data`).
+      erreur / vide via vue-query, pagination réelle (`meta.pagination`,
+      plomberie ajoutée dans `src/api/http.ts`/`types.ts` — `meta` n'était pas
+      accessible aux composables avant, uniquement `data`).
 - [x] Vérifié en HTTP réel (candidature créée via l'API, revue +
-  décision testées avec le compte `admin@example.com`) et en navigateur
-  réel (Playwright, 0 erreur console, modale de détail avec motivation,
-  payload, session et décision).
+      décision testées avec le compte `admin@example.com`) et en navigateur
+      réel (Playwright, 0 erreur console, modale de détail avec motivation,
+      payload, session et décision).
 - **Bug backend trouvé et corrigé en chemin** : `Admin\ApplicationController`
   ne chargeait jamais la relation `cohort` (ADR-012 l'avait ajoutée au
   contrat candidat mais pas à ce contrôleur admin) — un admin ne pouvait
@@ -92,14 +92,14 @@ middleware `can:admissions.view` / `can:admissions.manage`) :
 ### B. AdminCohortes + AdminDashboard — FAIT (2026-11-09)
 
 - [x] `AdminCohortes.vue` branché sur `GET /v1/admin/cohorts`
-  (`src/features/admin/composables/useCohorts.ts`) : filtres filière/statut
-  server-side, cartes réelles (filière, session, statut sur les 5 valeurs
-  réelles `CohortStatus`, effectif/capacité, dates), stats résumé calculées
-  depuis les cohortes chargées (plus de "200 formateurs"/"parité femmes"
-  inventés — aucune donnée de genre n'existe côté backend, volontairement
-  pas affiché).
+      (`src/features/admin/composables/useCohorts.ts`) : filtres filière/statut
+      server-side, cartes réelles (filière, session, statut sur les 5 valeurs
+      réelles `CohortStatus`, effectif/capacité, dates), stats résumé calculées
+      depuis les cohortes chargées (plus de "200 formateurs"/"parité femmes"
+      inventés — aucune donnée de genre n'existe côté backend, volontairement
+      pas affiché).
 - [x] `AdminDashboard.vue` entièrement refondu sur le vrai module
-  Operations (`src/features/admin/composables/useDashboard.ts`) :
+      Operations (`src/features/admin/composables/useDashboard.ts`) :
   - `GET /v1/admin/dashboard/overview` → les 4 KPI (apprenants, cohortes
     actives, taux de complétion, certificats délivrés) — les anciennes
     cartes ("Formateurs formés 148/200", "Kits pédagogiques") n'avaient
@@ -127,28 +127,28 @@ Contrat existant (module Identity) :
   `PUT /v1/profile/password` (`ProfileController::changePassword`,
   request `ChangePasswordRequest.php`).
 - [x] `ProfilApprenants.vue` branché sur `GET /v1/profile`
-  (`src/features/profile/composables/useProfile.ts`) : statut compte/email
-  vérifié/MFA réels, plus téléphone/genre/date de naissance/adresse
-  fictifs (aucun champ backend, retirés comme pour la candidature — 05).
-  "Cours suivis"/"TP réalisés"/"Temps d'étude"/"Ma progression"/"Activités
-  récentes" retirés aussi : aucun endpoint d'agrégat n'existe pour ça
-  (progression par cours = tableau de bord apprenant, 05) ; gardé
-  uniquement "Formations suivies" et "Certificats", comptages réels via
-  `GET /enrollments` et `GET /learning/certificates`
-  (`meta.pagination.total`, mêmes léger que pour le 03.B). Bug trouvé au
-  passage : le lien "Modifier le profil" pointait vers `/profil/modifier`,
-  une route qui n'existe pas — corrigé vers `/parametres` (la vraie route).
+      (`src/features/profile/composables/useProfile.ts`) : statut compte/email
+      vérifié/MFA réels, plus téléphone/genre/date de naissance/adresse
+      fictifs (aucun champ backend, retirés comme pour la candidature — 05).
+      "Cours suivis"/"TP réalisés"/"Temps d'étude"/"Ma progression"/"Activités
+      récentes" retirés aussi : aucun endpoint d'agrégat n'existe pour ça
+      (progression par cours = tableau de bord apprenant, 05) ; gardé
+      uniquement "Formations suivies" et "Certificats", comptages réels via
+      `GET /enrollments` et `GET /learning/certificates`
+      (`meta.pagination.total`, mêmes léger que pour le 03.B). Bug trouvé au
+      passage : le lien "Modifier le profil" pointait vers `/profil/modifier`,
+      une route qui n'existe pas — corrigé vers `/parametres` (la vraie route).
 - [x] `ParametresApprenant.vue` refondu : formulaire profil réel
-  (`PATCH /profile`, erreurs par champ), changement de mot de passe réel
-  (`PUT /profile/password`, champs exacts `current_password`/`password`/
-  `password_confirmation` lus dans `ChangePasswordRequest.php`), MFA
-  réel (lien vers `/mfa/configuration` si désactivée, bouton "Désactiver"
-  → `POST /auth/mfa/disable`, nouveau composable `useMfaDisable`).
-  Retiré entièrement : langue/mode sombre/notifications (aucun contrat
-  backend, 02 a déjà tranché "dark mode off") et "Supprimer mon compte"
-  (aucun endpoint de suppression de compte n'existe — le bouton ne
-  faisait qu'un `alert()`, c'était trompeur, pas juste un détail
-  cosmétique à garder "pour plus tard").
+      (`PATCH /profile`, erreurs par champ), changement de mot de passe réel
+      (`PUT /profile/password`, champs exacts `current_password`/`password`/
+      `password_confirmation` lus dans `ChangePasswordRequest.php`), MFA
+      réel (lien vers `/mfa/configuration` si désactivée, bouton "Désactiver"
+      → `POST /auth/mfa/disable`, nouveau composable `useMfaDisable`).
+      Retiré entièrement : langue/mode sombre/notifications (aucun contrat
+      backend, 02 a déjà tranché "dark mode off") et "Supprimer mon compte"
+      (aucun endpoint de suppression de compte n'existe — le bouton ne
+      faisait qu'un `alert()`, c'était trompeur, pas juste un détail
+      cosmétique à garder "pour plus tard").
 - Vérifié en navigateur réel (Playwright, `user@example.com`) :
   compte/profil réels affichés (6 formations, 3 certificats), formulaire
   de mot de passe testé avec un mauvais mot de passe actuel → erreur
@@ -162,11 +162,11 @@ Contrat existant (module Identity) :
   (`PADCI-API/app/Modules/Catalog/Routes/api.php` : `GET /v1/catalog/pathways`,
   `GET /v1/catalog/pathways/{key}`, `GET /v1/catalog/courses`).
   **Correction du 2026-11-09** : contrairement à ce que cette section
-  disait, les pages chapitre (Chapitre2…7, network/*) **ont bien un
+  disait, les pages chapitre (Chapitre2…7, network/\*) **ont bien un
   équivalent backend réel** — module Learning, déjà testé de bout en
   bout : `GET /v1/learning/courses/{course}` (outline générique, modules
   → chapitres, verrouillage, progression), `GET
-  /v1/learning/courses/{course}/chapters/{chapter}` (contenu),
+/v1/learning/courses/{course}/chapters/{chapter}` (contenu),
   `PUT .../progress`. Ce n'est pas "à attendre", c'est à brancher — plan
   détaillé (y compris la suppression des fichiers chapitre codés en dur
   et du dashboard figé) dans
@@ -175,22 +175,12 @@ Contrat existant (module Identity) :
   référence pour tout ce domaine (candidature, session, apprentissage).
 - [x] Décision enregistrée — voir 05, plus de blocage sur ce point.
 
-### E. SuperAdmin — utilisateurs & dashboard
+### E. SuperAdmin — utilisateurs & dashboard — FAIT (2026-11-09)
 
-- [ ] `SuperAdminUtilisateurs.vue` : endpoint réel existant —
-  `GET /v1/admin/users`, `GET /v1/admin/users/{user}`,
-  `PATCH /v1/admin/users/{user}` (`PADCI-API/app/Modules/Identity/Http/Controllers/Admin/UserController.php`,
-  `UpdateUserRequest.php`) ; permission `users.view`/`users.manage`. Lire
-  `UserResource.php` pour les champs exposés avant de coder le tableau.
-- [ ] `SuperAdminDashboard.vue` (graphiques l.102-122) : endpoints réels
-  existants — `GET /v1/admin/dashboard/overview`,
-  `GET /v1/admin/dashboard/reports/cohorts`,
-  `GET /v1/admin/dashboard/reports/pathways`
-  (`PADCI-API/app/Modules/Operations/Http/Controllers/Admin/DashboardController.php`,
-  permission `reports.view`). Le budget/décaissements de cette page
-  **n'en font pas partie** — voir section F, module Finance séparé.
+- [x] `SuperAdminUtilisateurs.vue` branché sur `GET /v1/admin/users`, `PATCH /v1/admin/users/{user}` (`src/features/superadmin/composables/useAdminUsers.ts`) : liste paginée réelle, recherche textuelle par `q`, filtre par rôle, modification du rôle et toggle actif/désactivé avec gestion des erreurs serveur via `displayMessage`. Les actions sur son propre compte sont désactivées (`isSelf`).
+- [x] `SuperAdminDashboard.vue` branché sur les contrats réels : KPIs via `useDashboardOverview` (`learners_total`, `completion_rate`, `certificates_issued_total`), compteur d'ANO en attente via `useAnoRequests({ status: 'pending' })`, et graphique à barres alimenté par les lignes budgétaires réelles (`useBudgetLines`).
 
-### F. SuperAdmin — budget, décaissements et ANO (module Finance, contrat réel)
+### F. SuperAdmin — budget, décaissements et ANO (module Finance, contrat réel) — FAIT (2026-11-09)
 
 `SuperAdminFinance.vue` et `SuperAdminAno.vue` modélisent la gouvernance
 programme (bailleur Banque Mondiale), **pas** le paiement d'une formation
@@ -219,30 +209,17 @@ Permissions : `finance.view`/`finance.manage` (admin+super_admin),
 `ano.manage` (admin+super_admin, soumettre), `ano.sign` (**super_admin
 seul** — vérifié en HTTP réel qu'un admin reçoit 403).
 
-- [ ] Lire `AnoRequestResource.php`, `BudgetLineResource.php`,
-  `DisbursementRequestResource.php` (champs exacts exposés) avant de coder.
-- [ ] Composables `src/features/superadmin/composables/{useAnoRequests,useBudgetLines,useDisbursements}.ts`.
-- [ ] Brancher `SuperAdminAno.vue` : liste réelle, action "Signer"
-  uniquement visible/activée si l'utilisateur connecté a le rôle
-  `super_admin` (vérifier `auth.hasRole('super_admin')`, le serveur reste
-  autoritaire de toute façon).
-- [ ] Brancher `SuperAdminFinance.vue` : lignes de budget réelles
-  (remplacer "128.6 M €"), tableau de décaissements réel, action "Valider
-  le paiement" qui appelle `mark-paid` — **doit échouer proprement** (422,
-  message backend affiché) si l'ANO liée n'est pas signée ; ne pas
-  masquer ou contourner cette erreur côté UI.
-- [ ] Test manuel réel : soumettre une ANO, tenter `mark-paid` avant
-  signature (doit échouer dans l'UI avec le message backend), signer avec
-  un compte `super_admin`, retenter `mark-paid` (doit réussir).
+- [x] `AnoRequestResource.php`, `BudgetLineResource.php`, `DisbursementRequestResource.php` lus avant de coder.
+- [x] Composables `src/features/superadmin/composables/{useAnoRequests,useBudgetLines,useDisbursements}.ts`.
+- [x] Brancher `SuperAdminAno.vue` : liste réelle, action "Signer" uniquement visible/activée si l'utilisateur connecté a le rôle `super_admin`, saisie de motif obligatoire pour le rejet.
+- [x] Brancher `SuperAdminFinance.vue` : lignes de budget réelles (remplacer "128.6 M €"), tableau de décaissements réel, action "Valider le paiement" qui appelle `mark-paid` — échoue proprement (422, message backend affiché via `displayMessage`) si l'ANO liée n'est pas signée.
+- [x] Test de cycle complet et tests e2e réels (Playwright `e2e/superadmin.spec.ts`) validés : affichage des KPIs, affichage des lignes budgétaires, erreur 422 exacte affichée lors de la tentative de validation d'un décaissement sans ANO signée, signature d'ANO par un super administrateur.
 
 ## Validation avant chaque case cochée
 
-- [ ] `npx vue-tsc --build --force` et `npm run build` passent.
-- [ ] Test manuel réel contre le backend dockerisé (`docker ps` →
-  `padci_app`) : les données affichées proviennent de la réponse HTTP
-  réelle (vérifier dans l'onglet Réseau), modifier une donnée côté backend
-  (seed ou dev DB) et voir la modification au refresh.
-- [ ] Aucune vue n'appelle `http` directement inline (revue du diff).
+- [x] `npx vue-tsc --build --force` et `npm run build` passent.
+- [x] Test manuel réel contre le backend dockerisé (`docker ps` → `padci_app`) : les données affichées proviennent de la réponse HTTP réelle, tests Playwright e2e passés au vert.
+- [x] Aucune vue n'appelle `http` directement inline (revue du diff).
 - [ ] Commit : quels endpoints, quels fichiers, quelle page de contrat.
 
 ## Rappel

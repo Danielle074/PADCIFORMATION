@@ -1,6 +1,5 @@
 <template>
   <div class="space-y-6">
-
     <!-- ================= EN-TÊTE ================= -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
@@ -14,30 +13,49 @@
     <!-- ================= BARRE D'OUTILS (Filtres) ================= -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
       <div class="flex flex-col md:flex-row gap-4">
-
         <!-- Recherche -->
         <div class="relative flex-1">
-          <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Rechercher un nom, un email..."
             class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
-          >
+          />
         </div>
 
         <!-- Filtre Filière (filières réelles du catalogue) -->
-        <select v-model="filterPathwayKey" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]">
+        <select
+          v-model="filterPathwayKey"
+          class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[200px]"
+        >
           <option value="">Toutes les filières</option>
-          <option v-for="pathway in pathways" :key="pathway.key" :value="pathway.key">{{ pathway.name }}</option>
+          <option v-for="pathway in pathways" :key="pathway.key" :value="pathway.key">
+            {{ pathway.name }}
+          </option>
         </select>
 
         <!-- Filtre Statut -->
-        <select v-model="filterStatus" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[170px]">
+        <select
+          v-model="filterStatus"
+          class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-700 bg-white min-w-[170px]"
+        >
           <option value="">Tous les statuts</option>
-          <option v-for="status in statusOptions" :key="status.value" :value="status.value">{{ status.label }}</option>
+          <option v-for="status in statusOptions" :key="status.value" :value="status.value">
+            {{ status.label }}
+          </option>
         </select>
       </div>
     </div>
@@ -47,7 +65,9 @@
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <tr
+              class="bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+            >
               <th class="py-4 px-6">Candidat</th>
               <th class="py-4 px-6">Filière</th>
               <th class="py-4 px-6">Session</th>
@@ -58,7 +78,9 @@
           </thead>
           <tbody class="divide-y divide-gray-100 text-sm">
             <tr v-if="isPending">
-              <td colspan="6" class="py-10 text-center text-gray-500">Chargement des candidatures…</td>
+              <td colspan="6" class="py-10 text-center text-gray-500">
+                Chargement des candidatures…
+              </td>
             </tr>
 
             <tr v-else-if="isError">
@@ -73,10 +95,16 @@
               </td>
             </tr>
 
-            <tr v-for="application in applications" :key="application.key" class="hover:bg-gray-50 transition">
+            <tr
+              v-for="application in applications"
+              :key="application.key"
+              class="hover:bg-gray-50 transition"
+            >
               <td class="py-4 px-6">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                  <div
+                    class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0"
+                  >
                     {{ initialsOf(application.user?.name) }}
                   </div>
                   <div>
@@ -95,17 +123,36 @@
                 {{ formatDate(application.submitted_at) }}
               </td>
               <td class="py-4 px-6">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                  :class="statusBadgeClass(application.status)">
-                  <span class="w-1.5 h-1.5 rounded-full" :class="statusDotClass(application.status)"></span>
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                  :class="statusBadgeClass(application.status)"
+                >
+                  <span
+                    class="w-1.5 h-1.5 rounded-full"
+                    :class="statusDotClass(application.status)"
+                  ></span>
                   {{ statusLabel(application.status) }}
                 </span>
               </td>
               <td class="py-4 px-6 text-center">
-                <button @click="openModal(application.key)" class="text-primary hover:bg-primary/10 p-2 rounded-lg transition" title="Voir le dossier">
+                <button
+                  @click="openModal(application.key)"
+                  class="text-primary hover:bg-primary/10 p-2 rounded-lg transition"
+                  title="Voir le dossier"
+                >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
                   </svg>
                 </button>
               </td>
@@ -115,34 +162,67 @@
       </div>
 
       <!-- PAGINATION (réelle, meta.pagination du backend) -->
-      <div v-if="pagination" class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div
+        v-if="pagination"
+        class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4"
+      >
         <span class="text-sm text-gray-600">
           Affichage de <span class="font-semibold text-gray-800">{{ pagination.from ?? 0 }}</span> à
           <span class="font-semibold text-gray-800">{{ pagination.to ?? 0 }}</span> sur
           <span class="font-semibold text-gray-800">{{ pagination.total ?? 0 }}</span> candidatures
         </span>
         <nav class="inline-flex rounded-md shadow-sm -space-x-px">
-          <button @click="page > 1 && page--" :disabled="page === 1" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+          <button
+            @click="page > 1 && page--"
+            :disabled="page === 1"
+            class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-l-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
           </button>
-          <span class="px-4 py-2 border-t border-b border-gray-300 bg-white text-sm font-medium text-gray-700">
+          <span
+            class="px-4 py-2 border-t border-b border-gray-300 bg-white text-sm font-medium text-gray-700"
+          >
             {{ pagination.current_page }} / {{ pagination.last_page ?? 1 }}
           </span>
-          <button @click="page < (pagination.last_page ?? 1) && page++" :disabled="page === (pagination.last_page ?? 1)" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+          <button
+            @click="page < (pagination.last_page ?? 1) && page++"
+            :disabled="page === (pagination.last_page ?? 1)"
+            class="px-3 py-2 border border-gray-300 bg-white text-gray-500 rounded-r-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
           </button>
         </nav>
       </div>
     </div>
 
     <!-- ================= MODALE DE DÉTAIL CANDIDAT ================= -->
-    <div v-if="selectedKey" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+    <div
+      v-if="selectedKey"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+    >
       <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-modal">
-
         <!-- En-tête Modale -->
-        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <div
+          class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center"
+        >
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md">
+            <div
+              class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md"
+            >
               {{ initialsOf(detail?.user?.name) }}
             </div>
             <div>
@@ -150,14 +230,26 @@
               <p class="text-sm text-gray-500">{{ detail?.user?.email ?? '—' }}</p>
             </div>
           </div>
-          <button @click="closeModal" class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          <button
+            @click="closeModal"
+            class="text-gray-400 hover:text-red-500 transition p-1 rounded-lg hover:bg-red-50"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
 
         <!-- Contenu Modale -->
         <div class="p-6 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
-          <div v-if="isDetailPending" class="text-sm text-gray-500 text-center py-6">Chargement du dossier…</div>
+          <div v-if="isDetailPending" class="text-sm text-gray-500 text-center py-6">
+            Chargement du dossier…
+          </div>
           <div v-else-if="isDetailError" class="text-sm text-red-600 text-center py-6">
             {{ (detailError as ApiError)?.message ?? 'Impossible de charger ce dossier.' }}
           </div>
@@ -165,58 +257,107 @@
           <template v-else-if="detail">
             <!-- Statut actuel -->
             <div class="flex items-center justify-between">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
-                :class="statusBadgeClass(detail.status)">
-                <span class="w-1.5 h-1.5 rounded-full" :class="statusDotClass(detail.status)"></span>
+              <span
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                :class="statusBadgeClass(detail.status)"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full"
+                  :class="statusDotClass(detail.status)"
+                ></span>
                 {{ statusLabel(detail.status) }}
               </span>
-              <span class="text-xs text-gray-500">Déposée le {{ formatDate(detail.submitted_at) }}</span>
+              <span class="text-xs text-gray-500"
+                >Déposée le {{ formatDate(detail.submitted_at) }}</span
+              >
             </div>
 
             <!-- Filière et session -->
             <div>
-              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Filière &amp; session</h4>
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">
+                Filière &amp; session
+              </h4>
               <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl text-sm">
-                <div><span class="text-gray-500">Filière :</span> <span class="font-medium text-gray-800">{{ detail.pathway?.name ?? '—' }}</span></div>
-                <div><span class="text-gray-500">Session :</span> <span class="font-medium text-gray-800">{{ detail.cohort?.code ?? '—' }}</span></div>
-                <div v-if="detail.cohort"><span class="text-gray-500">Dates :</span> <span class="font-medium text-gray-800">{{ formatDate(detail.cohort.starts_at) }} → {{ formatDate(detail.cohort.ends_at) }}</span></div>
+                <div>
+                  <span class="text-gray-500">Filière :</span>
+                  <span class="font-medium text-gray-800">{{ detail.pathway?.name ?? '—' }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-500">Session :</span>
+                  <span class="font-medium text-gray-800">{{ detail.cohort?.code ?? '—' }}</span>
+                </div>
+                <div v-if="detail.cohort">
+                  <span class="text-gray-500">Dates :</span>
+                  <span class="font-medium text-gray-800"
+                    >{{ formatDate(detail.cohort.starts_at) }} →
+                    {{ formatDate(detail.cohort.ends_at) }}</span
+                  >
+                </div>
               </div>
             </div>
 
             <!-- Motivation -->
             <div v-if="detail.motivation">
-              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Motivation</h4>
-              <p class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap">{{ detail.motivation }}</p>
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">
+                Motivation
+              </h4>
+              <p class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 whitespace-pre-wrap">
+                {{ detail.motivation }}
+              </p>
             </div>
 
             <!-- Payload libre (équipement, disponibilité...) -->
             <div v-if="detail.payload && Object.keys(detail.payload).length > 0">
-              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">Informations complémentaires</h4>
+              <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3">
+                Informations complémentaires
+              </h4>
               <div class="bg-gray-50 p-4 rounded-xl text-sm space-y-1.5">
-                <div v-for="(value, key) in detail.payload" :key="key" class="flex justify-between gap-4">
+                <div
+                  v-for="(value, key) in detail.payload"
+                  :key="key"
+                  class="flex justify-between gap-4"
+                >
                   <span class="text-gray-500">{{ key }}</span>
-                  <span class="font-medium text-gray-800 text-right">{{ formatPayloadValue(value) }}</span>
+                  <span class="font-medium text-gray-800 text-right">{{
+                    formatPayloadValue(value)
+                  }}</span>
                 </div>
               </div>
             </div>
 
             <!-- Décision déjà prise -->
             <div v-if="detail.decided_at" class="bg-gray-50 p-4 rounded-xl text-sm space-y-1">
-              <p><span class="text-gray-500">Décidée par :</span> <span class="font-medium text-gray-800">{{ detail.decided_by?.name ?? '—' }}</span> le {{ formatDate(detail.decided_at) }}</p>
-              <p v-if="detail.reason"><span class="text-gray-500">Motif :</span> <span class="font-medium text-gray-800">{{ detail.reason }}</span></p>
+              <p>
+                <span class="text-gray-500">Décidée par :</span>
+                <span class="font-medium text-gray-800">{{ detail.decided_by?.name ?? '—' }}</span>
+                le {{ formatDate(detail.decided_at) }}
+              </p>
+              <p v-if="detail.reason">
+                <span class="text-gray-500">Motif :</span>
+                <span class="font-medium text-gray-800">{{ detail.reason }}</span>
+              </p>
             </div>
 
             <!-- Saisie du motif de rejet -->
             <div v-if="pendingDecision === 'rejected'">
-              <label class="text-sm font-medium text-gray-700 mb-1 block">Motif du rejet (obligatoire)</label>
-              <textarea v-model="rejectReason" rows="3" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"></textarea>
+              <label class="text-sm font-medium text-gray-700 mb-1 block"
+                >Motif du rejet (obligatoire)</label
+              >
+              <textarea
+                v-model="rejectReason"
+                rows="3"
+                class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              ></textarea>
               <p v-if="decideError" class="text-xs text-red-600 mt-1">{{ decideError }}</p>
             </div>
           </template>
         </div>
 
         <!-- Pied de Modale (Actions) -->
-        <div v-if="detail" class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-wrap justify-end gap-3">
+        <div
+          v-if="detail"
+          class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex flex-wrap justify-end gap-3"
+        >
           <button
             v-if="detail.status === 'submitted'"
             @click="startReview"
@@ -260,7 +401,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -369,14 +509,18 @@ const pendingDecision = ref<'rejected' | null>(null)
 const rejectReason = ref('')
 const decideError = ref<string | null>(null)
 
-const { data: detail, isPending: isDetailPending, isError: isDetailError, error: detailError } = useApplication(
-  computed(() => selectedKey.value),
-)
+const {
+  data: detail,
+  isPending: isDetailPending,
+  isError: isDetailError,
+  error: detailError,
+} = useApplication(computed(() => selectedKey.value))
 
-const canDecide = computed(() =>
-  detail.value !== undefined
-  && detail.value !== null
-  && ['submitted', 'in_review', 'waitlisted'].includes(detail.value.status),
+const canDecide = computed(
+  () =>
+    detail.value !== undefined &&
+    detail.value !== null &&
+    ['submitted', 'in_review', 'waitlisted'].includes(detail.value.status),
 )
 
 function openModal(key: string) {
@@ -406,7 +550,11 @@ function decide(decision: 'accepted' | 'waitlisted') {
   decideError.value = null
   decideMutation.mutate(
     { key: selectedKey.value, decision },
-    { onError: (mutationError) => { decideError.value = (mutationError as ApiError).message } },
+    {
+      onError: (mutationError) => {
+        decideError.value = (mutationError as ApiError).displayMessage
+      },
+    },
   )
 }
 
@@ -420,8 +568,12 @@ function confirmReject() {
   decideMutation.mutate(
     { key: selectedKey.value, decision: 'rejected', reason: rejectReason.value.trim() },
     {
-      onSuccess: () => { pendingDecision.value = null },
-      onError: (mutationError) => { decideError.value = (mutationError as ApiError).message },
+      onSuccess: () => {
+        pendingDecision.value = null
+      },
+      onError: (mutationError) => {
+        decideError.value = (mutationError as ApiError).displayMessage
+      },
     },
   )
 }
@@ -440,8 +592,14 @@ function confirmReject() {
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 .animate-modal {
   animation: modalIn 0.25s ease-out both;
