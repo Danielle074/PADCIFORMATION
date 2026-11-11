@@ -133,7 +133,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import Sidebar from '@/components/Sidebar.vue' // Ou le nom de ton composant SidebarApprenant
+import Sidebar from '@/components/Sidebar.vue'
 
 const router = useRouter()
 const profileMenu = ref<HTMLElement | null>(null)

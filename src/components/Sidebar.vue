@@ -50,8 +50,34 @@
           <span>Tableau de bord</span>
         </router-link>
 
-        <!-- SECTION MODULE 1 -->
+        <!-- ================= SECTION ADMINISTRATION (AJOUTÉE ICI) ================= -->
         <div class="mt-4 mb-2">
+          <p class="text-xs font-semibold text-orange-400 uppercase tracking-wider px-3">Accès Administration</p>
+        </div>
+
+        <!-- Lien Admin -->
+        <router-link
+          to="/admin/dashboard"
+          class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg bg-orange-50 text-orange-700 hover:bg-orange-100 transition-all duration-200 group"
+          @click="$emit('close')"
+        >
+          <i class='bx bxs-shield text-xl group-hover:scale-110 transition-transform'></i>
+          <span>Espace Admin (EMSP)</span>
+        </router-link>
+
+        <!-- Lien SuperAdmin -->
+        <router-link
+          to="/superadmin/dashboard"
+          class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-all duration-200 group"
+          @click="$emit('close')"
+        >
+          <i class='bx bxs-crown text-xl group-hover:scale-110 transition-transform'></i>
+          <span>Espace SuperAdmin (UCP)</span>
+        </router-link>
+
+        <!-- SECTION MODULE 1 -->
+        <div class="border-t border-gray-100 my-4"></div>
+        <div class="mb-2">
           <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3">Module 1 - Éducation routière</p>
         </div>
 
@@ -105,18 +131,6 @@
         <router-link to="/formations/evaluations" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/formations/evaluations') }" @click="$emit('close')">
           <i class='bx bxs-bar-chart-alt-2 text-xl group-hover:scale-110 transition-transform'></i>
           <span>Évaluations</span>
-        </router-link>
-
-        <!-- Admin Dashboard -->
-        <div class="border-t border-gray-100 my-4"></div>
-        <router-link to="/admin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/admin/dashboard') }" @click="$emit('close')">
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
-          <span>Admin Dashboard</span>
-        </router-link>
-
-        <router-link to="/superadmin/dashboard" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-200 group" :class="{ 'bg-primary/10 text-primary': isActive('/superadmin/dashboard') }" @click="$emit('close')">
-          <i class='bx bxs-dashboard text-xl group-hover:scale-110 transition-transform'></i>
-          <span>SuperAdmin Dashboard</span>
         </router-link>
 
         <!-- Retour -->

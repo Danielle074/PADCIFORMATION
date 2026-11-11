@@ -143,6 +143,35 @@
         </router-link>
       </div>
 
+      <!-- ================= SECTION ADMINISTRATION (AJOUTÉE ICI) ================= -->
+      <div class="border-t border-gray-100 my-4"></div>
+      <div class="mb-2 px-4">
+        <p class="text-xs font-semibold text-orange-400 uppercase tracking-wider">Administration</p>
+      </div>
+
+      <div class="space-y-1 px-3 mb-4">
+        <!-- Admin -->
+        <router-link
+          to="/admin/dashboard"
+          class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg bg-orange-50 text-orange-700 hover:bg-orange-100 transition-all duration-200 group"
+          @click="$emit('close')"
+        >
+          <i class='bx bxs-shield text-xl group-hover:scale-110 transition-transform'></i>
+          <span>Admin (EMSP)</span>
+        </router-link>
+
+        <!-- Super Admin -->
+        <router-link
+          to="/superadmin/dashboard"
+          class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-all duration-200 group"
+          @click="$emit('close')"
+        >
+          <i class='bx bxs-crown text-xl group-hover:scale-110 transition-transform'></i>
+          <span>Super Admin (UCP)</span>
+        </router-link>
+      </div>
+      <!-- ================= FIN SECTION ADMINISTRATION ================= -->
+
       <!-- RETOUR ACCUEIL -->
       <div class="border-t border-gray-100 my-4"></div>
       <div class="px-3">
